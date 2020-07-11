@@ -32,9 +32,12 @@ JavaScript
 AJAX
 
 ## Website wireframe
-
+![Gallery draft](../assets/Gallery.png?raw=true)
+![Profile draft](../assets/Profile.png?raw=true)
+![Photo draft](../assets/Phote.png?raw=true)
 
 ## Database structure
+![Database planning](../assets/db.png?raw=true)
 
 
 ## Run locally
