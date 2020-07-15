@@ -47,9 +47,16 @@ The app requirements:
 
 
 ## Run locally
-Make sure you can send emails from terminal
-Install mamp 
-Run this command git clone ….
-Go to .... and update database settings
-Launch ... setup.php to create database
-Open http://localhost:8080/ in your prefered browser
+
+* Install [mamp](https://bitnami.com/stack/mamp)
+* Make sure you can send main from terminal, here is a good link if you have [macOS Catalina](https://gist.github.com/loziju/66d3f024e102704ff5222e54a4bfd50e)
+
+
+* Git clone repo
+* Update the following files to match your environment:
+	* go to htaccess file, change ```RewriteBase /camagru/public``` to the name of the folder the repo is cloned, e.g. ```/YOUR_FOLDER_RNAME/public```
+	* go to app/config/config.php updated URL Root ```define('URLROOT', 'http://localhost:8080/camagru')```
+	* go to app/config/database.php update database user name, password and database
+
+* Launch app/config/setup.php to create database
+* Open http://localhost:8080/ in your prefered browser
