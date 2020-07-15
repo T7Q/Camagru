@@ -7,5 +7,3 @@
 	<title><?php echo SITENAME; ?></title>
 </head>
 <body>
-<h1>header.php is loaded</h1>
-<p><?php echo URLROOT; ?>/public/css/style.ccs</p>

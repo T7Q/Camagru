@@ -1,5 +1,3 @@
-<p>CONTROLLER</p>
-
 <?php
 	/*
 	* Base controller

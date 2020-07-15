@@ -5,7 +5,7 @@
 // load config 
 require_once './app/config/config.php';
 // load database
-require_once './app/config/database_config.php';
+require_once './app/config/database.php';
 
 // Autoload core libraries 
 spl_autoload_register(function($className){
