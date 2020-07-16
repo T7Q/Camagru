@@ -5,4 +5,7 @@
   define('URLROOT', 'http://localhost:8080/camagru');
   // Site Name
   define('SITENAME', 'Camagru');
+
+  // App Version
+  define('APPVERSION', '1.0.0');
 ?>
