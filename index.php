@@ -1,18 +1,24 @@
 <!-- <p>index.php</p> -->
 <?php 
-//  require_once './app/server.php';
 
 // load config 
 require_once './app/config/config.php';
 // load database
 require_once './app/config/database.php';
 
-// Autoload core libraries 
+
+
+// Autoload RouterController libraries 
+// spl_autoload_register(function($className){
+// 	require_once './app/libraries/' . $className . '.php';
+// });
+
 spl_autoload_register(function($className){
-	require_once './app/libraries/' . $className . '.php';
+	// require_once './app/RouterControllerLibraries/' . $className . '.php';
+	require_once './app/config/RouterControllerLibraries/' . $className . '.php';
 });
 
-// init Core library
-$init = new Core;
+// init RouterController library
+$init = new RouterController;
 
 ?>

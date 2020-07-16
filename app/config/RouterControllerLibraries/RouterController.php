@@ -1,13 +1,13 @@
 <?php
 
 /*
-* App Core class
-* Creates URL & loads core controller
+* App RouterController class
+* Creates URL & loads RouterController controller
 * URLFORMAT - /controller/method/params
 *
 */
 
-class Core {
+class RouterController {
 	protected $currentController = 'Pages';
 	protected $currentMethod = 'index';
 	protected $params = [];

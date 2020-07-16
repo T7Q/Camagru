@@ -1,11 +1,4 @@
 <?php
-	// DB Params
-	// define ('DB_HOST', 'localhost');
-	// define ('DB_USER', 'root');
-	// define ('DB_PASS', 'base20');
-	// define ('DB_NAME', 'camagru_t');
-	// define('DB_DSN', 'mysql:host='. DB_HOST . ';dbname=' . DB_NAME);
-
 	/*
 	* PDO Database Class
 	* connect to database
