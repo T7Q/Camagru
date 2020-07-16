@@ -1,4 +1,4 @@
-<p>index.php</p>
+<!-- <p>index.php</p> -->
 <?php 
 //  require_once './app/server.php';
 
