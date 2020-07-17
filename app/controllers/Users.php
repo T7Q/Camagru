@@ -12,9 +12,6 @@ class Users extends Controller{
 			// Sanitize POST data
 			$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-			// $test['test'] = $_POST['password'];
-			// die(print_r($test));
-
 			// Init data
 			$data = [
 				'first_name' => trim($_POST['first_name']),
@@ -38,7 +35,7 @@ class Users extends Controller{
 			else {
 				 // Check email
 				 if($this->userModel->findUserByEmail($data['email'])){
-					$data['email_err'] = 'Account with this email alrady exists';
+					$data['email_err'] = 'Account with this email already exists';
 				  }
 				}
 	  
@@ -66,7 +63,21 @@ class Users extends Controller{
 			  // Make sure errors are empty
 			  if(empty($data['email_err']) && empty($data['username_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])){
 				// Validated
-				die('SUCCESS');
+				
+				// Hashed pasword
+				$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+			
+				// Registe user
+				if($this->userModel->register($data)){
+					flash('register_success', 'You are registered and can log in');
+					redirect('users/login');
+				} else {
+					echo "success3 <hr>";
+					die ('Something went wrong (controllers/users.php)');
+				}
+
+
+
 			  } else {
 				// Load view with errors
 				$this->view('users/register', $data);
@@ -106,26 +117,44 @@ class Users extends Controller{
 			];
 
 
-			  // Validate Name
-			  if(empty($data['username'])){
-				$data['username_err'] = 'Please enter name';
-			  }
-	  
-			  // Validate Password
-			  if(empty($data['password'])){
-				$data['password_err'] = 'Please enter password';
-			  } elseif(strlen($data['password']) < 6){
-				$data['password_err'] = 'Wrong password';
-			  }
-	  
-			  // Make sure errors are empty
-			  if(empty($data['username_err']) && empty($data['password_err'])){
+			// Validate Name
+			if(empty($data['username'])){
+			$data['username_err'] = 'Please enter name';
+			}
+	
+			// Validate Password
+			if(empty($data['password'])){
+			$data['password_err'] = 'Please enter password';
+			} elseif(strlen($data['password']) < 6){
+			$data['password_err'] = 'Wrong password';
+			}
+			
+
+			// Check for username
+			if ($this->userModel->findUserByEmail($data['username'])){
+				// Username found
+			} else {
+				// Username not found
+				$data['username_err'] = 'Username not found';
+			}
+
+			// Make sure errors are empty
+			if(empty($data['username_err']) && empty($data['password_err'])){
 				// Validated
-				die('SUCCESS');
-			  } else {
-				// Load view with errors
-				$this->view('users/register', $data);
-			  }
+				// Check and set logged in user
+				$loggedInUser = $this->userModel->login($data['username'], $data['password']);
+				
+				if ($loggedInUser){
+					// Create Session
+					$this->createUserSession($loggedInUser);
+				} else {
+					$data['password_err'] = 'Password incorrect';
+					$this->view('users/login', $data);
+				}
+			} else {
+			// Load view with errors
+				$this->view('users/login', $data);
+			}
 
 
 		} else {
@@ -140,6 +169,29 @@ class Users extends Controller{
 			// Load view 
 			$this->view('users/login', $data);
 			
+		}
+	}
+
+	public function createUserSession($user){
+		$_SESSION['user_id'] = $user->id_user;
+		$_SESSION['user_username'] = $user->username;
+		$_SESSION['user_email'] = $user->email;
+		redirect('pages/home');
+	}
+
+	public function logout(){
+		unset($_SESSION['user_id']);
+		unset($_SESSION['user_username']);
+		unset($_SESSION['user_email']);
+		session_destroy();
+		redirect('users/login');
+	}
+
+	public function isLoggedIn(){
+		if(isset($_SESSION['user_id'])){
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

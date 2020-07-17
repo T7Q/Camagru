@@ -5,6 +5,9 @@
 require_once './app/config/config.php';
 // load database
 require_once './app/config/database.php';
+// load helpers
+require_once './app/config/functions/session_helper.php';
+require_once './app/config/functions/url_helper.php';
 
 
 
