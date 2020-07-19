@@ -1,11 +1,52 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: solid red;
+  }
+
+.half-height {
+	height: 50%;
+	}
 
 .icon {
 	color: #0000ff;
 }
 
+.justy_center{
+	justify-content: center;
+}
 
 .bg-black {
 	background-color: #130418;
+}
+
+.colorgrey {
+	background-color: #f3f3f3;
+}
+
+.darkgrey {
+	background-color: #bcb7b7 ;
+}
+
+.circle{
+	z-index: 1;
+	position: absolute;
+	margin: 0;
+	background-color: #0000ff;
+	border-radius: 50%;
+	left: 45%;
+    top: 45%;
+    height: 100px;
+    width: 100px;
+}
+
+/* .z_behind {
+	z-index: -1;
+} */
+
+footer {
+	z-index: 1;
 }
 
 /* colors */
