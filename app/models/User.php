@@ -46,9 +46,24 @@ class User
 	// Finad user by email
 	public function findUserByEmail($email)
 	{
-		// die('GOT TO findUserByEmail');
 		$this->database->query('SELECT * FROM user WHERE email = :email');
 		$this->database->bind(':email', $email);
+
+		$row = $this->database->single();
+
+		// check row
+		if ($this->database->rowCount() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// Finad user by username
+	public function findUserByUsername($username)
+	{
+		$this->database->query('SELECT * FROM user WHERE username = :username');
+		$this->database->bind(':username', $username);
 
 		$row = $this->database->single();
 

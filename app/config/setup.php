@@ -17,3 +17,10 @@ PRIMARY KEY (`id_user`)
 
 INSERT INTO `user` (`username`, `password`, `email`) VALUES ('tanya', 123456, `email`);
 
+CREATE TABLE pwdReset(
+	id_reset int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    email TEXT NOT NULL,
+    selector TEXT NOT NULL,
+    token LONGTEXT NOT NULL,
+    expire TEXT NOT NULL
+);
