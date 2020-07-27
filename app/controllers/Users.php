@@ -41,9 +41,15 @@ class Users extends Controller
 				}
 			}
 
-			// Validate Name
+			// Validate Username
 			if (empty($data['username'])) {
 				$data['username_err'] = 'Please enter name';
+			} else if (!preg_match('/^[A-Za-z0-9]{0,}$/', $data['username'])) {
+				$data['username_err'] =  "Username must include letters and numbers only";
+			} else if (strlen($data['username']) > 25) {
+				$data['username_err'] =  "Username must be less than 25 characters";
+			} else if ($this->userModel->findUserByUsername($data['username'])) {
+				$data['username_err'] = 'This username has already been taken';
 			}
 
 			// Validate Password
@@ -60,6 +66,24 @@ class Users extends Controller
 				if ($data['password'] != $data['confirm_password']) {
 					$data['confirm_password_err'] = 'Passwords do not match';
 				}
+			}
+
+			// Validate First Name
+			if (!$data['first_name'] || empty($data['first_name'])) {
+				$data['first_name_err'] = 'Please enter first name';
+			} else if (!preg_match('/^[a-zA-z]+([ \'-][a-zA-Z]+)*$/', $data['first_name'])) {
+				$data['first_name_err'] =  "First name must include letters and numbers only";
+			} else if (strlen($data['first_name']) > 25) {
+				$data['first_name_err'] =  "First name must be less than 25 characters";
+			}
+	
+			// Validate Last Name
+			if (!$data['last_name'] || empty($data['last_name'])) {
+				$data['last_name_err'] = 'Please enter last name';
+			} else if (!preg_match('/^[a-zA-z]+([ \'-][a-zA-Z]+)*$/', $data['last_name'])) {
+				$data['last_name_err'] =  "Last name must include letters and numbers only";
+			} else if (strlen($data['last_name']) > 25) {
+				$data['last_name_err'] =  "Last name must be less than 25 characters";
 			}
 
 			// Make sure errors are empty
@@ -114,7 +138,6 @@ class Users extends Controller
 				'username_err' => '',
 				'password_err' => '', ''
 			];
-
 
 			// Validate Name
 			if (empty($data['username'])) {

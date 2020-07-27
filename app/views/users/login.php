@@ -4,7 +4,7 @@
 		<div class="col-md-6 mx-auto">
 			<div class="card card-body bg-light mt-5">
 				<?php flash('register_success'); ?>
-				<h2>Sign in</h2>
+				<h2>SIGN IN</h2>
 				<p>Please fill in your credentials to sign in</p>
 				<form action="<?php echo URLROOT; ?>/users/login" method="post">
 				<div class="form-group">
