@@ -8,20 +8,25 @@
 			$this->database = new Db;
 		}
 
-		// // Find user by email
-		// public function findUserByEmail($email)
-		// {
-		// 	$this->database->query('SELECT * FROM user WHERE email = :email');
-		// 	$this->database->bind(':email', $email);
+		// Find user by email
+		public function tokenExists($email)
+		{
+			// check if token from this user already exists
+			$this->database->query('SELECT * FROM pwdreset WHERE email = :email');
+			$this->database->bind(':email', $email);
+			
+			$row = $this->database->single();
+			// check row
+			if ($this->database->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+				// no previous tokens, do nothing
+			}
+		}
 
-		// 	$row = $this->database->single();
+		// public function deleteToken($email){
 
-		// 	// check row
-		// 	if ($this->database->rowCount() > 0) {
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
 		// }
 
 		// // Add token to database

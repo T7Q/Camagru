@@ -19,5 +19,11 @@
 			];
 			$this->view('pages/about', $data);
 		}
+
+		// connecting php with javascript
+		// $json = array('update' => "", 'new' => false);
+	// 	public function color() {
+	// 		echo json_enconde($json);
+	// 	}
 	}
 ?>

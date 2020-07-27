@@ -1,9 +1,13 @@
+@import "gallery.css"; 
+
+
+* {
+	margin: 0;
+}
+
 html, body {
 	height: 100%;
-	margin: 0;
-	padding: 0;
-	border: solid red;
-  }
+}
 
 .half-height {
 	height: 50%;
@@ -29,24 +33,128 @@ html, body {
 	background-color: #bcb7b7 ;
 }
 
-.circle{
-	z-index: 1;
-	position: absolute;
-	margin: 0;
-	background-color: #0000ff;
-	border-radius: 50%;
-	left: 45%;
-    top: 45%;
-    height: 100px;
-    width: 100px;
+.aligntocenter {
+	margin: auto;
 }
 
-/* .z_behind {
-	z-index: -1;
-} */
+.circleshape {
+	border-radius: 50%;
+}
+
 
 footer {
-	z-index: 1;
+	z-index: -1;
+	border: pink;
+}
+
+
+h1, h2, h3, h4 {
+	font-family: 'Public Sans', sans-serif;
+	font-size: 1.25rem;
+	/* font-size: 16px; */
+}
+
+body form {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1rem;
+	/* font-size: 16px; */
+}
+
+nav {
+	font-family: 'Public Sans', sans-serif;
+	position: fixed;
+}
+
+
+.container {
+    height: 100%;
+	/* overflow-y: scroll;  */
+	/*don't show content that exceeds my height */
+}
+
+.scroll {
+	height: 250px;
+	overflow-y: scroll; 
+}
+
+.test {
+	background-color: lightgreen;
+
+}
+
+.test2 {
+	border: solid blue;
+}
+
+
+.top10{
+	margin-top: 10px;
+}
+
+.bottom10{
+	margin-bottom: 10px;
+}
+
+.noborder{
+	border: none;
+}
+
+.magin0{
+	margin: 0;
+}
+
+.padding0{
+	padding:0;
+}
+
+.card {
+	border: solid red;
+}
+
+.card-body {
+	border: solid blue;
+}
+
+.maginauto{
+	margin: auto;
+}
+
+
+#thumb
+{
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#thumb img
+{
+    z-index: 1;
+    position: absolute;  
+    width: 300px;
+    height:200px;
+    top: 0;
+    left: 0;
+
+}
+#thumb button
+{
+    z-index: 5;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.test3{
+	position: absolute;
+
+}
+
+.contain {
+	object-fit: contain;
+}
+.scale-down {
+	object-fit: scale-down;
 }
 
 /* colors */
@@ -62,5 +170,12 @@ footer {
 #3eba3a
 #f3f3f3
 #bcb7b7 
-"GT Sectra Fine", "GT Sectra", "Hoefler Text", "Times New Roman", serif;
+
+
+font-family: 'Montserrat', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Public Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Mono', monospace;
+
 */
