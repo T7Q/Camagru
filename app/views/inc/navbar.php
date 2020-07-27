@@ -4,7 +4,7 @@
 
   <div class="container">
     <!-- <a class="navbar-brand" href="<?php echo URLROOT; ?>"><?php echo SITENAME; ?></a> -->
-    <a class="navbar-brand" href=""><i class="fas fa-circle icon"></i></a>
+    <a class="navbar-brand" href="<?php echo URLROOT; ?>/pages/home"><i class="fas fa-circle icon"></i></a>
 
     <!-- SANDWICH PART
     Brand and toggle get grouped for better mobile display
@@ -17,18 +17,18 @@
     
     <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/pages/gallery">Gallery</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/galleries/all">GALLERY</a>
         </li>
         <?php if(isset($_SESSION['user_id'])) : ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo URLROOT; ?>/users/photo">Photo</a>
+          <a class="nav-link" href="<?php echo URLROOT; ?>/cameras/snapshot">CAMERA</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo URLROOT; ?>/users/profile">Profile</a>
+          <a class="nav-link" href="<?php echo URLROOT; ?>/users/profile">PROFILE</a>
         </li>
         <?php else : ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">Sign in</a>
+              <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">SING IN</a>
             </li>
           <?php endif; ?>
     </ul>
@@ -36,11 +36,11 @@
     <ul class="navbar-nav">
         <?php if(isset($_SESSION['user_id'])) : ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">Logout</a>
+              <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">LOGOUT</a>
             </li>
           <?php else : ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">Join</a>
+              <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">JOIN</a>
             </li>
           <?php endif; ?>
     </ul>

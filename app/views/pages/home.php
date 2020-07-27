@@ -3,20 +3,29 @@
 // no JS? -->
 
 <?php require APPROOT . '/views/inc/header.php'; ?>
-	</div>
 	<!-- <div class="row full-height"> -->
-		<div class="row half-height text-center">
+		<div class="row half-height text-center div1">
 			<div class="container my-auto">
 				<div class="row justy_center">
-					<h1>Camagru</h1>
+					<h1> CAMAGRU</h1>
 				</div>
-				<div class="row circle">circle
+				<div class="col-5 aligntocenter">
+				<!-- <div class="col-5 center-block aligntocenter"> -->
+					<div class="embed-responsive embed-responsive-1by1 text-center">
+						<div id="baloon" class="circleshape embed-responsive-item bg-primary">
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row half-height colorgrey">
+        </div>
+		
+		<div class="row half-height colorgrey div2">
 			<div class="container text-center my-auto">
-				<h2>Photo editing App</h2>
+				<h1>ENHANCE YOUR IMAGES</h1>
 			</div>
 		</div>
+
+		<!-- js test -->
+		<script src="<?php echo URLROOT; ?>/public/js/camera.js"></script>
+
 <?php require APPROOT . '/views/inc/footer.php'; ?>
