@@ -1,0 +1,19 @@
+.bg-black {
+	background-color: #130418;
+}
+
+.colorgrey {
+	background-color: #f3f3f3;
+}
+
+.darkgrey {
+	background-color: #bcb7b7 ;
+}
+
+.aligntocenter {
+	margin: auto;
+}
+
+.circleshape {
+	border-radius: 50%;
+}

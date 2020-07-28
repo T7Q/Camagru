@@ -1,0 +1,38 @@
+#thumb
+{
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#thumb img
+{
+    z-index: 1;
+    position: absolute;  
+    width: 300px;
+    height:200px;
+    top: 0;
+    left: 0;
+
+}
+
+#thumb button
+{
+    z-index: 5;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.scroll {
+	height: 250px;
+	overflow-y: scroll; 
+}
+
+.card {
+	border: solid red;
+}
+
+.card-body {
+	border: solid blue;
+}

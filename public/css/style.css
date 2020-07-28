@@ -1,4 +1,6 @@
 @import "gallery.css"; 
+@import "home.css"; 
+@import "camera.css"; 
 
 
 * {
@@ -20,27 +22,6 @@ html, body {
 .justy_center{
 	justify-content: center;
 }
-
-.bg-black {
-	background-color: #130418;
-}
-
-.colorgrey {
-	background-color: #f3f3f3;
-}
-
-.darkgrey {
-	background-color: #bcb7b7 ;
-}
-
-.aligntocenter {
-	margin: auto;
-}
-
-.circleshape {
-	border-radius: 50%;
-}
-
 
 footer {
 	z-index: -1;
@@ -72,21 +53,6 @@ nav {
 	/*don't show content that exceeds my height */
 }
 
-.scroll {
-	height: 250px;
-	overflow-y: scroll; 
-}
-
-.test {
-	background-color: lightgreen;
-
-}
-
-.test2 {
-	border: solid blue;
-}
-
-
 .top10{
 	margin-top: 10px;
 }
@@ -107,54 +73,8 @@ nav {
 	padding:0;
 }
 
-.card {
-	border: solid red;
-}
-
-.card-body {
-	border: solid blue;
-}
-
 .maginauto{
 	margin: auto;
-}
-
-
-#thumb
-{
-    position: relative;
-    width: 300px;
-    height: 200px;
-}
-
-#thumb img
-{
-    z-index: 1;
-    position: absolute;  
-    width: 300px;
-    height:200px;
-    top: 0;
-    left: 0;
-
-}
-#thumb button
-{
-    z-index: 5;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-.test3{
-	position: absolute;
-
-}
-
-.contain {
-	object-fit: contain;
-}
-.scale-down {
-	object-fit: scale-down;
 }
 
 /* colors */
