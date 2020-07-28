@@ -1,4 +1,5 @@
 <?php
+
 	class Email
 	{
 		private $database;
@@ -16,12 +17,8 @@
 			$this->database->query('UPDATE `user` SET token=:token WHERE email=:email');
 			$this->database->bind(':token', $token);
 			$this->database->bind(':email', $email);
-			// echo "after database" . $token . "<hr>";
 			
 			$this->database->execute();
-			// echo "updated database <hr>";
-			// $this->updateToken($token, $email);
-			
 			return $token;
 		}
 
@@ -34,84 +31,65 @@
 
 			$row = $this->database->single();
 			if ($row > 0) {
-				if($row->token == $token){
-					// echo "token match <hr>";
-					return true;
-				} else {
-					// echo "token does not match <hr>";
-					return false;
-				}
+				return ( $row->token == $token ? true : false);
 			} else {
 				// echo "user does not exit <hr>";
 				return false;
 			}
-			// echo "after database" . $token . "<hr>";
-			
-			$this->database->execute();
-			// echo "updated database <hr>";
-			// $this->updateToken($token, $email);
-			
-			return $token;
+			return false;
 		}
 
-
-		// Check if token exists
-		public function tokenExists($email)
-		{
-			// check if token from this user already exists
+		// Get user info
+		public function getUserInfo($email){
 			$this->database->query('SELECT * FROM user WHERE email = :email');
 			$this->database->bind(':email', $email);
-			
-			$row = $this->database->single();
-			// check row
-			// if ($this->database->rowCount() > 0) {
-			if ($row->token != NULL) {
-				return true;
-			} else {
-				return false;
-				// no previous tokens, do nothing
-			}
+			return $this->database->single();
 		}
 
-		// public function deleteToken($email){
+		public function message($purpose, $url){
+			$data = [
+				'subject' => '',
+				'message' => '',
+				'header' => ''
+			];
 
-		// }
+			if ($purpose == 'pwd_reset'){
+					$data['subject'] = 'Reset your password for '.SITENAME;
 
-		// // Add token to database
-		// public function addToken($data){
-		// 	$hashed_token = password_hash($data['token'], PASSWORD_DEFAULT);
-		// 	$sql = "INSERT INTO `pwdreset` (`email`, `selector`, `token`, `expire`) VALUES(:email, :selector, :token, :expire)";
-		// 	$this->database->query($sql);
+					$data['message'] = '<p>We received a password reset request. The link to reset your password is below. If you did not make this request, you can ignore this email.</p>';
+					$data['message'] .= '<p>Here is your password reset link: </br>';
+					$data['message'] .= '<a href="'.$url.'">'.$url.'</a></p>';
+			} else if ($purpose == 'activate') {
+				$data['subject'] = 'Account activation for '.SITENAME;
 
-		// 	// Bind values
-		// 	$this->database->bind(':email', $data['email']);
-		// 	$this->database->bind(':selector', $data['selector']);
-		// 	$this->database->bind(':token', $hashed_token);
-		// 	$this->database->bind(':expire', $data['expire']);
+				$data['message'] = '<p>Welcome to Camagru. </p>';
+				$data['message'] .= '<p>Here is your account activation link: </br>';
+				$data['message'] .= '<a href="'.$url.'">'.$url.'</a></p>';
+			}
+			
+			$data['headers'] = "From: Camagru web editing app <hiveweb7@gmail.com>\r\n";
+			$data['headers'] .= "Reply-To: <hiveweb7@gmail.com>\r\n";
+			$data['headers'] .= "Content-type: text/html\r\n";
 
-		// 	// // Execute
-		// 	if($this->database->execute()){
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
-		// }
+			return $data;
+		}
 
-		// // Finad if token is valid
-		// public function isValidToken($token)
-		// {
-		// 	$hashed_token = password_hash($token, PASSWORD_DEFAULT);
-		// 	$this->database->query('SELECT * FROM pwdreset WHERE token = :hashed_token');
-		// 	$this->database->bind(':token', $hashed_token);
-
-		// 	$row = $this->database->single();
-
-		// 	// check row
-		// 	if ($this->database->rowCount() > 0) {
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
-		// }
+		public function sendEmail($email, $purpose){
+			$token = $this->createToken($email);
+	
+			// get username
+			$user = $this->getUserInfo($email);
+			$username = $user->username;
+			
+			if ($purpose == 'pwd_reset'){
+				$url = URLROOT. "/emails/pwdreset/" . $username . "/" . $token;
+			} else if ($purpose == 'activate') {
+				$url = URLROOT. "/emails/activateaccount/" . $username . "/" . $token;
+			}
+			
+			$to = $email;
+			$message = $this->message($purpose, $url);
+			mail($to, $message['subject'], $message['message'], $message['headers']);
+		}
 	}
 ?>

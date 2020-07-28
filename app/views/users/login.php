@@ -22,7 +22,7 @@
 						<input type="submit" value="Login" class="btn btn-success btn-block">
 					</div>
 				</div>
-				<a href="<?php echo URLROOT; ?>/emails/forgotpwd">Forgot your password?</a>
+				<a href="<?php echo URLROOT; ?>/users/forgotpwd">Forgot your password?</a>
 			</div> 
 		</div>
 	</div>
