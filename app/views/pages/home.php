@@ -6,8 +6,11 @@
 	<!-- <div class="row full-height"> -->
 		<div class="row half-height text-center div1">
 			<div class="container my-auto">
-				<!-- <div id="main">test</div>
-				<button id="home_test" class="btn" type="button">Click Me!</button> -->
+
+				<div id="main">text should be here
+				<button id="home_test" class="btn" type="button">Favorite</button>
+				</div>
+				
 				<div style="margin-top: 25%">
 					<div class="row justy_center">
 						<h1> CAMAGRU</h1>

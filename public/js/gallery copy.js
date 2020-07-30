@@ -2,29 +2,7 @@
 // button like active 
 // onclick open image.php
 
-// const list_items = [
-// 	"https://bit.ly/3fRAAjW",
-// 	"https://bit.ly/3juMiDi",
-// 	"https://bit.ly/3eUJiMW",
-// 	"https://bit.ly/3fRAAjW",
-// 	"https://bit.ly/3juMiDi",
-// 	"https://bit.ly/3eUJiMW",
-// 	"https://bit.ly/2WNuzxg",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N"
-// ];
-const list_items2 = [
+const list_items = [
 	"https://bit.ly/3fRAAjW",
 	"https://bit.ly/3juMiDi",
 	"https://bit.ly/3eUJiMW",
@@ -184,56 +162,14 @@ function addPage(page) {
 	addPaginationPage(page);
 }
 
-
-let list_items = [];
 const articleList = document.getElementById('article-list');
 const articleListPagination = document.getElementById('article-list-pagination');
-
-function getContent() {
-	console.log("got to getContent")
-	// var target = document.getElementById("main");
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', '../app/views/pages/new.php', true);
-	xhr.onreadystatechange = function () {
-	  console.log('readyState: ' + xhr.readyState);
-	  if(xhr.readyState == 2) {
-		// target.innerHTML = 'Loading...';
-		console.log("loading");
-	  }
-	  if(xhr.readyState == 4 && xhr.status == 200) {
-		console.log("success");
-		var json = JSON.parse(xhr.responseText);
-
-		list_items = json;
-		// let list_items = array.from(json);
-		console.log("1" + list_items);
-		console.log("2" + list_items2);
-		
-		
-	  }
-	}
-	xhr.send();
-  }
-
-console.log("got here");
-let element = document.getElementById ("btn1");
-element.addEventListener("click", getContent);
-
-
-
-
-// const articleList = document.getElementById('article-list');
-// console.log("got  article-list");
-// const articleListPagination = document.getElementById('article-list-pagination');
-
 let page = 0;
 
 addPage(++page);
 
 
 window.onscroll = function() {
-	console.log("scroll");
-	console.log(list_items);
 	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
 	if (list_items.length > 0) {
 		addPage(++page);

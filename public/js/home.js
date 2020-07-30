@@ -1,21 +1,24 @@
 // not logged in see home page 
 // logged in have updated context
 
-function replaceText() {
-	var target = document.getElementById("main");
+function favorite() {
+	var parent = this.parentElement;
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', 'new_content.php', true);
+	xhr.open('POST', '../app/views/pages/new.php', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xhr.onreadystatechange = function () {
 	  console.log('readyState: ' + xhr.readyState);
 	  if(xhr.readyState == 2) {
-		target.innerHTML = 'Loading...';
+		parent.innerHTML = 'Loading...';
 	  }
 	  if(xhr.readyState == 4 && xhr.status == 200) {
-		target.innerHTML = xhr.responseText;
+		parent.innerHTML = xhr.responseText;
+		console.log(xhr.responseText);
 	  }
 	}
-	xhr.send();
+	xhr.send("id=" + parent.id);
   }
 
-  var button = document.getElementById ("ajax-button");
-  button.addEventListener("click", replaceText);
+  let button = document.getElementById("home_test");
+  button.addEventListener("click", favorite);
