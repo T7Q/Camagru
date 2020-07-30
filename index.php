@@ -1,4 +1,3 @@
-<!-- <p>index.php</p> -->
 <?php 
 
 // load config 
