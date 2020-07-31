@@ -6,11 +6,10 @@
 	* bind values
 	* return rows and results
 	*/
+	
 	class Db {
-		private $host = DB_HOST;
 		private $user = DB_USER;
 		private $pass = DB_PASS;
-		private $dbname = DB_NAME;
 
 		private $dbh;
 		private $stmt;
@@ -35,7 +34,7 @@
 		
 		// Prepare statement with query
 		public function query($sql){
-		$this->stmt = $this->dbh->prepare($sql);
+			$this->stmt = $this->dbh->prepare($sql);
 		}
 
 		// Bind values
@@ -61,7 +60,7 @@
 
 		// Execute the prepared statement
 		public function execute(){
-		return $this->stmt->execute();
+			return $this->stmt->execute();
 		}
 
 		// Get result set as array of objects
@@ -79,6 +78,11 @@
 		// Get row count
 		public function rowCount(){
 		return $this->stmt->rowCount();
+		}
+
+		public function create($sql){
+			$this->stmt = $this->dbh->prepare($sql);
+			$this->stmt->execute();
 		}
 	}
 ?>
