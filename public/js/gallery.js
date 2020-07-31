@@ -122,7 +122,7 @@ function getArticle() {
 }
 
 function getArticlePage(page, articlesPerPage = 6) {
-	console.log("page" + page);
+	// console.log("page" + page);
 
 	const pageElement = document.createElement('div');
 	pageElement.id = getPageId(page);
@@ -140,11 +140,11 @@ function getArticlePage(page, articlesPerPage = 6) {
 
 
 	rowBreaker = articlesPerPage / 2; 
-	console.log("rowBreaker " + rowBreaker);
+	// console.log("rowBreaker " + rowBreaker);
 
 	while (articlesPerPage--) {
-		console.log("while articles per page " + articlesPerPage);
-		console.log("length " + list_items.length);
+		// console.log("while articles per page " + articlesPerPage);
+		// console.log("length " + list_items.length);
 		
 		if (list_items.length > 0) {
 			if (articlesPerPage < 6 && articlesPerPage >= rowBreaker) {
@@ -190,34 +190,45 @@ const articleList = document.getElementById('article-list');
 const articleListPagination = document.getElementById('article-list-pagination');
 
 function getContent() {
-	console.log("got to getContent")
 	// var target = document.getElementById("main");
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', '../app/views/pages/new.php', true);
+	// xhr.open('GET', '../app/views/pages/new.php', true);
+	// xhr.open('GET', 'galleries/show', true);
 	xhr.onreadystatechange = function () {
-	  console.log('readyState: ' + xhr.readyState);
-	  if(xhr.readyState == 2) {
-		// target.innerHTML = 'Loading...';
-		console.log("loading");
-	  }
-	  if(xhr.readyState == 4 && xhr.status == 200) {
-		console.log("success");
-		var json = JSON.parse(xhr.responseText);
-
-		list_items = json;
-		// let list_items = array.from(json);
-		console.log("1" + list_items);
-		console.log("2" + list_items2);
-		
-		
-	  }
+		console.log('readyState: ' + xhr.readyState);
+		if(xhr.readyState == 2) {
+			// target.innerHTML = 'Loading...';
+			console.log("loading");
+		}
+		if(xhr.readyState == 4 && xhr.status == 200) {
+			console.log("success");
+			console.log(window.location.href);
+			console.log("response text "+ xhr.responseText);
+			
+			var json = JSON.parse(xhr.responseText);
+			console.log(json);
+			list_items = json;
+			// let list_items = array.from(json);
+			// console.log("1" + list_items);
+			console.log("2" + list_items2);
+			
+			
+		}
 	}
-	xhr.send();
+	// xhr.open('GET', window.location.href + '/show', true);
+	xhr.open('POST', '', true);
+	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xhr.send("id=" + 'like');
   }
+
+
 
 console.log("got here");
 let element = document.getElementById ("btn1");
-element.addEventListener("click", getContent);
+if (element){
+	element.addEventListener("click", getContent);
+
 
 
 
@@ -232,11 +243,12 @@ addPage(++page);
 
 
 window.onscroll = function() {
-	console.log("scroll");
-	console.log(list_items);
+	// console.log("scroll");
+	// console.log(list_items);
 	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
 	if (list_items.length > 0) {
 		addPage(++page);
 	}
 };
+}
 

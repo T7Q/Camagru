@@ -7,6 +7,5 @@
 	<ul class="article-list__pagination article-list__pagination--inactive" id="article-list-pagination"></ul>
 	</div>
 </div>
-<script src="<?php echo URLROOT; ?>/public/js/gallery.js"></script>
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>
