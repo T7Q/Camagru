@@ -1,11 +1,5 @@
 <?php
     require_once('database.php');
-    // require_once('./RouterControllerLibraries/Db.php');
-    // Set DSN
-    // $options = array(
-    //     PDO::ATTR_PERSISTENT => true,
-    //     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    // );
 
     try{
         $db_name = DB_NAME;
@@ -14,14 +8,12 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = "CREATE DATABASE $db_name";
-        // use exec() because no results are returned
         $conn->exec($sql);
         echo "Database created successfully<br>";
 
         $sql = "USE $db_name";
         $conn->exec($sql);
 
-        // create user table
         $sql = "CREATE TABLE `user`(
             `id_user`                 int AUTO_INCREMENT PRIMARY KEY,
             `username`                varchar(255) NOT NULL ,
