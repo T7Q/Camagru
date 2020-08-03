@@ -23,10 +23,10 @@ html, body {
 	justify-content: center;
 }
 
-footer {
+/* footer {
 	z-index: -1;
 	border: pink;
-}
+} */
 
 
 h1, h2, h3, h4 {
@@ -75,6 +75,23 @@ nav {
 
 .maginauto{
 	margin: auto;
+}
+
+
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+}
+.wrapper {
+    min-height: 100vh;
+    position: relative;
+}
+
+.content {
+    padding: 70px 0 160px;
 }
 
 /* colors */

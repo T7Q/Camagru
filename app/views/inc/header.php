@@ -12,8 +12,6 @@
 	
 	<!-- Font Awesome CSS -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
-	<!-- <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU" crossorigin="anonymous"> -->
 	
 	<link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/style.css">
 
@@ -21,4 +19,6 @@
 
 </head>
 <body>
-	<?php require 'app/views/inc/navbar.php'?>
+	<div class="wrapper">
+		<?php require 'app/views/inc/navbar.php'?>
+		<div class="content">

@@ -2,10 +2,6 @@
 
 	<div class="row">
 		<div class="col-md-6 mx-auto">
-
-			<!-- <button id="btn2">CLICK ME</button>
-			<button id="btn3">CLICK ME2</button> -->
-			
 			<div class="card card-body bg-light mt-5">
 				<h2>CREATE AN ACCOUNT</h2>
 				<p>Please fill out this form to register with us</p>
@@ -45,7 +41,12 @@
 						<input type="submit" value="Register" class="btn btn-success btn-block">
 					</div>
 				</div>
-			</div> 
+			</div>
+
+			<div class="mt-50">
+				<button id="btn2">CLICK ME</button>
+				<button id="btn3">CLICK ME2</button>
+			</div>
 		</div>
 	</div>
 
