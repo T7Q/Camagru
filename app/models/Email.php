@@ -30,8 +30,14 @@
 			$this->database->bind(':username', $username);
 
 			$row = $this->database->single();
-			if ($row > 0) {
-				return ( $row->token == $token ? true : false);
+			// if (isset($row)) {
+			if ($this->database->rowCount() > 0) {
+				if ($row->token == $token){
+					return true;
+				} else {
+					return false;
+				}
+				// return ( $row->token == $token ? true : false);
 			} else {
 				// echo "user does not exit <hr>";
 				return false;
@@ -46,25 +52,30 @@
 			return $this->database->single();
 		}
 
-		public function message($purpose, $url){
+		public function message($purpose, $url, $username){
 			$data = [
 				'subject' => '',
 				'message' => '',
 				'header' => ''
 			];
-
+			
 			if ($purpose == 'pwd_reset'){
 					$data['subject'] = 'Reset your password for '.SITENAME;
 
-					$data['message'] = '<p>We received a password reset request. The link to reset your password is below. If you did not make this request, you can ignore this email.</p>';
-					$data['message'] .= '<p>Here is your password reset link: </br>';
-					$data['message'] .= '<a href="'.$url.'">'.$url.'</a></p>';
+					$data['message'] = "<div style=\"background-color:#f3f3f3;\">";
+        			$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">Hello, " . $username . "!</h2>";
+					$data['message'] .= '<p style="text-align:center;color:#0099ff;">We received a password reset request. The link to reset your password is below. If you did not make this request, you can ignore this email.</p>';
+					$data['message'] .= '<p style="text-align:center;color:#0099ff;">Here is your password reset ';
+					$data['message'] .= '<a href="'.$url.'"> link </a></p>';
+					$data['message'] .= '<p style="text-align:center; color:#0099ff;"><small>Camagru team</p></div>';
 			} else if ($purpose == 'activate') {
 				$data['subject'] = 'Account activation for '.SITENAME;
-
-				$data['message'] = '<p>Welcome to Camagru. </p>';
-				$data['message'] .= '<p>Here is your account activation link: </br>';
-				$data['message'] .= '<a href="'.$url.'">'.$url.'</a></p>';
+				
+				$data['message'] = "<div style=\"background-color:#f3f3f3;\">";
+				$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">" . $username . ", welcome to Camagru! </h2>";
+				$data['message'] .= '<p style="text-align:center;color:#0099ff;">Here is your account activation ';
+				$data['message'] .= '<a href="'.$url.'">link</a></p>';
+				$data['message'] .= '<p style="text-align:center; color:#0099ff;"><small>Camagru team</p></div>';
 			}
 			
 			$data['headers'] = "From: Camagru web editing app <hiveweb7@gmail.com>\r\n";
@@ -88,7 +99,7 @@
 			}
 			
 			$to = $email;
-			$message = $this->message($purpose, $url);
+			$message = $this->message($purpose, $url, $username);
 			mail($to, $message['subject'], $message['message'], $message['headers']);
 		}
 	}

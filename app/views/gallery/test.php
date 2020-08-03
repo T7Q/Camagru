@@ -1,1 +1,1 @@
-<div>test</div>
+<div>This is new ajax text from gallery view</div>

@@ -7,16 +7,35 @@
 			$this->userModel = $this->model('User');
 			$this->emailModel = $this->model('Email');
 		}
-	
+		
 		public function pwdreset ($username = '', $token = '') {
 			// Save user that uses token
-			session_start();
 			if ($username != ''){
 				$_SESSION['tkn_user'] = $username;
 			}
 
 			// Check for POST
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+				// Init data
+				$data = [
+					'password' => '',
+					'confirm_password' => '',
+					'password_err' => '',
+					'confirm_password_err' => ''
+				];
+				
+				// Check if token is valid
+				if ($this->emailModel->isValidToken($username, $token)) {
+					$this->flash('token', 'Please enter your new password', 'success');
+					$this->view('emails/pwdreset');
+				} else {
+					$this->flash('token', 'token is invalid', '');
+					$this->flash('forgot_pwd', 'Invalid toke, resent recovery link', '');
+					$this->view('users/forgotpwd');
+					// token is invalid
+				}
+
+			} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				// process form
 				$data = [
 					'password' => trim($_POST['password']),
@@ -34,42 +53,24 @@
 
 					// Update password data in database and send user to login page
 					if ($this->userModel->pwdUpdate($data['password'], $_SESSION['tkn_user'])){
+						// on successful update
 						unset($_SESSION['tkn_user']);
-						flash('register_success', 'Your password was successfully updated, please log in');
-						redirect('users/login');
+						$this->flash('register_success', 'Your password was successfully updated, please log in', 'success');
+						$this->redirect('users/login');
 					} else {
-						// 	echo "failure to update <hr>";
-						// flash erro entering to database
+						// if update failed ask user to resent the activation link
+						// $this->flash('forgot_pwd', 'Oops.. something went wrong with updatign password, resent recovery link one more time', '');
+						// $this->view('users/forgotpwd');
 					}
 				} else {
 					// show errors 
 					$this->view('emails/pwdreset', $data);
 				}
-			} else if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-				// Load view
-				$this->view('emails/pwdreset');
-				
-				// Check if token is valid
-				if ($this->emailModel->isValidToken($username, $token)) {
-					flash('token', 'Please enter your new password');
-
-				} else {
-					// token is invalid
-				}
-
-				// Init data
-				$data = [
-					'password' => '',
-					'confirm_password' => '',
-					'password_err' => '',
-					'confirm_password_err' => ''
-				];
-			}
+			} 
 		}
 
 		public function activateAccount ($username = '', $token = '') {
 			// Save user that uses token
-			session_start();
 			if ($username != ''){
 				$_SESSION['tkn_user'] = $username;
 			}
@@ -77,16 +78,16 @@
 				// Valid token
 				if ($this->userModel->updateActiveStatus('1', $_SESSION['tkn_user'])){
 					unset($_SESSION['tkn_user']);
+					$this->flash('register_success', 'Your account was successfully activated, please log in', 'success');
 					$this->view('users/login');
-					// flash('register_success', 'Your account was successfully activated, please log in');
-					// redirect('users/login');
 				} else {
 					// 	echo "failure to update <hr>";
 					// flash erro entering to database
 				}
 
 			} else {
-				echo "token invalid <hr>";
+				$this->flash('register_success', 'Oops, smth went wrong, please use correct activation link');
+				$this->view('users/login');
 			}
 			
 		}

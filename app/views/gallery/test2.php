@@ -1,0 +1,1 @@
+<div>Test method from gallery view</div>

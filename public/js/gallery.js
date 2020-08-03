@@ -224,10 +224,10 @@ function getContent() {
 
 
 
-console.log("got here");
-let element = document.getElementById ("btn1");
-if (element){
-	element.addEventListener("click", getContent);
+// console.log("got here");
+// let element = document.getElementById ("btn1");
+// if (element){
+// 	element.addEventListener("click", getContent);
 
 
 
@@ -237,18 +237,18 @@ if (element){
 // console.log("got  article-list");
 // const articleListPagination = document.getElementById('article-list-pagination');
 
-let page = 0;
+// let page = 0;
 
-addPage(++page);
+// addPage(++page);
 
 
-window.onscroll = function() {
-	// console.log("scroll");
-	// console.log(list_items);
-	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
-	if (list_items.length > 0) {
-		addPage(++page);
-	}
-};
-}
+// window.onscroll = function() {
+// 	// console.log("scroll");
+// 	// console.log(list_items);
+// 	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
+// 	if (list_items.length > 0) {
+// 		addPage(++page);
+// 	}
+// };
+
 

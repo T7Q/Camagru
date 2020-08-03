@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-6 mx-auto">
 			<div class="card card-body bg-light mt-5">
-				<!-- <?php flash('token'); ?> -->
+				<?php $this->flash('token'); ?>
 				<h2>Create new password</h2>
 				<form action="<?php echo URLROOT; ?>/emails/pwdreset" method="post">
 				<div class="form-group">
@@ -18,7 +18,7 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<input type="submit" value="Update" class="btn btn-success btn-block">
+						<input type="submit" value="Update" class="btn btn-success btn-block" id="pwdReset">
 					</div>
 				</div>
 				<!-- <a href="<?php echo URLROOT; ?>/users/pwd_reset">Forgot your password?</a> -->

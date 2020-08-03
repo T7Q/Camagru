@@ -46,8 +46,8 @@
 					// Registe user
 					if ($this->userModel->registerUser($data)) {
 						$this->emailModel->sendEmail($data['email'], 'activate');
-						flash('register_success', 'Activation email has been send to your email');
-						redirect('users/login');
+						$this->flash('register_success', 'Activation email has been send to your email', 'success');
+						$this->redirect('users/login');
 					} else {
 						die('Something went wrong (controllers/users.php)');
 					}
@@ -122,7 +122,7 @@
 			$_SESSION['user_id'] = $user->id_user;
 			$_SESSION['user_username'] = $user->username;
 			$_SESSION['user_email'] = $user->email;
-			redirect('pages/home');
+			$this->redirect('pages/home');
 		}
 
 		public function logout(){
@@ -130,7 +130,7 @@
 			unset($_SESSION['user_username']);
 			unset($_SESSION['user_email']);
 			session_destroy();
-			redirect('users/login');
+			$this->redirect('users/login');
 		}
 
 		public function isLoggedIn() {
@@ -157,15 +157,24 @@
 					if ($this->userModel->findUserByEmail($data['email'])) {	
 						// user found					
 						$this->emailModel->sendEmail($_POST['email'], 'pwd_reset');
-						flash('reset_success', 'Password reset link has been sent to your email');
+						$this->flash('forgot_pwd', 'Password reset link has been sent to your email', 'success');
 					} else {
 						// user not found
 						$data['email_err'] = 'Account with this email does not exists';
 					}
 				}
+				$this->view('users/forgotpwd', $data);
 			}
-			// Load view
-			$this->view('users/forgotpwd', $data);
+			else {
+				// Init data
+				$data = [
+					'email' => '',
+					'email_err' => '',
+				];
+				// $this->flash('forgot_pwd', 'Please enter your email address', 'success');
+				// Load view 
+				$this->view('users/forgotpwd', $data);
+			}
 		}
 
 		public function newtest(){
