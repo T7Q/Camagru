@@ -168,5 +168,14 @@
 			$this->view('users/forgotpwd', $data);
 		}
 
+		public function newtest(){
+			if ($this->isAjaxRequest()) {
+				$this->view('users/hello');
+				
+			} else {
+				$this->view('pages/error');
+			}
+		}
+
 	}
 ?>

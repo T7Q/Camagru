@@ -1,4 +1,4 @@
-<?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require 'app/views/inc/header.php'; ?>
 
 	<div class="row">
 		<div class="col-md-6 mx-auto">
@@ -27,4 +27,4 @@
 		</div>
 	</div>
 
-<?php require APPROOT . '/views/inc/footer.php'; ?>
+<?php require 'app/views/inc/footer.php'; ?>

@@ -1,5 +1,6 @@
 <?php 
-
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
 // load config 
 require_once './app/config/config.php';
 // load database
@@ -22,5 +23,6 @@ spl_autoload_register(function($className){
 
 // init RouterController library
 $init = new RouterController;
+$init->render(trim($_SERVER['REQUEST_URI'], '/'));
 
 ?>

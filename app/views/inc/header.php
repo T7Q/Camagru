@@ -21,4 +21,4 @@
 
 </head>
 <body>
-	<?php require APPROOT . '/views/inc/navbar.php'?>
+	<?php require 'app/views/inc/navbar.php'?>

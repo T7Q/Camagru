@@ -1,7 +1,7 @@
 // basic structure of photo.php 
 // include JS
 
-<?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require 'app/views/inc/header.php'; ?>
 
 <div class="container">
 
@@ -90,4 +90,4 @@
 	<div class="push"></div>
 </div>
 
-<?php require APPROOT . '/views/inc/footer.php'; ?>
+<?php require 'app/views/inc/footer.php'; ?>

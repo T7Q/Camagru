@@ -1,5 +1,5 @@
 <?php require 'app/views/inc/header.php'; ?>
-
-<h1><?php echo  $data['title'] ?> at about.php</h1>
-
+	<div>
+		<h1> Requested page does not exist...</h1>
+	</div>
 <?php require 'app/views/inc/footer.php'; ?>

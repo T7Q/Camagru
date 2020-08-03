@@ -2,11 +2,13 @@
 // logged in vs loggout users
 // no JS? -->
 
-<?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require './app/views/inc/header.php'; ?>
 	<!-- <div class="row full-height"> -->
 		<div class="row half-height text-center div1">
 			<div class="container my-auto">
 
+			<button id="btn2">CLICK ME</button>
+			<button id="btn3">CLICK ME2</button>
 				
 
 				<div style="margin-top: 25%">
@@ -35,4 +37,4 @@
 		<script src="<?php echo URLROOT; ?>/public/js/camera.js"></script>
 		<script src="<?php echo URLROOT; ?>/public/js/home.js"></script>
 
-<?php require APPROOT . '/views/inc/footer.php'; ?>
+<?php require './app/views/inc/footer.php'; ?>
