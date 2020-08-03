@@ -53,10 +53,7 @@ The app requirements:
 
 
 * Git clone repo
-* Update the following files to match your environment:
-	* go to htaccess file, change ```RewriteBase /camagru/public``` to the name of the folder the repo is cloned, e.g. ```/YOUR_FOLDER_RNAME/public```
-	* go to app/config/config.php updated URL Root ```define('URLROOT', 'http://localhost:8080/camagru')```
-	* go to app/config/database.php update database user name, password and database
+* In app/config/database.php update database user name, password and database to match your environemnt
 
 * Launch app/config/setup.php to create database
 * Open http://localhost:8080/ in your prefered browser
