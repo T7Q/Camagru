@@ -16,7 +16,7 @@
 
         <?php if(isset($_SESSION['user_id'])) : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/cameras/snapshot">CAMERA</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/photobooth/photo">PHOTOBOOTH</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?php echo URLROOT; ?>/users/profile">PROFILE</a>

@@ -1,6 +1,6 @@
 @import "gallery.css"; 
 @import "home.css"; 
-@import "camera.css"; 
+@import "photobooth.css"; 
 
 
 * {
@@ -47,11 +47,14 @@ nav {
 }
 
 
-.container {
-    height: 100%;
+/* .container { */
+	/* padding: 70px 0 160px; */
+	/* min-height: 100vh;
+    position: relative; */
+    /* height: 100%; */
 	/* overflow-y: scroll;  */
 	/*don't show content that exceeds my height */
-}
+/* } */
 
 .top10{
 	margin-top: 10px;
@@ -76,7 +79,6 @@ nav {
 .maginauto{
 	margin: auto;
 }
-
 
 footer {
     position: absolute;

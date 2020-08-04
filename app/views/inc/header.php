@@ -21,4 +21,4 @@
 <body>
 	<div class="wrapper">
 		<?php require 'app/views/inc/navbar.php'?>
-		<div class="content">
+		<div class="container content">

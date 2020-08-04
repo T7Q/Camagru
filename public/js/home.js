@@ -22,3 +22,26 @@ function favorite() {
 
   let button = document.getElementById("home_test");
   button.addEventListener("click", favorite);
+
+  document.getElementById("baloon").addEventListener(('click'), function(e) {
+	console.log("click on baloon");
+});
+	data = 'update';
+	request  = new Request ({
+	url        : "pages/color.php",
+	method     : 'POST',
+	handleAs   : 'json',
+	parameters : { data : JSON.stringify(data) },
+	onSuccess  : function(res) {
+					if (res['valid']) {
+						new_color = res['color']
+						document.getElementById("baloon").style.color = new_color;
+						console.log("got to if");
+					}
+					else
+						console.log("got to else");
+	},
+	onError    : function(status, res) {
+					console.log("error occured");
+	}
+});

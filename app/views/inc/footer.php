@@ -6,9 +6,10 @@
 		</p>
 	</div>
 </footer>
-	
+</div>
 <script src="<?php echo URLROOT; ?>/public/js/main.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/gallery.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/photobooth.js"></script>
 	
 </body>
 </html>
