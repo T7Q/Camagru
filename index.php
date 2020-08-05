@@ -6,14 +6,14 @@
 	session_start();
 
 	// load config 
-	require_once './app/config/config.php';
+	require_once './app/router/config.php';
 
 	// load database
-	require_once './app/config/database.php';
+	require_once './config/database.php';
 
 	// autoload router library
 	spl_autoload_register(function($className){
-		require_once './app/config/RouterControllerLibraries/' . $className . '.php';
+		require_once './app/router/RouterControllerLibraries/' . $className . '.php';
 	});
 
 	// init Router
