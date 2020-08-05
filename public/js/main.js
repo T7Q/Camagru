@@ -44,7 +44,8 @@ function newtest() {
 	// var target = document.getElementById("main");
 	var xhr = new XMLHttpRequest();
 	
-	path = "/" + firstPath + "/users/newtest";
+	// path = "/" + firstPath + "/users/newtest";
+	path = "/" + firstPath + "/images/create";
 	xhr.open('GET', path, true);
 	// xhr.open('GET', '/camagru3/users/newtest', true);
 	xhr.onreadystatechange = function () {
