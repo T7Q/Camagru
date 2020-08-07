@@ -69,7 +69,7 @@ function newtest() {
 }
 
 const firstPath = window.location.pathname.split('/')[1];
-console.log(firstPath);
+// console.log("firstpath: " . firstPath);
 
 let newbtn2 = document.getElementById ("btn3");
 if (newbtn2){

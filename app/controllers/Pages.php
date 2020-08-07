@@ -9,8 +9,10 @@
 			$data = [
 				'title' => 'Welcome',
 			];
-
+			// echo "dirname ". __DIR__ . "<hr>";
+			// echo "URLROOT ". URLROOT . "<hr>";
 			$this->view('pages/home', $data);
+	
 		}
 		
 		public function about(){

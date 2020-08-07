@@ -4,27 +4,25 @@
 
 // initialize video element 
 const video = document.getElementById("video");
-const canvas = document.getElementById('canvas');
-// const photo = document.getElementById('photo');
+const canvas = document.createElement("canvas");
 const videoStreamBtn = document.getElementById('stream_button');
 const takePhotoBtn = document.getElementById('take_photo');
 let isVideoLoaded = false;
 let streaming = false;
-
-
-// standard definition television pic is 640px x 480px (4:3 aspect ratio)
-// hidh-definition 1280px x 720px
-let width = 320; // We will scale the photo width to this
-let height = 0; // This will be computed based on the input stream
-
 const constraints = { 
 	audio: false,
 	video: true
 };
+// standard definition television pic is 640px x 480px (4:3 aspect ratio)
+let width = 640; // We will scale the photo width to this
+let height = 0; // This will be computed based on the input stream
+
+let applied_filters = [];
 
 // starts video stream
 const startStream = function () {
 	console.log("got to startStream");
+
 	if (navigator.mediaDevices.getUserMedia) {
 		navigator.mediaDevices.getUserMedia(constraints)
 			.then(function (stream) {
@@ -55,7 +53,7 @@ const startStream = function () {
 }
 
 // enables disables video stream
-const streamControl = function () {
+const toggleStream = function () {
 	let stream = video.srcObject;
     if (stream) {
         let tracks = stream.getTracks();
@@ -65,9 +63,18 @@ const streamControl = function () {
         }
         video.srcObject = null;
         videoStreamBtn.innerHTML = "Start video";
-        takePhotoBtn.disabled = true;
+		takePhotoBtn.disabled = true;
+		if (document.getElementById('instructions').classList.contains("d-none")){
+			alert("stream remove d-none");
+			document.getElementById('instructions').classList.remove("d-none")
+		}
+
     } else {
         if (video.srcObject === null) {
+			if (!document.getElementById('instructions').classList.contains("d-none")){
+				alert("stream add d-none");
+				document.getElementById('instructions').classList.add("d-none");
+			}
             startStream();
         }
         videoStreamBtn.innerHTML = "Stop video";
@@ -77,40 +84,30 @@ const streamControl = function () {
 
 // takes a picture and sends to server that returns mixed image
 function takePhoto(){
-		console.log("BTN: takePhoto");
-		let context = canvas.getContext('2d');
+		// SEPERATE BETWEEN PICTURE AND VIDEO
+		// REMOVE IMAGE FROM DOM ONCE PHOTO TAKEN AND SHOW INSTRUCTIONS
 		let data = {};
+		let context = canvas.getContext('2d');		
 		if (width && height) {
-			canvas.width = width;
-			canvas.height = height;
-		context.drawImage(video, 0, 0, width, height);
-		
-		data.img_data = canvas.toDataURL('image/png');
-		// photo.setAttribute('src', data);
-		console.log("attributes");
-		console.log(canvas.width);
-		console.log(canvas.height);
-		console.log(video.width);
-		console.log(video.height);
-		
-		console.log("started to create");
-		let xmlhtt = new XMLHttpRequest();
-		xmlhtt.onreadystatechange = function () {
-			if(this.readyState == 2) {
-				console.log("loading");
+			context.drawImage(video, 0, 0, width, height);
+			data.img_data = canvas.toDataURL('image/png');
+			data.filter_data = canvas2.toDataURL('image/png');
+			data.filters = applied_filters;
+			let xmlhtt = new XMLHttpRequest();
+			xmlhtt.onreadystatechange = function () {
+				if(this.readyState == 2) {
+					console.log("loading"); // SHOW LOADING PNG
+				}
+				if(this.readyState == 4 && this.status == 200) {
+					console.log("success");
+					let temp = document.getElementById ("temp");
+					temp.appendChild(createImageContainer(JSON.parse(this.responseText)));
+				}
 			}
-			if(this.readyState == 4 && this.status == 200) {
-				console.log("success");
-				let temp = document.getElementById ("temp");
-				console.log("response.text: " + this.responseText);
-				temp.appendChild(createImageContainer(JSON.parse(this.responseText)));
-				console.log("DOM element temp updated" + document.getElementById ("temp"));
-			}
-		}
-		xmlhtt.open('POST', "/" + firstPath + "/images/create", true);
-		xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xmlhtt.send('data=' + JSON.stringify(data));
+			xmlhtt.open('POST', "/" + firstPath + "/images/create", true);
+			xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xmlhtt.send('data=' + JSON.stringify(data));
 		}
 }
 
@@ -133,22 +130,62 @@ function createImageUpload() {
 		video.style.height = "480px";
 	}
 	img.onload = function imageLoaded() {
+		// hide instructions if they were not hidden already
+		if (!document.getElementById('instructions').classList.contains("d-none")){
+			alert("upload remove d-none");
+			document.getElementById('instructions').classList.add("d-none");
+		}
+		// remove previously uploaded photo if it exists
 		if (document.getElementById("uploaded_photo"))
 			document.getElementById("uploaded_photo").remove();
+		// create <img> element and attach it to the DOM
 		var img = document.createElement('img');
-		console.log("this.src" + this.src);
 		img.src = this.src;
 		img.classList.add("video_overlay");
 		img.classList.add("embed-responsive-item");
 		img.id = "uploaded_photo";
 		let camera = document.getElementById('camera');
-		console.log("camera div: " + document.getElementById('camera'));
-		console.log("img" + img);
 		camera.insertBefore(img, camera.firstChild);
 	};
 	img.src = this.result;
 }
 
+// Apply/remove filter
+function toggleFilter(selected_filter) {
+	// get (un)checked filter and its <img> source
+	let checkbox = document.getElementById(selected_filter);
+	let	filter_src = document.getElementById("img_" + selected_filter).src;
+
+	if (checkbox.checked == true) {
+		// Create filter <img> element
+		let new_filter = new Image();
+		new_filter.id = "added_" + selected_filter;
+		new_filter.src = filter_src;
+		new_filter.className = 'video-overlay embed-responsive-item';
+		filters_id.push(new_filter.id);
+
+		// update applied_filters array
+		updated_source = filter_src.split(firstPath)[1];
+		applied_filters.push(updated_source);
+
+		// update DOM
+		camera.appendChild(new_filter);
+
+	} else if (checkbox.checked != true) {
+		// Remove unchecked filters from DOM
+		let element = document.getElementById("added_" + selected_filter);
+		for (let i = 0; i < applied_filters.length; i++) {
+			// find folder path img
+			img_src = element.src.split(firstPath)[1];
+			// if path matches remove from applied_filters array
+			if (applied_filters[i] === img_src) { 
+				applied_filters.splice(i, 1);
+				element.remove();
+				break;
+			}
+		}
+	}
+}
 
 document.getElementById('file_upload').onchange = function(event) {
 	console.log("got to function");
@@ -156,11 +193,14 @@ document.getElementById('file_upload').onchange = function(event) {
 	let reader = new FileReader();
 	reader.onload = createImageUpload;
 	reader.readAsDataURL(img); 
-	document.getElementById('video').style.opacity = 0;
+	if (streaming) {
+		alert("it's a stream");
+		videoStreamBtn.click(toggleStream);
+		takePhotoBtn.disabled = false;
+	}
+	// document.getElementById('video').style.opacity = 0;
 }
 
-
-
 startStream();
-videoStreamBtn.addEventListener('click', streamControl);
+videoStreamBtn.addEventListener('click', toggleStream);
 takePhotoBtn.addEventListener('click', takePhoto);
