@@ -94,8 +94,8 @@ function takePhoto(){
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			let temp = document.getElementById ("temp");
-			temp.appendChild(createImageContainer(JSON.parse(this.responseText)));
+			let previewList = document.getElementById ("preview-list");
+			previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/images/create", true);
@@ -106,13 +106,26 @@ function takePhoto(){
 
 const deleteImageContainer = function (div) { this.parentElement.remove(); }
 
+const saveImageContainer = function (div) { 
+	alert("save") }
+
+const zoomImageContainer = function (div) { 
+	alert("zoome image") }
+const child1ImageContainer = function (div) { 
+	alert("child[1]") }
+
 const createImageContainer = function (img) {
-	var div = document.createElement("div");
-	div.class = "embed-responsive embed-responsive-4by3";
-    div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-card\"></img>\
-					<a><i class='fas fa-times-circle'></i></a>";
-	div.childNodes[2].addEventListener('click', deleteImageContainer);
-    return div;
+	let div = document.createElement("div");
+	div.setAttribute("class", "mb-2 border");
+	div.setAttribute("id", "img-preview-card");
+	// <a><i class='fas fa-times-circle child'></i></a>";
+	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\"></img>\
+	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1\">Save</button>\
+	<button type=\"button\" class=\"btn btn-outline-danger btn-sm img-preview-btn mt-1 mb-1\">Delete</button>";
+	div.childNodes[0].addEventListener('click', zoomImageContainer);
+	div.childNodes[2].addEventListener('click', saveImageContainer);
+	div.lastElementChild.addEventListener('click', deleteImageContainer);
+	return div;
 }
 
 // Apply/remove filter
@@ -211,6 +224,7 @@ const toggleUploadImage = function () {
 			uploadImageBtn.value = "Delete Image";
 			takePhotoBtn.disabled = false;
 		}
+		// alert("child count: " + document.getElementById("test").childElementCount);
 	}
 }
 
