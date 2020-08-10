@@ -1,7 +1,7 @@
 <?php require 'app/views/inc/header.php'; ?>
 
 <div class="container">
-	<h1 class="mt-3 mb-3">CREATE YOUR OWN PHOTOS</h1>
+	<!-- <h1 class="mt-3 mb-3">CREATE YOUR OWN PHOTOS</h1> -->
 	<div class="row mt-2">
 		<div class="col-md-7 border">
 			<!-- camera window -->
@@ -41,7 +41,6 @@
 						</lable>
 				</div>
 				<div class="col take_photo_position">
-					<!-- <button id="take_photo" type="button" class="btn btn-danger circleshape btn-xl" disabled><i class="fas fa-camera icon-7x"></i></button> -->
 					<button id="take_photo" type="button" class="btn btn-danger btn-circle" disabled><i class="fas fa-camera icon-7x"></i></button>
 				</div>
 				<div class="col">

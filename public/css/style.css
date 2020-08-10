@@ -8,7 +8,8 @@
 }
 
 html, body {
-	height: 100%;
+	/* height: 100%; */
+	overflow-y: scroll;
 }
 
 .half-height {
@@ -23,10 +24,6 @@ html, body {
 	justify-content: center;
 }
 
-/* footer {
-	z-index: -1;
-	border: pink;
-} */
 
 
 h1, h2, h3, h4 {
@@ -46,15 +43,6 @@ nav {
 	position: fixed;
 }
 
-
-/* .container { */
-	/* padding: 70px 0 160px; */
-	/* min-height: 100vh;
-    position: relative; */
-    /* height: 100%; */
-	/* overflow-y: scroll;  */
-	/*don't show content that exceeds my height */
-/* } */
 
 .top10{
 	margin-top: 10px;

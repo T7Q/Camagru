@@ -22,6 +22,7 @@ const camera = document.getElementById('camera');
 let displayingImage = false;
 let appliedFilters = [];
 let instructions = true;
+let previewImgCount = 0;
 
 // starts video stream
 const startStream = function () {
@@ -106,25 +107,40 @@ function takePhoto(){
 
 const deleteImageContainer = function (div) { this.parentElement.remove(); }
 
-const saveImageContainer = function (div) { 
-	alert("save") }
+const saveImage = function (id) {
+	let img_src = document.getElementById("div_" + id).childNodes[0].src;
+	data = {};
+	data.img_src = img_src;
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			// let previewList = document.getElementById ("preview-list");
+			// previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
+			temp = JSON.parse(this.responseText);
+			alert("response recieved from SAVE" + temp['res']);
+			document.getElementById("div_" + id).remove();
+			// alert("response recieved from SAVE: " + temp['message']);
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/images/save", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}
 
 const zoomImageContainer = function (div) { 
 	alert("zoome image") }
-const child1ImageContainer = function (div) { 
-	alert("child[1]") }
 
 const createImageContainer = function (img) {
 	let div = document.createElement("div");
 	div.setAttribute("class", "mb-2 border");
-	div.setAttribute("id", "img-preview-card");
-	// <a><i class='fas fa-times-circle child'></i></a>";
-	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\"></img>\
-	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1\">Save</button>\
+	div.setAttribute("id", "div_img_" + previewImgCount);
+	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\" id=\'src_img_"+previewImgCount + "'></img>\
+	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
 	<button type=\"button\" class=\"btn btn-outline-danger btn-sm img-preview-btn mt-1 mb-1\">Delete</button>";
 	div.childNodes[0].addEventListener('click', zoomImageContainer);
-	div.childNodes[2].addEventListener('click', saveImageContainer);
 	div.lastElementChild.addEventListener('click', deleteImageContainer);
+	previewImgCount++;
 	return div;
 }
 
@@ -228,8 +244,8 @@ const toggleUploadImage = function () {
 	}
 }
 
-startStream(); // REMOVE
-takePhotoBtn.disabled = false; // REMOVE
+// startStream(); // REMOVE
+// takePhotoBtn.disabled = false; // REMOVE
 takePhotoBtn.addEventListener('click', takePhoto);
 videoStreamBtn.addEventListener('click', toggleStream);
 uploadImageBtn.addEventListener('click', toggleUploadImage);

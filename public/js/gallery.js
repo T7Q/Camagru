@@ -2,51 +2,6 @@
 // button like active 
 // onclick open image.php
 
-// const list_items = [
-// 	"https://bit.ly/3fRAAjW",
-// 	"https://bit.ly/3juMiDi",
-// 	"https://bit.ly/3eUJiMW",
-// 	"https://bit.ly/3fRAAjW",
-// 	"https://bit.ly/3juMiDi",
-// 	"https://bit.ly/3eUJiMW",
-// 	"https://bit.ly/2WNuzxg",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	// "https://bit.ly/3fNEn1N",
-// 	"https://bit.ly/3fNEn1N"
-// ];
-const list_items2 = [
-	"https://bit.ly/3fRAAjW",
-	"https://bit.ly/3juMiDi",
-	"https://bit.ly/3eUJiMW",
-	"https://bit.ly/3fRAAjW",
-	"https://bit.ly/3juMiDi",
-	"https://bit.ly/3eUJiMW",
-	"https://bit.ly/2WNuzxg",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N",
-	// "https://bit.ly/3fNEn1N",
-	// "https://bit.ly/3fNEn1N",
-	// "https://bit.ly/3fNEn1N",
-	// "https://bit.ly/3fNEn1N",
-	"https://bit.ly/3fNEn1N"
-];
-
 function getPageId(n) {
 	return 'article-page-' + n;
 }
@@ -93,7 +48,7 @@ function getArticleImage() {
 
 function getArticle() {
 	const card = document.createElement('div');
-	card.className = 'col-md-2 mx-auto';
+	card.className = 'col-md-4 mx-auto';
 
 	const articleImage = getArticleImage();
 	const article = document.createElement('div');
@@ -185,70 +140,60 @@ function addPage(page) {
 }
 
 
+let db_data = [];
 let list_items = [];
 const articleList = document.getElementById('article-list');
 const articleListPagination = document.getElementById('article-list-pagination');
+let length = 0
+let page = 0
+
 
 function getContent() {
-	// var target = document.getElementById("main");
-	var xhr = new XMLHttpRequest();
-	// xhr.open('GET', '../app/views/pages/new.php', true);
-	// xhr.open('GET', 'galleries/show', true);
-	xhr.onreadystatechange = function () {
-		console.log('readyState: ' + xhr.readyState);
-		if(xhr.readyState == 2) {
-			// target.innerHTML = 'Loading...';
-			console.log("loading");
-		}
-		if(xhr.readyState == 4 && xhr.status == 200) {
-			console.log("success");
-			console.log(window.location.href);
-			console.log("response text "+ xhr.responseText);
-			
-			var json = JSON.parse(xhr.responseText);
-			console.log(json);
-			list_items = json;
-			// let list_items = array.from(json);
-			// console.log("1" + list_items);
-			console.log("2" + list_items2);
-			
-			
+	data = {};
+	data.test = "hello";
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			// let previewList = document.getElementById ("preview-list");
+			// previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
+			temp = JSON.parse(this.responseText);
+			// db_data = temp['res'];
+			// console.log(db_data['res']);
+			db_data = temp['res'];
+			// alert("path " + window.location.pathname);
+			// temp3 = window.location.pathname;
+			// temp4 = temp3.split(firstPath)[0];
+			// alert("path spit " + temp4);
+
+			console.log(db_data);
+			let i;
+			length = db_data.length
+			if (db_data.length > 0){
+				for (i = 0; i < db_data.length; i++){
+					// list_items[i] = firstPath + "/" + db_data[i]['path'];
+					list_items[i] = "/" + firstPath + "/" + db_data[i]['path'];
+				}
+				// document.getElementById('empty').style.height = 0;
+			}
+			if (list_items.length > 0) {
+				addPage(++page);
+			}
 		}
 	}
-	// xhr.open('GET', window.location.href + '/show', true);
-	xhr.open('POST', '', true);
-	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	xhr.send("id=" + 'like');
+	xmlhtt.open('POST', "/" + firstPath + "/galleries/getimages", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
   }
 
 
+window.onload = function (){
+	getContent();
+}
 
-// console.log("got here");
-// let element = document.getElementById ("btn1");
-// if (element){
-// 	element.addEventListener("click", getContent);
-
-
-
-
-
-// const articleList = document.getElementById('article-list');
-// console.log("got  article-list");
-// const articleListPagination = document.getElementById('article-list-pagination');
-
-// let page = 0;
-
-// addPage(++page);
-
-
-// window.onscroll = function() {
-// 	// console.log("scroll");
-// 	// console.log(list_items);
-// 	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
-// 	if (list_items.length > 0) {
-// 		addPage(++page);
-// 	}
-// };
-
-
+window.onscroll = function(){
+	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
+	if (list_items.length > 0) {
+		addPage(++page);
+	}
+};

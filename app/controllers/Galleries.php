@@ -2,7 +2,8 @@
 	class Galleries extends Controller {
 
 		public function __construct(){
-
+			$this->galleryModel = $this->model('Gallery');
+			$this->imageModel = $this->model('Image');
 		}
 		
 		public function all($param = ''){
@@ -79,5 +80,35 @@
 			}
 		}
 
+		public function getImages() {
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
+
+				// $temp = $this->galleryModel->getAllImages();
+				// $json['res'] = $temp;
+
+				if($this->galleryModel->galleryExists()){
+					$json['res'] = "gallery";
+					$temp = $this->galleryModel->getAllImages();
+					$json['res'] = $temp;
+				} else {
+					$json['res'] = "Gallery is empty";
+				}
+			
+				// if($data['test']  === "hello"){
+				// } else {
+				// 	$json['res'] = "Did not receive hello";
+				// }
+				
+			} else {
+				$json['message'] = "Oops, something went wrong getting images for Gallery";
+			}
+            echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+
 	}
+}
 ?>

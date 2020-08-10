@@ -2,7 +2,7 @@
 
 class Images extends Controller {
 	public function __construct() {
-		// $this->userModel = $this->model('Image');
+		$this->imageModel = $this->model('Image');
 	}
 	public function create(...$param){
 		if ($this->isAjaxRequest()) {
@@ -15,42 +15,11 @@ class Images extends Controller {
                 $img_data = base64_decode($img_data);
                 $dest = imagecreatefromstring($img_data);
 
-				
-				// $img_filter_data = str_replace('data:image/png;base64,', '', $data['filter_data']);
-                // $img_filter_data = str_replace(' ', '+', $img_filter_data);
-                // $img_filter_data = base64_decode($img_filter_data);
-                // $filter = imagecreatefromstring($img_filter_data);
-
-				
-				// // $img_filter_data2 = str_replace('data:image/png;base64,', '', $data['filter2_data']);
-                // // $img_filter_data2 = str_replace(' ', '+', $img_filter_data2);
-                // // $img_filter_data2 = base64_decode($img_filter_data2);
-                // // $filter2 = imagecreatefromstring($img_filter_data2);
-
-
-				
-				// // imagecopymerge($dest, $filter, 0, 0, 0, 0, 640, 100, 100);
-				// imagecopy($dest, $filter, 0,0, 0, 0, 640, 480);
-				// // imagecopy($dest, $filter2, 0,0, 0, 0, 640, 480);
-				
-				// // imagealphablending($dest, true);
-                // // imagesavealpha($dest, true);
-				// //TEST with URL
-				// $temp = $data['filter2_data'];
-				
-				// $src = imagecreatefrompng(__DIR__ . '/../..' . $temp);
-				// imagecopyresized($dest, $src, 0, 0, 0, 0, 640, 480, imagesx($src), imagesy($src));
-				
-				// //
-				// TEST WITH ARRAY
 				foreach ($data['filters'] as $element) {
 					$src = imagecreatefrompng(__DIR__ . '/../..' . $element);
 					imagecopyresized($dest, $src, 0, 0, 0, 0, 640, 480, imagesx($src), imagesy($src));
 				}
-
-
 				header('Content-Type: image/png');
-				
 
 				// Use output buffering to capture the output from imagepng():
 				// Enable output buffering
@@ -62,47 +31,64 @@ class Images extends Controller {
                
                 $final_image_data_base_64 = base64_encode($final_image_data);
                 $json['photo'] = 'data:image/png;base64,' . $final_image_data_base_64;
-                imagedestroy($dest);
-
-
-				// ob_start ();
-                // imagepng($dest);
-                // $final_image_data = ob_get_contents();
-                // ob_end_clean ();
-                // $final_image_data_base_64 = base64_encode($final_image_data);
-                // $json['photo'] = 'data:image/png;base64,' . $final_image_data_base_64;
-                // imagedestroy($dest);
+				imagedestroy($dest);
+				
                 $json['valid'] = true;
                 $json['message'] = "Image added to the list";
-                $json['description'] = "description";
             } else {
-				$json['message'] = "SMTH WENT WRONG";
+				$json['message'] = "Oops, something went wrong mixing the images";
 			}
             echo json_encode($json);
-			// try {
-			// // $image1 = 'public/img/filters/filter1.png';
-			// $image1 = URLROOT . '/public/img/filters/filter1.png';
-			// // $image2 = 'public/img/filters/filter2.png';
-			// // list($width, $height) = getimagesize($image2);
-			// // $image1 = imagecreatefromstring(file_get_contents($image1));
-			// // $image2 = imagecreatefromstring(file_get_contents($image2));
-			
-			// // imagecopymerge($image1, $image2, 0, 0, 0, 0, $width, $height, 100);
-			// // header('Content-Type: image/png');
-			// // imagepng($image1);
-			// // ob_start (); 
-			// $final_image_data_base_64 = base64_encode($image1);
-			// // ob_end_clean ();
-            // $json['photo'] = 'data:image/png;base64,' . $final_image_data_base_64;
-			// } catch (Exception $e) {
-			// 	$json['message'] = $e->getMessage();
-			// }
-			// echo json_encode($json);
 		} else {
 			$this->view('pages/error');
 		}
 	}
 
-}
+	public function save(...$param){
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
 
+				// check if / create folder to store photos
+				$img_folder = $_SESSION['user_id'];
+				$path = __DIR__ . "/../../public/img/user_" . $img_folder . "/";
+				if (!is_dir($path)) {
+					if (!mkdir($path)) {
+						$json['message'] = "Error occured during saving an image";
+						echo json_encode($json['message'] = "An error ocurred during the save");
+						exit();
+					}
+				}
+				if (substr($data['img_src'], 0, 22) === "data:image/png;base64,") {
+					$file = $path . uniqid() . '.png';
+					$data['img_src'] = str_replace('data:image/png;base64,', '', $data['img_src']);
+					$data['img_src'] = str_replace(' ', '+', $data['img_src']);
+					file_put_contents($file, base64_decode($data['img_src']));
+					$db_data = [
+						'id_user' => $_SESSION['user_id'],
+						'path' => substr(strstr($file, "/public/"), 1)
+					]; 
+					if ($this->imageModel->addPhotoToDb($db_data)){
+						$json['valid'] = true;
+						$message = "database updated";
+					} else {
+						$message = "database not updated";
+					}
+					$json['res'] = $message;
+					$json['message'] = "path for db";
+				} else {
+					$json['message'] = "Error: uploaded file is not an image";
+					// echo json_encode($json);
+					exit();
+				}
+			} else {
+				$json['message'] = "Oops, something went wrong saving the image";
+			}
+            echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+
+	}
+}
 ?>

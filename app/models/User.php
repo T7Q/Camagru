@@ -9,7 +9,7 @@ class User
 	}
 
 
-	// Regsiter user
+	// Register user
 	public function registerUser($data){
 		$sql = "INSERT INTO `user` (`username`, `email`, `password`, `first_name`, `last_name`) VALUES(:username, :email, :password, :first_name, :last_name)";
 		$this->database->query($sql);
