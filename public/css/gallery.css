@@ -1,3 +1,5 @@
+/* on-scroll */
+
 .article-list__page {
 	border-top: 1px solid #ddd;
 	clear: both;
@@ -90,3 +92,12 @@
 #empty {
 	height: 800px;
 }
+
+
+/* modal box */
+
+/* .popup-image {
+	position: relative;
+	max-width: 100%;
+	max-height: 100%;
+} */
