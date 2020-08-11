@@ -1,6 +1,12 @@
 // enable bootsrap modal box functionality
 
-function openModal() {
+function openModal(param) {
+    // customize the output see in image.js
+    if (param != null){
+        // console.log("param: " + param);
+        getDetails(param);
+    }
+
     document.getElementById("backdrop").style.display = "block"
     document.getElementById("exampleModal").style.display = "block"
     document.getElementById("exampleModal").className += "show"

@@ -22,19 +22,18 @@ function getScrollTop() {
 
 function getArticleImage() {
 	const image = new Image;
-	// image.className = 'article-list__item__image--loading';
-	image.className = 'full_width article-list__item__image--loading';
-	// image.style = 'width: 100%';
+	// image.className = 'full_width article-list__item__image--loading'; 
+	image.className = 'full_width article-list__item__image--loading border'; 
 
+	image.setAttribute("id", 'id_img' + photo_list[0]['id_image']);
+	image.setAttribute("onclick","openModal(this.id)");
 	// add source 
-	image.src = list_items[0];
-	// remove from list
-	list_items.shift();
+	image.src = photo_list[0]['path'];
 	
 	// Create anchor element. 
 	const a = document.createElement('a');
 	// Set the href property. 
-	a.href = "";
+	a.href = "#";
 
 	a.appendChild(image);
 
@@ -57,11 +56,14 @@ function getArticle() {
 	
 	const btn_wrapper = document.createElement('div');
 	btn_wrapper.className = 'd-flex justify-content-center';
+	btn_wrapper.setAttribute("id", "reaction");
 
 	const btn_like = document.createElement('button');
 	btn_like.className = 'btn';
-	number_like = 10;
+	number_like = photo_list[0]['total_like'];
 	btn_like.innerHTML = '<i class="fas fa-heart icon-7x"></i>' + " " + number_like;
+	btn_like.style.color = photo_list[0]['mylike'] > 0 ? "#ff5011" : "#bcb7b7";
+
 	btn_wrapper.appendChild(btn_like);
 
 	const btn_comment = document.createElement('button');
@@ -73,11 +75,12 @@ function getArticle() {
 	card.appendChild(article);
 	card.appendChild(btn_wrapper);
 
+	// remove from list
+	photo_list.shift();
 	return card;
 }
 
 function getArticlePage(page, articlesPerPage = 6) {
-	// console.log("page" + page);
 
 	const pageElement = document.createElement('div');
 	pageElement.id = getPageId(page);
@@ -95,13 +98,10 @@ function getArticlePage(page, articlesPerPage = 6) {
 
 
 	rowBreaker = articlesPerPage / 2; 
-	// console.log("rowBreaker " + rowBreaker);
 
 	while (articlesPerPage--) {
-		// console.log("while articles per page " + articlesPerPage);
-		// console.log("length " + list_items.length);
 		
-		if (list_items.length > 0) {
+		if (photo_list.length > 0) {
 			if (articlesPerPage < 6 && articlesPerPage >= rowBreaker) {
 				page1stRow.appendChild(getArticle());
 			}
@@ -141,12 +141,13 @@ function addPage(page) {
 
 
 let db_data = [];
-let list_items = [];
 const articleList = document.getElementById('article-list');
 const articleListPagination = document.getElementById('article-list-pagination');
 let length = 0
 let page = 0
 
+
+let photo_list = [];
 
 function getContent() {
 	data = {};
@@ -154,28 +155,20 @@ function getContent() {
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			// let previewList = document.getElementById ("preview-list");
-			// previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
 			temp = JSON.parse(this.responseText);
-			// db_data = temp['res'];
-			// console.log(db_data['res']);
 			db_data = temp['res'];
-			// alert("path " + window.location.pathname);
-			// temp3 = window.location.pathname;
-			// temp4 = temp3.split(firstPath)[0];
-			// alert("path spit " + temp4);
-
-			console.log(db_data);
+	
 			let i;
 			length = db_data.length
 			if (db_data.length > 0){
 				for (i = 0; i < db_data.length; i++){
-					// list_items[i] = firstPath + "/" + db_data[i]['path'];
-					list_items[i] = "/" + firstPath + "/" + db_data[i]['path'];
+					photo_list[i] = db_data[i];
 				}
-				// document.getElementById('empty').style.height = 0;
+				for (i = 0; i < photo_list.length; i++){
+					photo_list[i]['path'] = "/" + firstPath + "/" + photo_list[i]['path'];
+				}
 			}
-			if (list_items.length > 0) {
+			if (photo_list.length > 0) {
 				addPage(++page);
 			}
 		}
@@ -193,7 +186,7 @@ window.onload = function (){
 
 window.onscroll = function(){
 	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
-	if (list_items.length > 0) {
+	if (photo_list.length > 0) {
 		addPage(++page);
 	}
 };

@@ -65,4 +65,6 @@
 		</div>
 	</div>
 </div>
+<script src="<?php echo URLROOT; ?>/public/js/photobooth.js"></script>
+
 <?php require 'app/views/inc/footer.php'; ?>

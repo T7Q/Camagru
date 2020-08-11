@@ -96,6 +96,10 @@
 
 /* modal box */
 
+button i {
+	pointer-events: none;
+  }
+
 /* .popup-image {
 	position: relative;
 	max-width: 100%;

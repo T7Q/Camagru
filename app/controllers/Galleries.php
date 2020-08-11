@@ -7,99 +7,62 @@
 		}
 		
 		public function all($param = ''){
-		
-
-			// if ($this->isAjaxRequest() ) {
-			
-
-			// 	$raw_id = isset($_POST['id']) ? $_POST['id'] : '';
-			
-
-			// 	if ($raw_id == 'like'){
-
-			// 		$list_items = array(
-			// 			"https://bit.ly/3fRAAjW",
-			// 			"https://bit.ly/3juMiDi",
-			// 			"https://bit.ly/3eUJiMW",
-			// 			"https://bit.ly/3fRAAjW",
-			// 			"https://bit.ly/3juMiDi",
-			// 			"https://bit.ly/3eUJiMW",
-			// 			"https://bit.ly/2WNuzxg",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N",
-			// 			// "https://bit.ly/3fNEn1N",
-			// 			// "https://bit.ly/3fNEn1N",
-			// 			// "https://bit.ly/3fNEn1N",
-			// 			// "https://bit.ly/3fNEn1N",
-			// 			"https://bit.ly/3fNEn1N"
-			// 		);
-				
-			// 		echo json_encode($list_items);
-			// 		// $this->view('gallery/test');
-			// 	} else if($param == 'show'){
-			// 		echo "hello";
-			// 	}
-			// } else {
-			$data = [
-				'title' => 'About Us',
-			];
-			$this->view('gallery/gallery', $data);
-			// }
+			$this->view('gallery/gallery');
 		}
 
 		public function show() {
 			if ($this->isAjaxRequest()) {
-				sleep(10);
-				
 				$this->view('gallery/test');
-			
-			// 	// echo json_encode($list_items);
-				
 			} else {
 				$this->view('users/register');
-			}
-		}
-
-		public function test() {
-			if ($this->isAjaxRequest()) {
-				
-				// echo "ajax request";
-				$this->view('gallery/test2');
-			
-			// 	// echo json_encode($list_items);
-				
-			} else {
-				echo "NOT ajax request";
-				// $this->view('users/register');
 			}
 		}
 
 		public function getImages() {
 		if ($this->isAjaxRequest()) {
 			if (isset($_POST['data'])) {
+				if (isset($_SESSION['user_id'])) {
+					$id_user = $_SESSION['user_id'];
+				} else {
+					$id_user = 0;
+				}
 				$data = json_decode($_POST['data'], true);
-
-				// $temp = $this->galleryModel->getAllImages();
-				// $json['res'] = $temp;
-
 				if($this->galleryModel->galleryExists()){
 					$json['res'] = "gallery";
-					$temp = $this->galleryModel->getAllImages();
+					$temp = $this->galleryModel->getAllImages($id_user);
 					$json['res'] = $temp;
 				} else {
 					$json['res'] = "Gallery is empty";
+				}				
+			} else {
+				$json['message'] = "Oops, something went wrong getting images for Gallery";
+			}
+            echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+
+	}
+
+
+	public function getImageData() {
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
+				$temp = explode("id_img", $data['id_image']);
+				$id_image = $temp[1];
+				$json['message'] = "got reponse" . $id_image;
+				// $json['res'] = "Got this in php" + $data['id_image'];
+				$id_user = $_SESSION['user_id'];
+				if($this->galleryModel->imageExists($id_image)){
+					$json['message'] = "before call";
+					$temp = $this->galleryModel->getImageData($id_user, $id_image);
+					$json['message'] = $temp;
+					$json['valid'] = true;
+				} else {
+					$json['message'] = "Image is not found";
 				}
 			
-				// if($data['test']  === "hello"){
-				// } else {
-				// 	$json['res'] = "Did not receive hello";
-				// }
 				
 			} else {
 				$json['message'] = "Oops, something went wrong getting images for Gallery";
@@ -110,5 +73,78 @@
 		}
 
 	}
+
+	public function deleteImgDb() {
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
+				$temp = explode("del_img", $data['id_image']);
+				$id = $temp[1];
+				$json['message'] = "got reponse" . $id;
+				// $json['res'] = "Got this in php" + $data['id_image'];
+				
+				if($this->galleryModel->imageExists($id)){
+					$json['message'] = "before call";
+					$temp = $this->galleryModel->deleteImage($id);
+					$json['message'] = "succes";
+				} else {
+					$json['message'] = "Image is not found";
+				}
+			
+				
+			} else {
+				$json['message'] = "Oops, something went wrong getting images for Gallery";
+			}
+            echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+	}
+
+
+	public function like() {
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
+				$temp = explode("like", $data['id_image']);
+				$id_image = $temp[1];
+				$id_user = $_SESSION['user_id'];
+				$json['message'] = "got to like";
+				if($this->galleryModel->imageExists($id_image)){
+					$json['message'] = "before call";
+
+					if($this->galleryModel->isLiked($id_user, $id_image)){
+						// unlike
+						if($this->galleryModel->unlikeImage($id_user, $id_image)){
+							$json['message'] = "false";
+							// $json['count'] = $this->galleryModel->likeCount($id_image);
+						} else{
+							$json['message'] = "Failed updating db in unlike";
+						}
+					} else {
+						// like
+						if($this->galleryModel->likeImage($id_user, $id_image)){
+							$json['message'] = "true";
+						} else{
+							$json['message'] = "Failed updating db in unlike";
+						}
+					}
+					
+					$json['count'] = $this->galleryModel->likeCount($id_image);
+				} else {
+					$json['message'] = "Image is not found";
+				}
+			
+				
+			} else {
+				$json['message'] = "Oops, something went wrong getting images for Gallery";
+			}
+            echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+	}
+
+
 }
 ?>

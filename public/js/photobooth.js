@@ -117,7 +117,7 @@ const saveImage = function (id) {
 			// let previewList = document.getElementById ("preview-list");
 			// previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
 			temp = JSON.parse(this.responseText);
-			alert("response recieved from SAVE" + temp['res']);
+			// alert("response recieved from SAVE" + temp['res']);
 			document.getElementById("div_" + id).remove();
 			// alert("response recieved from SAVE: " + temp['message']);
 		}

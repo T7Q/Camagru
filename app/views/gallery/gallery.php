@@ -28,10 +28,11 @@
 								</div>
 								<div class="col mx-auto">
 									<div class="row embed-responsive embed-responsive-4by3">
-										<img src="https://bit.ly/2XPEz9M" alt="Girl in a jacket" class="embed-responsive-item">
+										<img src="https://bit.ly/2XPEz9M" id="pop-up-img" alt="Girl in a jacket" class="embed-responsive-item">
 									</div>
-									<div class="row">
-										<button type="button" class="btn btn-outline-danger btn-sm" onclick="delete(this.id)" id="USER_ID">Delete</button>
+									<div class="row" id="pop-up-del">
+										<!-- <button type="button" class="btn btn-outline-danger btn-sm" onclick="delete(this.id)" id="USER_ID">Delete</button> -->
+										<button type="button" class="btn btn-outline-danger btn-sm" >Delete</button>
 									</div>
 								</div>
 								<div class="col-1 mx-auto d-flex  align-items-center">
@@ -48,15 +49,18 @@
 										<div class="col pl-0">
 											<img src="https://bit.ly/2XPEz9M" alt="Girl in a jacket" class="rounded img-thumbnail">
 										</div>
-										<div class="col">User
+										<div id="pop-up-username" class="col">User
 										</div>
-										<div class="col pr-0">
-											<button type="button" class="btn btn-outline-success btn-sm" onclick="follow(this.id)" id="USER_ID">Follow</button>
+										<div id="pop-up-follow" class="col pr-0">
+											<button type="button" class="btn btn-outline-success btn-sm">Follow</button>
 										</div>
 									</div>
 									<hr class="pr-0">
 									<div class="row"> User1: comment</div>
-									<div class="row"><button class="btn"><i class="fas fa-heart icon-7x"></i> 0</button><button class="btn"><i class="fas fa-comment icon-7x"></i> 0</button></div>
+									<div id="pop-up-reaction" class="row">
+										<button class="btn"><i class="fas fa-heart icon-7x"></i></button>
+										<button class="btn"><i class="fas fa-comment icon-7x"></i></button>
+									</div>
 									<div class="row"> enter your comment here</div>
 								</div>
 								<div class="col-1"></div>
@@ -69,5 +73,8 @@
 	</div>
 	<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
 
+<script src="<?php echo URLROOT; ?>/public/js/gallery.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/image.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/modalbox.js"></script>
 
 <?php require 'app/views/inc/footer.php'; ?>
