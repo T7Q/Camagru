@@ -1,7 +1,8 @@
 <?php require 'app/views/inc/header.php'; ?>
 
 <div class="container">
-	<!-- <h1 class="mt-3 mb-3">CREATE YOUR OWN PHOTOS</h1> -->
+	<h1 class="mt-3 mb-3">CREATE YOUR OWN PHOTOS</h1>
+	<div id="alert-body" class="p-3 m-3 rounded text-center d-none"></div>
 	<div class="row mt-2">
 		<div class="col-md-7 border">
 			<!-- camera window -->

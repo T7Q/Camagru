@@ -1,0 +1,14 @@
+.success {
+	color: #3eba3a;
+    background-color: rgba(62, 186, 58, 0.1)
+}
+
+.failure {
+    color: #cc3300;
+    background-color: rgba(204, 51, 0, 0.1);
+}
+
+.warning {
+    color: #ffc000;
+    background-color: rgba(255, 192, 0, 0.1);
+}

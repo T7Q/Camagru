@@ -34,7 +34,7 @@ const startStream = function () {
 				isVideoLoaded = false;
 			})
 			.catch(function (err0r) {
-				alert("Oops smth went wrong, check if you enabled camera..");
+				alertBox("failure", "Oops smth went wrong, check if you enabled camera..", "alert-body");
 			})
 	}
 	video.addEventListener('canplay', function(ev){
@@ -97,6 +97,8 @@ function takePhoto(){
 		if (this.readyState == 4 && this.status == 200) {
 			let previewList = document.getElementById ("preview-list");
 			previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
+			alertBox("success", "Check result in Preview are", "alert-body");
+			
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/images/create", true);
@@ -120,6 +122,7 @@ const saveImage = function (id) {
 			// alert("response recieved from SAVE" + temp['res']);
 			document.getElementById("div_" + id).remove();
 			// alert("response recieved from SAVE: " + temp['message']);
+			alertBox("success", "Photo successfuly saved, check it in the Gallery", "alert-body");
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/images/save", true);
