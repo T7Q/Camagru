@@ -1,1 +1,0 @@
-hello from user view
