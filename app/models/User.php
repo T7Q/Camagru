@@ -192,11 +192,11 @@ class User
 		// Validate Email
 		if (empty($data['email'])) {
 			$data['email_err'] = 'Please enter email';
-		} else {
-			// Check email
-			if ($this->findUserByEmail($data['email'])) {
+		} else if (!((filter_var($data['email'], FILTER_VALIDATE_EMAIL)))){
+			$data['email_err'] = 'Invalid email';
+		} 
+		else if ($this->findUserByEmail($data['email'])) {
 				$data['email_err'] = 'Account with this email already exists';
-			}
 		}
 
 		// Validate Username

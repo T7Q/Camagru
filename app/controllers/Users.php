@@ -14,16 +14,16 @@
 				// process form
 
 				// Sanitize POST data
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+				// $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
 				// Init data
 				$data = [
-					'first_name' => trim($_POST['first_name']),
-					'last_name' => trim($_POST['last_name']),
-					'username' => trim($_POST['username']),
-					'password' => trim($_POST['password']),
-					'confirm_password' => trim($_POST['confirm_password']),
-					'email' => trim($_POST['email']),
+					'first_name' => trim(filter_var($_POST['first_name'], FILTER_SANITIZE_STRING)),
+					'last_name' => trim(filter_var($_POST['last_name'], FILTER_SANITIZE_STRING)),
+					'username' => trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING)),
+					'password' => trim(filter_var($_POST['password'], FILTER_SANITIZE_STRING)),
+					'confirm_password' => trim(filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING)),
+					'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
 					'first_name_err' => '',
 					'last_name_err' => '',
 					'username_err' => '',
@@ -35,6 +35,7 @@
 				$this->userModel->validateEmailUsername($data);
 				$this->userModel->validateConfirmPassword($data);
 				$this->userModel->validatePasswordFormat($data);
+
 				
 				// Make sure errors are empty
 				if (empty($data['email_err']) && empty($data['username_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
