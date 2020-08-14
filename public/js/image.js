@@ -1,10 +1,5 @@
-// private
 // buttons use as profile pic -> update database 
-// button remove iamge
-// chat
-// like
 // follow/unfollow
-// remove comment
 
 // buttons
 const likeModal = document.getElementById('pop-up-reaction').firstElementChild;
@@ -13,28 +8,103 @@ const followModal = document.getElementById('pop-up-follow').firstElementChild;
 const deleleModal = document.getElementById('pop-up-del').firstElementChild;
 const imgModal = document.getElementById('pop-up-img');
 const usernameModal = document.getElementById('pop-up-username');
+const postComment = document.getElementById('post-comment');
+
+
+// const deleteComment = function (div) {
+function deleteComment(){
+	// identify which comment to delete 
+	// id = this.parentElement.getAttribute("id");
+	let temp = this.getAttribute("id");
+	let id_comment = temp.split('delcomment')[1];
+
+	// id = this.getAttribute("id");
+	data = {};
+	data.id_comment = id_comment;
+
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {			
+			res = JSON.parse(this.responseText);
+			// alertBox("success", res['message'], "alert-modal");
+			// console.log("message: " + res['message']);
+			console.log("Loggedin: " + res['loggedIn']);
+			console.log("message2: " + res['message2']);
+			if (res['valid'] === true){
+				alertBox("success", res['message'], "alert-modal")
+				document.getElementById("id_comment" + id_comment).remove();
+				
+				// document.getElementById('comment_body' + res['id_image']).innerHTML = res['count'];
+				// document.getElementById('comment' + res['id_image']).firstElementChild.innerHTML = res['count'];
+
+			} else {
+				alertBox("failure", res['message'], "alert-modal");
+				return false;
+			}
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/galleries/deletecomment", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}
+
+function createComment(id_comment, id_user, comment_text){
+	const comment = document.createElement('p');
+	comment.className = 'row';
+	comment.setAttribute("id", "id_comment" + id_comment);
+	comment.innerHTML = "<span class=\"font-weight-bold mr-1\" >" + 
+		id_user+ "</span><span class=\"font-weight-light\">" + 
+		comment_text + "</span>\
+		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-outline-light btn-sm rounded\">×</button>\
+		";
+
+	comment.lastElementChild.addEventListener('click', deleteComment);
+	// document.getElementById('comment-list').appendChild(comment);
+	return comment;
+}
 
 function getDetails(param){
     data = {};
-    data.id_image = param;
+	data.id_image = param;
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-            temp = JSON.parse(this.responseText);
-			db_data = temp['message'];
+			res = JSON.parse(this.responseText);
+			db_data = res['message'];
             db_data[0].path = "/" + firstPath + "/" + db_data[0].path;
-            // console.log("return: " + db_data[0]['username']); // OTHER OPTION
-            // console.log("Applied id like: " + db_data[0].id_image);
 
             imgModal.src = db_data[0].path;
 			usernameModal.innerHTML = db_data[0].username;
-			deleleModal.setAttribute("id", "del_img" + db_data[0].id_image);
-			likeModal.setAttribute("id", "like" + db_data[0].id_image);
+			temp_list = res['comment_list'];
+			temp_len = temp_list.length;
+
+			// clear previously attached comments 
+			document.getElementById('comment-list').innerHTML = "";
+
+			// append all comments to the DOM
+			for (let i = 0; i < temp_len; i++){
+				let id_comment = temp_list[i]['id_comment'];
+				let id_user = temp_list[i]['username'];
+				let comment_text = temp_list[i]['comment']
+				let comment = createComment(id_comment, id_user, comment_text);
+				document.getElementById('comment-list').appendChild(comment);
+			}
+			if(res['loggedIn'] === true){
+				deleleModal.setAttribute("id", "del_img" + db_data[0].id_image);
+				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
+			} else {
+				document.getElementById('pop-up-del').classList.add("d-none");
+			}
+			likeModal.setAttribute("id", "modallike" + db_data[0].id_image);
+			likeModal.setAttribute("onclick","like(this.id)");
 			commentModal.setAttribute("id", "comment" + db_data[0].id_image);
 			followModal.setAttribute("id", "follow" + db_data[0].id_user);
+			followModal.setAttribute("onclick","follow(this.id)");
+			postComment.setAttribute("id", "post" + db_data[0].id_image);
 
 			likeModal.firstElementChild.innerHTML = "  " + db_data[0].total_like;
-			likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "#bcb7b7";
+			commentModal.firstElementChild.innerHTML = "  " + db_data[0].total_comment;
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/galleries/getImageData", true);
@@ -45,19 +115,21 @@ function getDetails(param){
 
 
 
-// event listerner on "Delete" button
+// event listerner on "Delete" image button (only available for image owners)
 deleleModal.addEventListener('click', function(e) {
-	// console.log("element id:" + e.target.id );
     data = {};
     data.id_image = e.target.id;
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-            temp = JSON.parse(this.responseText);
+			temp = JSON.parse(this.responseText);
 			db_data = temp['message'];
-			closeModal();
-			location.reload();
-			// ? ADD ALERT THAT IT HAS BEEN DELETED
+
+			alertBox("success", "Your image has been successfully deleted!", "alert-modal");
+			setTimeout(function(){
+				closeModal();
+			}, 5000);
+			location.reload()
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/galleries/deleteImgDb", true);
@@ -68,25 +140,119 @@ deleleModal.addEventListener('click', function(e) {
 }, false);
 
 
-likeModal.addEventListener('click', function(e) {
+function like (id_image_input){
+	// check if like pressed in gallery or modal box
+	const type = id_image_input.split("like");
+	const id_image = type[1];
 	data = {};
-	data.id_image = e.target.id;
+	data.id_image = id_image;
+
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {			
-			temp = JSON.parse(this.responseText);
-			db_data = temp['message'];
-			// console.log("liked: " + temp['message']);
-			// console.log("COUNT liked: " + temp['count']);
-			likeModal.firstElementChild.style.color = temp['message'] === "true" ? "#ff5011" : "#bcb7b7";
-			likeModal.firstElementChild.innerHTML = "  " + temp['count'];
-
+			res = JSON.parse(this.responseText);
+			loggedIn = res['loggedIn'];
+			if (loggedIn === true){
+				if (type[0] == "modal"){
+					// update likes in the modal box					
+					let img_modal = document.getElementById("modallike" + id_image);
+					img_modal.firstElementChild.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
+					img_modal.firstElementChild.innerHTML = res['count'];					
+				}
+				// update likes in the gallery
+				let img_body = document.getElementById("bodylike" + id_image);
+				img_body.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
+				img_body.firstElementChild.innerHTML = res['count'];
+			} else {
+				if (type[0] == "modal"){
+					alertBox("failure", res['message'], "alert-modal");
+				} else {
+					alertBox("failure", res['message'], "alert-body");
+				}
+			}
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/galleries/like", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
+}
+	
+
+
+function follow (id_user_input){
+	const type = id_user_input.split("follow");
+	const id_user = type[1];
+	data = {};
+	data.id_user_to_follow = id_user;
+
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {			
+			res = JSON.parse(this.responseText);
+			loggedIn = res['loggedIn'];
+			
+			if (loggedIn === true){
+				if ( res['message'] === "follow"){
+					followModal.classList.remove("btn-outline-success");
+					followModal.classList.add("btn-outline-secondary");
+					followModal.innerHTML = "Unfollow";
+				} else {
+					followModal.classList.remove("btn-outline-secondary");
+					followModal.classList.add("btn-outline-success");
+					followModal.innerHTML = "Follow";
+				}
+			} else {
+					alertBox("failure", res['message'], "alert-modal");
+			}
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/galleries/follow", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}
+
+
+
+postComment.addEventListener('submit', function(e) {
+	event.preventDefault();
+	data = {};
+	data.id_image = e.target.id;
+	// let new_id = e.target.id;
+	data.comment = document.getElementById("post-comment-text").value;
+
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {			
+			res = JSON.parse(this.responseText);
+			loggedIn = res['loggedIn'];
+
+			// console.log("valid:" + res['valid']);
+			// console.log("id_user:" + res['comment_info'].id_user);
+			// console.log("id_comment:" + res['comment_info'].id_comment);
+			// console.log("comment:" + res['comment_info'].comment);
+			if (loggedIn === true){
+				if(res['valid'] === true){
+					postComment.reset();
+					let id_comment = res['comment_info'].id_comment;
+					let id_user = res['comment_info'].id_user;
+					let comment_text = res['comment_info'].comment;
+					let comment = createComment(id_comment, id_user, comment_text);
+					document.getElementById('comment-list').appendChild(comment);
+					commentModal.firstElementChild.innerHTML = "  " + res['comment_total'];
+					document.getElementById('comment_body' + res['comment_info'].id_image).firstElementChild.innerHTML = res['comment_total'];
+				} else {
+					alertBox("failure", res['message'], "alert-modal");
+				}
+			} else {
+				alertBox("failure", "You need to be logged in to leave a comment", "alert-modal");
+			}
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/galleries/postcomment", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
 
 }, false);
-	

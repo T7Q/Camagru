@@ -60,20 +60,29 @@ function getArticle() {
 
 	const btn_like = document.createElement('button');
 	btn_like.className = 'btn';
+	btn_like.setAttribute("id", 'bodylike' + photo_list[0]['id_image']);
+	btn_like.setAttribute("onclick","like(this.id)");
 	number_like = photo_list[0]['total_like'];
-	btn_like.innerHTML = '<i class="fas fa-heart icon-7x"></i>' + " " + number_like;
-	btn_like.style.color = photo_list[0]['mylike'] > 0 ? "#ff5011" : "#bcb7b7";
+	// btn_like.innerHTML = '<i class="fas fa-heart icon-7x"></i>' + '<span>' + number_like + '</span>';
+	btn_like.innerHTML = '<i class="fas fa-heart icon-7x">' + number_like +'</i>';
+
+	if (loggedIn === true){
+		btn_like.style.color = photo_list[0]['mylike'] > 0 ? "#ff5011" : "black";
+	}
 
 	btn_wrapper.appendChild(btn_like);
 
 	const btn_comment = document.createElement('button');
 	btn_comment.className = 'btn';
-	number_comment = 0;
-	btn_comment.innerHTML = '<i class="fas fa-comment icon-7x"></i>' + " " + number_comment;
+	btn_comment.setAttribute("id", 'comment_body' + photo_list[0]['id_image']);
+	number_comment = photo_list[0]['total_comment'];
+	btn_comment.innerHTML = '<i class="fas fa-comment icon-7x">' + number_comment + '</i>';
+
 	btn_wrapper.appendChild(btn_comment);
 
 	card.appendChild(article);
 	card.appendChild(btn_wrapper);
+	
 
 	// remove from list
 	photo_list.shift();
@@ -148,6 +157,7 @@ let page = 0
 
 
 let photo_list = [];
+let loggedIn = false;
 
 function getContent() {
 	data = {};
@@ -157,6 +167,8 @@ function getContent() {
 		if (this.readyState == 4 && this.status == 200) {
 			temp = JSON.parse(this.responseText);
 			db_data = temp['res'];
+			loggedIn = temp['loggedIn'];
+			// alert("user loggedin: " + temp['loggedIn']);
 	
 			let i;
 			length = db_data.length

@@ -91,7 +91,7 @@ function takePhoto(){
 	canvas.getContext('2d').drawImage(target, 0, 0, width, height);
 	data.img_data = canvas.toDataURL('image/png');
 	data.filters = appliedFilters;
-
+	canvas.remove(); // ADDED
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {

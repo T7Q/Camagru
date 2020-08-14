@@ -2,6 +2,7 @@
 @import "home.css"; 
 @import "photobooth.css"; 
 @import "alert.css"; 
+@import "image.css"; 
 
 
 * {
@@ -11,6 +12,10 @@
 html, body {
 	/* height: 100%; */
 	overflow-y: scroll;
+}
+
+.body {
+	min-height:101%;
 }
 
 .half-height {

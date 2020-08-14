@@ -15,6 +15,9 @@
 	
 	<link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/style.css">
 
+	<!-- To silence warning about absence of favicon -->
+	<link rel="shortcut icon" href="~/favicon.ico">
+
 	<title><?php echo SITENAME; ?></title>
 
 </head>

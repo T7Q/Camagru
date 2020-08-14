@@ -84,5 +84,9 @@
 			$this->stmt = $this->dbh->prepare($sql);
 			$this->stmt->execute();
 		}
+
+		public function lastInsertId(){
+			return $this->dbh->lastInsertId();
+		}
 	}
 ?>
