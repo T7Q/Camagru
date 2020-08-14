@@ -83,20 +83,33 @@
 			if (isset($_POST['data'])) {
 				$data = json_decode($_POST['data'], true);
 				$temp = explode("del_img", $data['id_image']);
-				$id = $temp[1];
-				$json['message'] = "got reponse" . $id;
-				// $json['res'] = "Got this in php" + $data['id_image'];
-				
-				if($this->galleryModel->imageExists($id)){
-					$json['message'] = "before call";
-					$temp = $this->galleryModel->deleteImage($id);
-					$json['message'] = "succes";
+				$id_image = $temp[1];
+
+				$id_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
+				$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
+				if (isset($_SESSION['user_id'])){
+					if($this->galleryModel->imageExists($id_image)){
+						$image_owner = $this->galleryModel->imageOwner($id_image);
+						$json['valid'] = false;
+						// $json['message'] = $image_owner->id_user;
+						if ($id_user === $image_owner->id_user){
+							$temp = $this->galleryModel->deleteImage($id_image);
+							$json['valid'] = true;
+							$json['message'] = "Successfully deleted";
+						} else {
+							$json['valid'] = false;
+							$json['message'] = "You can't delete other user images";
+						}
+					} else {
+						$json['valid'] = false;
+						$json['message'] = "Image does not exist";
+					}
 				} else {
-					$json['message'] = "Image is not found";
+					$json['valid'] = false;
+					$json['message'] = "You need to be logged in to remove image";
 				}
-			
-				
 			} else {
+				$json['valid'] = false;
 				$json['message'] = "Oops, something went wrong getting images for Gallery";
 			}
             echo json_encode($json);
@@ -193,7 +206,7 @@
 					$json['followers'] = $this->galleryModel->followersCount($id_user);
 
 				} else {
-					$json['message'] = "You need to be logged in to like";
+					$json['message'] = "You need to be logged in to follow";
 				}
 			
 				
@@ -272,17 +285,16 @@
 
 
 				if (isset($_SESSION['user_id'])){					
-					$json['message2'] = "id_comment: " . $id_comment;
-					$temp = $this->galleryModel->findImgByComment($id_comment); // CAN'T FIND IMG
-					$json['message2'] = "id_image: " . $temp['id_image'];
+					// $json['message2'] = "id_comment: " . $id_comment;
+					$temp = $this->galleryModel->findImgByComment($id_comment);
+					$json['id_image'] = $temp->id_image;
 					if($this->galleryModel->commentExists($id_comment, $id_user)){
 						$json['valid'] = true;
 						if($this->galleryModel->deleteComment($id_comment)){
 							// $json['message'] = "id_comment: " . $id_comment;
 							$json['valid'] = true;
 							$json['message'] = "Comment was successfully removed";
-
-							// $json['count'] = $this->galleryModel->commentCount($id_image);
+							$json['count'] = $this->galleryModel->commentCount($temp->id_image);
 						} else {
 							$json['valid'] = false;
 							$json['message'] = "Something went wrong deleting your comment";

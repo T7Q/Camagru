@@ -171,18 +171,13 @@
 			$this->database->bind(':id_image', $id_image);
 			return $this->database->resultSet();
 		}
-		// public function getImageComments($id_image){
-		// 	$this->database->query('
-		// 		SELECT * FROM `comment` WHERE id_image = :id_image
-		// 		ORDER BY created_at ASC');
-		// 	$this->database->bind(':id_image', $id_image);
-		// 	return $this->database->resultSet();
-		// }
 
 		public function getOneComment($id_comment){
 			$this->database->query('
-				SELECT * FROM `comment` WHERE id_comment = :id_comment
-				ORDER BY created_at ASC');
+				SELECT comment.comment, comment.id_comment,comment.id_user, comment.id_image, user.username FROM `comment` 
+				JOIN `user` ON comment.id_user = user.id_user 
+				WHERE id_comment = :id_comment
+				');
 			$this->database->bind(':id_comment', $id_comment);
 			return $this->database->single();
 		}
@@ -266,6 +261,13 @@
 			} else {
 				return false;
 			}			
+		}
+
+
+		public function imageOwner($id_image) {
+			$this->database->query('SELECT id_user FROM `gallery` WHERE id_image = :id_image');
+			$this->database->bind(':id_image', $id_image);
+			return $this->database->single();
 		}
 
 

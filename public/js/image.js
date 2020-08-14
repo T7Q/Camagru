@@ -13,12 +13,9 @@ const postComment = document.getElementById('post-comment');
 
 // const deleteComment = function (div) {
 function deleteComment(){
-	// identify which comment to delete 
-	// id = this.parentElement.getAttribute("id");
 	let temp = this.getAttribute("id");
 	let id_comment = temp.split('delcomment')[1];
 
-	// id = this.getAttribute("id");
 	data = {};
 	data.id_comment = id_comment;
 
@@ -26,16 +23,12 @@ function deleteComment(){
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {			
 			res = JSON.parse(this.responseText);
-			// alertBox("success", res['message'], "alert-modal");
-			// console.log("message: " + res['message']);
-			console.log("Loggedin: " + res['loggedIn']);
-			console.log("message2: " + res['message2']);
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-modal")
 				document.getElementById("id_comment" + id_comment).remove();
 				
-				// document.getElementById('comment_body' + res['id_image']).innerHTML = res['count'];
-				// document.getElementById('comment' + res['id_image']).firstElementChild.innerHTML = res['count'];
+				document.getElementById('comment_body' + res['id_image']).firstElementChild.innerHTML = res['count'];
+				document.getElementById('comment' + res['id_image']).firstElementChild.innerHTML = res['count'];
 
 			} else {
 				alertBox("failure", res['message'], "alert-modal");
@@ -49,14 +42,14 @@ function deleteComment(){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-function createComment(id_comment, id_user, comment_text){
+function createComment(id_comment, username, comment_text){
 	const comment = document.createElement('p');
 	comment.className = 'row';
 	comment.setAttribute("id", "id_comment" + id_comment);
 	comment.innerHTML = "<span class=\"font-weight-bold mr-1\" >" + 
-		id_user+ "</span><span class=\"font-weight-light\">" + 
+		username+ "</span><span class=\"font-weight-light\">" + 
 		comment_text + "</span>\
-		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-outline-light btn-sm rounded\">×</button>\
+		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-outline-secondary btn-sm rounded\">×</button>\
 		";
 
 	comment.lastElementChild.addEventListener('click', deleteComment);
@@ -85,9 +78,9 @@ function getDetails(param){
 			// append all comments to the DOM
 			for (let i = 0; i < temp_len; i++){
 				let id_comment = temp_list[i]['id_comment'];
-				let id_user = temp_list[i]['username'];
+				let username = temp_list[i]['username'];
 				let comment_text = temp_list[i]['comment']
-				let comment = createComment(id_comment, id_user, comment_text);
+				let comment = createComment(id_comment, username, comment_text);
 				document.getElementById('comment-list').appendChild(comment);
 			}
 			if(res['loggedIn'] === true){
@@ -122,21 +115,22 @@ deleleModal.addEventListener('click', function(e) {
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			temp = JSON.parse(this.responseText);
-			db_data = temp['message'];
-
-			alertBox("success", "Your image has been successfully deleted!", "alert-modal");
-			setTimeout(function(){
-				closeModal();
-			}, 5000);
-			location.reload()
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				alertBox("success", res['message'], "alert-modal");
+				setTimeout(function(){
+					closeModal();
+				}, 5000);
+				location.reload()
+			} else {
+				alertBox("failure", res['message'], "alert-modal");
+			}
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/galleries/deleteImgDb", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
-
 }, false);
 
 
@@ -236,9 +230,9 @@ postComment.addEventListener('submit', function(e) {
 				if(res['valid'] === true){
 					postComment.reset();
 					let id_comment = res['comment_info'].id_comment;
-					let id_user = res['comment_info'].id_user;
+					let username = res['comment_info'].username;
 					let comment_text = res['comment_info'].comment;
-					let comment = createComment(id_comment, id_user, comment_text);
+					let comment = createComment(id_comment, username, comment_text);
 					document.getElementById('comment-list').appendChild(comment);
 					commentModal.firstElementChild.innerHTML = "  " + res['comment_total'];
 					document.getElementById('comment_body' + res['comment_info'].id_image).firstElementChild.innerHTML = res['comment_total'];
