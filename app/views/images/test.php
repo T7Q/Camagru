@@ -1,1 +1,0 @@
-from view images/test.php
