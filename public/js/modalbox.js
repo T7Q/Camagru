@@ -1,10 +1,17 @@
 // enable bootsrap modal box functionality
 
 function openModal(param) {
+    event.preventDefault();
+    console.log("param: " + param);
     // customize the output see in image.js
     if (param != null){
         // console.log("param: " + param);
-        getDetails(param);
+        if (param == "edit"){
+            getProfileData();
+            console.log("PARAM: " + param);
+        } else {
+            getDetails(param);
+        }
     }
 
     document.getElementById("backdrop").style.display = "block"
