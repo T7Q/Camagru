@@ -4,6 +4,7 @@
 		<!-- <div class="col-md-6 mx-auto"> -->
 		<div class="col-md-6 m-auto">
 			<div class="card card-body bg-light mt-5">
+				<?php $this->flash('loggedin'); ?>
 				<?php $this->flash('register_success'); ?>
 				<h2>SIGN IN</h2>
 				<p>Please fill in your credentials to sign in</p>

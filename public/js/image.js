@@ -222,10 +222,6 @@ postComment.addEventListener('submit', function(e) {
 			res = JSON.parse(this.responseText);
 			loggedIn = res['loggedIn'];
 
-			// console.log("valid:" + res['valid']);
-			// console.log("id_user:" + res['comment_info'].id_user);
-			// console.log("id_comment:" + res['comment_info'].id_comment);
-			// console.log("comment:" + res['comment_info'].comment);
 			if (loggedIn === true){
 				if(res['valid'] === true){
 					postComment.reset();

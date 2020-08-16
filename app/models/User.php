@@ -212,6 +212,19 @@ class User
 		return $this->database->single();
 	}
 
+
+	public function userExists($id_user){
+		$this->database->query('SELECT * FROM gallery WHERE id_user = :id_user');
+		$this->database->bind(':id_user', $id_user);
+
+		$row = $this->database->resultSet();
+		if ($this->database->rowCount() > 0) {
+			return true;
+		} else {
+			return false;
+		}		
+	}
+
 	public function validateEmailUsername(&$data){
 		// Validate Email
 		if (empty($data['email'])) {

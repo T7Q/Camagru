@@ -6,6 +6,7 @@
 		}
 		
 		public function photo(){
+			$loggedIn = $this->checkAccessRights();
 			$data = [
 				'title' => 'About Us',
 			];

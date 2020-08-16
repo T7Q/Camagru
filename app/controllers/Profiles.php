@@ -12,6 +12,7 @@ class Profiles extends Controller {
 
 		// REDIRECT TO ERROR PAGE IF NOT LOGGED IN 
 		// ADD SAME TO PHOTOBOOTH
+		$loggedIn = $this->checkAccessRights();
 
 		// Init data
 		$data = [

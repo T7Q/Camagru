@@ -16,12 +16,6 @@
 			}
 			// Instatiate model
 			return new $model();
-
-			// // Require model file
-			// require_once './app/models/' . $model . '.php';
-	  
-			// // Instatiate model
-			// return new $model();
 		}
 
 		// Load view
@@ -73,5 +67,28 @@
 				}
 			}
 		}
+
+		// public function checkAccessRights($id_user) {
+		// 	header('location: ' . URLROOT . '/' . $page);
+		// 	header('Connection: close');
+		// 	exit;
+		// }
+
+		// Check that user is logged in and exists in db. Otherwise redirect to gallery page
+		public function checkAccessRights() {
+			if (isset($_SESSION['user_id'])) {
+				$id_user = $_SESSION['id_user'];
+				if ($this->model('User')->userExists($id_user)) {
+					return $id_user;
+				} else {
+					unset($_SESSION['user']);
+				}
+			} else {
+				$this->flash('loggedin', 'You need to be logged in', '');
+				$this->view('users/login');
+				exit();
+			}
+		}
+
 	}
 ?>
