@@ -182,6 +182,7 @@ function getContent() {
 			}
 			if (photo_list.length > 0) {
 				addPage(++page);
+				addPage(++page);
 			}
 		}
 	}
@@ -202,3 +203,4 @@ window.onscroll = function(){
 		addPage(++page);
 	}
 };
+

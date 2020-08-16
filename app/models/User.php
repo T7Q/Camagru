@@ -143,6 +143,16 @@ class User
 		}
 	}
 
+	// Finad useremail by user ID
+	public function getEmailByUserId($id_user)
+	{
+		$this->database->query('SELECT email FROM user WHERE id_user = :id_user');
+		$this->database->bind(':id_user', $id_user);
+
+		return $this->database->single();
+	}
+
+
 	// Get user info
 	public function getUserInfo($email) {
 		$this->database->query('SELECT * FROM user WHERE email = :email');

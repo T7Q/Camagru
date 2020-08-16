@@ -52,7 +52,14 @@
 			return $this->database->single();
 		}
 
-		public function message($purpose, $url, $username){
+		public function getUserNameById($id_user){
+			$this->database->query('SELECT username FROM user WHERE id_user = :id_user');
+			$this->database->bind(':id_user', $id_user);
+			return $this->database->single();
+		}
+
+
+		public function message($purpose, $input_data, $username){
 			$data = [
 				'subject' => '',
 				'message' => '',
@@ -63,18 +70,27 @@
 					$data['subject'] = 'Reset your password for '.SITENAME;
 
 					$data['message'] = "<div style=\"background-color:#f3f3f3;\">";
-        			$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">Hello, " . $username . "!</h2>";
+        			$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">Hello, " . ucwords($username) . "!</h2>";
 					$data['message'] .= '<p style="text-align:center;color:#0099ff;">We received a password reset request. The link to reset your password is below. If you did not make this request, you can ignore this email.</p>';
 					$data['message'] .= '<p style="text-align:center;color:#0099ff;">Here is your password reset ';
-					$data['message'] .= '<a href="'.$url.'"> link </a></p>';
+					$data['message'] .= '<a href="'.$input_data.'"> link </a></p>';
 					$data['message'] .= '<p style="text-align:center; color:#0099ff;"><small>Camagru team</p></div>';
 			} else if ($purpose == 'activate') {
 				$data['subject'] = 'Account activation for '.SITENAME;
 				
 				$data['message'] = "<div style=\"background-color:#f3f3f3;\">";
-				$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">" . $username . ", welcome to Camagru! </h2>";
+				$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">" . ucwords($username) . ", welcome to Camagru! </h2>";
 				$data['message'] .= '<p style="text-align:center;color:#0099ff;">Here is your account activation ';
-				$data['message'] .= '<a href="'.$url.'">link</a></p>';
+				$data['message'] .= '<a href="'.$input_data.'">link</a></p>';
+				$data['message'] .= '<p style="text-align:center; color:#0099ff;"><small>Camagru team</p></div>';
+			} else if ($purpose == 'notification') {
+				$comment_author = $this->getUserNameById($input_data->id_user);
+				$data['subject'] = ucwords($comment_author->username). " commented your photo in ".SITENAME;
+				
+				$data['message'] = "<div style=\"background-color:#f3f3f3;\">";
+				$data['message'] .= "<h2 style=\"text-align:center; color:#0000ff; font-family:sans-serif;\">" . ucwords($username) . ", hi! </h2>";
+				$data['message'] .= '<p style="text-align:center;color:#0099ff;">'. ucwords($comment_author->username) .' commented on your photo: ';
+				$data['message'] .= '<q>' . ucwords($input_data->comment) . '</q></p>';
 				$data['message'] .= '<p style="text-align:center; color:#0099ff;"><small>Camagru team</p></div>';
 			}
 			
@@ -85,7 +101,7 @@
 			return $data;
 		}
 
-		public function sendEmail($email, $purpose){
+		public function sendEmail($email, $purpose, $comment_info = ""){
 			$token = $this->createToken($email);
 	
 			// get username
@@ -93,14 +109,17 @@
 			$username = $user->username;
 			
 			if ($purpose == 'pwd_reset'){
-				$url = URLROOT. "/emails/pwdreset/" . $username . "/" . $token;
+				$data = URLROOT. "/emails/pwdreset/" . $username . "/" . $token;
 			} else if ($purpose == 'activate') {
-				$url = URLROOT. "/emails/activateaccount/" . $username . "/" . $token;
+				$data = URLROOT. "/emails/activateaccount/" . $username . "/" . $token;
+			} else if ($purpose == 'notification') {
+				$data = $comment_info;
 			}
 			
 			$to = $email;
-			$message = $this->message($purpose, $url, $username);
+			$message = $this->message($purpose, $data, $username);
 			mail($to, $message['subject'], $message['message'], $message['headers']);
 		}
+
 	}
 ?>

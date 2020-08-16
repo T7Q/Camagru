@@ -174,7 +174,7 @@
 
 		public function getOneComment($id_comment){
 			$this->database->query('
-				SELECT comment.comment, comment.id_comment,comment.id_user, comment.id_image, user.username FROM `comment` 
+				SELECT comment.comment, comment.id_comment, comment.id_user, comment.id_image, user.username FROM `comment` 
 				JOIN `user` ON comment.id_user = user.id_user 
 				WHERE id_comment = :id_comment
 				');

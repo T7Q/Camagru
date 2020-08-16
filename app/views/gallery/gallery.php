@@ -15,7 +15,9 @@
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
 		role="dialog">
 		<!-- <div class="modal-dialog modal-xl" role="document"> -->
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+
+		<!-- <div class="modal-dialog modal-lg" role="document"> -->
 			<div class="modal-content">
 				<div class="modal-header">
 					<div id="alert-modal" class="p-3 m-3 rounded text-center d-none"></div>			
@@ -68,7 +70,7 @@
 									</div>
 									<div class="row">
 										<form id="post-comment" class="form-inline">
-											<textarea class="form-control" placeholder="Add a comment" id="post-comment-text" rows="1"></textarea>
+											<textarea class="form-control" placeholder="Add a comment" id="post-comment-text" rows="1" maxlength="150"></textarea>
 											<button class="btn btn-outline-primary btn-sm">Post</button>
 										</form>
 									</div>

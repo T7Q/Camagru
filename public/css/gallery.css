@@ -19,7 +19,7 @@
 	vertical-align: middle;
 	z-index: 1;
 }
-/* .article-list__item {
+.article-list__item {
 	background-color: #eee;
 	float: left;
 	height: 15em;
@@ -32,7 +32,7 @@
 .article-list__item:hover {
 	opacity: 1;
 	transform: scale(1);
-} */
+}
 
 .article-list__item__image--loading {
 	opacity: 0;

@@ -4,6 +4,9 @@
 		public function __construct(){
 			$this->galleryModel = $this->model('Gallery');
 			$this->imageModel = $this->model('Image');
+			$this->emailModel = $this->model('Email');
+			$this->userModel = $this->model('User');
+			$this->profileModel = $this->model('Profile');
 		}
 		
 		public function all($param = ''){
@@ -233,20 +236,30 @@
 
 				$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
 
-				if(strlen($comment_text) > 0){
+				if(strlen($comment_text) > 0 && strlen($comment_text) < 150){
 					$id_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
 
 					if($this->galleryModel->imageExists($id_image)){					
 						if (isset($_SESSION['user_id'])){
 							if($this->galleryModel->saveComment($id_user, $id_image, $comment_text)){
 								$id_comment = $this->galleryModel->lastInsertId();
-								$json['comment_info'] = $this->galleryModel->getOneComment($id_comment);
+								$comment_info = $this->galleryModel->getOneComment($id_comment);
+								$json['comment_info'] = $comment_info;
+								// $json['comment_info'] = $this->galleryModel->getOneComment($id_comment);
 								$json['valid'] = true;
 								$json['message'] = "Comment has been saved";
-								
-								// $json['id_image'] = $id_image;
-								// $json['id_user'] = $id_user;
 								$json['comment_total'] =  $this->galleryModel->commentCount($id_image);
+								$id_image_owner = $this->galleryModel->imageOwner($id_image);
+								$notification = $this->profileModel->getNotificationSetting($id_image_owner->id_user);
+								$json['message'] = "Email has been send to" . $id_image_owner->id_user;
+								if($notification->notification_preference == 1){
+									$temp = $this->userModel->getEmailByUserId($id_image_owner->id_user);
+									$email = $temp->email;
+									$json['message'] = $temp->email;
+									$this->emailModel->sendEmail($email, 'notification', $comment_info);
+									$json['message'] = "email sent to " . $id_image_owner->id_user;
+									// $json['message'] = "Email has been send to" . $temp->email;
+								}
 							}
 							else {
 								$json['valid'] = false;
@@ -259,7 +272,7 @@
 					}
 				} else {
 					$json['valid'] = false;
-				$json['message'] = "Seems like you forgot to write your commment";
+				$json['message'] = "Comment must contain less that 150 characters";
 				}
 			} else {
 				$json['valid'] = false;
