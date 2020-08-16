@@ -77,11 +77,13 @@
 		// Check that user is logged in and exists in db. Otherwise redirect to gallery page
 		public function checkAccessRights() {
 			if (isset($_SESSION['user_id'])) {
-				$id_user = $_SESSION['id_user'];
+				$id_user = $_SESSION['user_id'];
 				if ($this->model('User')->userExists($id_user)) {
 					return $id_user;
 				} else {
-					unset($_SESSION['user']);
+					$this->flash('loggedin', 'You need to be logged in', '');
+					$this->view('users/login');
+					exit();
 				}
 			} else {
 				$this->flash('loggedin', 'You need to be logged in', '');
