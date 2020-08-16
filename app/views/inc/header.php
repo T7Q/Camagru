@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+	<title><?php echo SITENAME; ?></title>
+
 	<!-- Google fonts  -->
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Public+Sans:wght@100;200&family=Roboto+Mono:wght@200&family=Roboto:ital,wght@0,100;1,300&display=swap" rel="stylesheet">
 
@@ -18,7 +20,7 @@
 	<!-- To silence warning about absence of favicon -->
 	<link rel="shortcut icon" href="~/favicon.ico">
 
-	<title><?php echo SITENAME; ?></title>
+	
 
 </head>
 <body>
