@@ -1,7 +1,3 @@
-// infinite scroll
-// button like active 
-// onclick open image.php
-
 function getPageId(n) {
 	return 'article-page-' + n;
 }
@@ -89,7 +85,7 @@ function getArticle() {
 	return card;
 }
 
-function getArticlePage(page, articlesPerPage = 6) {
+function getArticlePage(page, articlesPerPage = imagesOnPage) {
 
 	const pageElement = document.createElement('div');
 	pageElement.id = getPageId(page);
@@ -111,7 +107,7 @@ function getArticlePage(page, articlesPerPage = 6) {
 	while (articlesPerPage--) {
 		
 		if (photo_list.length > 0) {
-			if (articlesPerPage < 6 && articlesPerPage >= rowBreaker) {
+			if (articlesPerPage < imagesOnPage && articlesPerPage >= rowBreaker) {
 				page1stRow.appendChild(getArticle());
 			}
 			if (articlesPerPage < rowBreaker && articlesPerPage >= 0) {
@@ -182,7 +178,6 @@ function getContent() {
 			}
 			if (photo_list.length > 0) {
 				addPage(++page);
-				addPage(++page);
 			}
 		}
 	}
@@ -197,10 +192,36 @@ window.onload = function (){
 	getContent();
 }
 
-window.onscroll = function(){
-	if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
-	if (photo_list.length > 0) {
-		addPage(++page);
-	}
-};
 
+function scrollReaction() {
+	let content_height = articleList.offsetHeight;
+	let current_y = window.innerHeight + window.pageYOffset;
+	console.log(current_y + '/' + content_height);
+	if (current_y >= content_height){
+		console.log("TRIGGER");
+		if (photo_list.length > 0) {
+			console.log("ADD PAGE");
+			addPage(++page);
+		}
+	}
+}
+
+window.onscroll = function () {
+	console.log("scroll");
+	scrollReaction();
+}
+
+
+let windowHeight = window.innerHeight + window.pageYOffset;
+let imagesOnPage = 6;
+
+// calculate how many images show on the page
+if (windowHeight < 1200) {
+	imagesOnPage = 12;
+} else if (windowHeight < 1800) {
+    imagesOnPage = 24;
+} else if (windowHeight < 2500) {
+    imagesOnPage = 36;
+} else {
+    imagesOnPage = 48;
+}
