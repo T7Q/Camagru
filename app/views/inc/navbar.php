@@ -19,7 +19,7 @@
             <a class="nav-link" href="<?php echo URLROOT; ?>/photobooth/photo">PHOTOBOOTH</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/profiles/user">PROFILE</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/profiles/user/<?php echo $_SESSION['user_id']; ?>">PROFILE</a>
           </li>
         
         <?php else : ?>

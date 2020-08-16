@@ -11,9 +11,11 @@
     <div class="col">
       <div class="row">
         <h2 id="username" class="mr-5"><?php echo $data['username']; ?></h2>
+        <?php if($data['show_edit_button']) : ?>
         <button id="edit" type="button" class="btn btn-outline-secondary" onclick='openModal(this.id)'>
             Edit profile
         </button>
+        <?php endif; ?>
       </div>
       <div class="row">
         <span>
@@ -43,84 +45,92 @@
             <div class="modal-body">
               <!-- TOGGLE -->
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
+                <label class="btn btn-outline-secondary active">
                   <input type="radio" name="options" id="change-profile" autocomplete="off" checked onclick="switchtab(this.id)"> Profile
                 </label>
-                <label class="btn btn-secondary">
+                <label class="btn btn-outline-secondary">
                   <input type="radio" name="options" id="change-pwd" autocomplete="off" onclick="switchtab(this.id)"> Password
                 </label>
-                <label class="btn btn-secondary">
+                <label class="btn btn-outline-secondary">
                   <input type="radio" name="options" id="change-notification" autocomplete="off" onclick="switchtab(this.id)"> Notification
                 </label>
               </div>
               <!-- end Toggle -->
 
               <!-- profile -->
-              <div id="profile-modal" class="mt-2">
-                <form>
+              <div id="profile-modal" class="mt-3">
+
+                <div id="alert-profile" class="p-3 m-3 rounded text-center d-none"></div>  
+
+                <form id="profile-form">
                   <div class="form-group">
-                    <label for="username" class="col-form-label" placeholder="Username">Username:</label>
-                    <input type="text" class="form-control" id="username">
+                    <label for="username-form" class="col-form-label">Username:</label>
+                    <input type="text" name="username" class="form-control" required id="username-form" maxlength="25">
                   </div>
                   <div class="form-group">
                     <label for="first-name" class="col-form-label">First name:</label>
-                    <input type="text" class="form-control" id="first-name" placeholder="First">
+                    <input type="text" name="first_name" class="form-control" id="first-name-form" maxlength="25">
                   </div>
                   <div class="form-group">
-                    <label for="last-name" class="col-form-label">Last name:</label>
-                    <input type="text" class="form-control" id="last-name" placeholder="Last">
+                    <label for="last-name-form" class="col-form-label">Last name:</label>
+                    <input type="text" name="last_name" class="form-control" id="last-name-form" maxlength="25">
                   </div>
                   <div class="form-group">
-                    <label for="email" class="col-form-label">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="email">
+                    <label for="email-form" class="col-form-label">Email:</label>
+                    <input type="email" name="email" class="form-control" required id="email-form">
                   </div>
+                  <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
               </div>
               <!-- end profile  -->
 
               <!-- password -->
-              <div id="pwd-modal" class="mt-2 d-none">
-                <form>
+              <div id="pwd-modal" class="mt-3 d-none">
+              
+              <div id="alert-pwd" class="p-3 m-3 rounded text-center d-none"></div>  
+
+                <form id="pwd-form">
                   <div class="form-group">
                     <label for="currentPwd">Current password<sup>*</sup></label>
-                    <input type="password" class="form-control" id="currentPwd" placeholder="Password">
+                    <input type="password" name="currentPwd" class="form-control" id="currentPwd" placeholder="Password">
                   </div>
                   <div class="form-group">
                     <label for="newPwd">New password<sup>*</sup></label>
-                    <input type="password" class="form-control" id="newPwd" placeholder="Password">
+                    <input type="password" name="newPwd" class="form-control" id="newPwd" placeholder="Password">
                   </div>
                   <div class="form-group">
                     <label for="ConfirmPwd">Confirm new password<sup>*</sup></label>
-                    <input type="password" class="form-control" id="ConfirmPwd" placeholder="Password">
+                    <input type="password" name="ConfirmPwd" class="form-control" id="ConfirmPwd" placeholder="Password">
                   </div>
+                  <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
               </div>
               <!-- endpassword -->
 
               <!-- notification  -->
-              <div id="notify-modal" class="mt-2 d-none">
+              <div id="notify-modal" class="mt-3 d-none">
+                
+                <div id="alert-notify" class="p-3 m-3 rounded text-center d-none"></div>  
+
+
                 <p>
-                  <span>Notifications are sent if your image was liked or commented.</span>
+                  <span>An email notification is sent if your image was liked or commented.</span>
                 </p>
-                <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-success active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> On
-                  </label>
-                  <label class="btn btn-success">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Off
-                  </label>
-                </div> -->
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="notificationSwitch" checked>
-                  <label class="custom-control-label" for="notificationSwitch">Notifications are on</label>
+                <div class="custom-control custom-switch"> 
+                
+                  <input type="checkbox" class="custom-control-input" id="notification-switch" <?php echo ($data['notification'] == 1) ? 'checked' : ''; ?>>
+                  <!-- <input type="checkbox" class="custom-control-input" id="notification-switch" checked> -->
+                  <label class="custom-control-label" for="notification-switch">Update your notificaton settings here</label>
                 </div>
               </div>
               <!-- end notif -->
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <!-- <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>

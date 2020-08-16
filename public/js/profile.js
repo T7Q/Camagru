@@ -74,21 +74,15 @@ function switchtab(id_activate){
 }
 
 function getProfileData(){
-	console.log("GOT TO PROFILE DATA");
     data = {};
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 			res = JSON.parse(this.responseText);
-			db_data = res['message'];
-
-            // imgModal.src = db_data[0].path;
-			// usernameModal.innerHTML = db_data[0].username;
-			// temp_list = res['comment_list'];
-			// temp_len = temp_list.length;
-
-			// clear previously attached comments 
-			document.getElementById('comment-list').innerHTML = "";
+            document.getElementById('username-form').setAttribute("value", res['data'].username);
+            document.getElementById('first-name-form').setAttribute("value", res['data'].first_name);
+            document.getElementById('last-name-form').setAttribute("value", res['data'].last_name);
+            document.getElementById('email-form').setAttribute("value", res['data'].email);
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/profiles/getProfileData", true);
@@ -97,3 +91,109 @@ function getProfileData(){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
+
+
+let profileForm = document.getElementById('profile-form');
+profileForm.onsubmit = function (event){
+	event.preventDefault();
+
+	data = {};
+	data.username = profileForm.username.value;
+	data.last_name = profileForm.last_name.value;
+	data.first_name = profileForm.first_name.value;
+	data.email = profileForm.email.value;
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				alertBox("success", res['message'], "alert-profile");
+			} else {
+				alertBox("failure", res['message'], "alert-profile");
+			}
+			console.log("response: " + res['message']);
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserData", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}
+
+
+let pwdForm = document.getElementById('pwd-form');
+pwdForm.onsubmit = function (event){
+	event.preventDefault();
+
+	data = {};
+	data.currentpwd = pwdForm.currentPwd.value;
+	data.newpwd = pwdForm.newPwd.value;
+	data.confirmpwd = pwdForm.ConfirmPwd.value;
+	console.log(pwdForm.currentPwd.value, pwdForm.newPwd.value, pwdForm.ConfirmPwd.value )
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				alertBox("success", res['message'], "alert-pwd");
+			} else {
+				alertBox("failure", res['message'], "alert-pwd");
+			}
+			console.log("response: " + res['message']);
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserPwd", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}
+
+
+let notificationToggle= document.getElementById('notification-switch');
+notificationToggle.addEventListener('change', function () {
+	console.log("change");
+	let notification;
+	if (notificationToggle.checked) {
+		notification = 1;
+	  console.log('Checked');
+	} else {
+	  notification = 0;
+	  console.log('Not checked');
+	}
+	
+	notificationToggle.disabled = true;
+	// document.getElementsByClassName('custom-switch').disabled = true;
+	data = {};
+	data.notification = notification;
+
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				alertBox("success", res['message'], "alert-notify");
+				notificationToggle.disabled = false;
+				// document.getElementsByClassName('custom-switch').disabled = false;
+				if (res['notification'] === 1){
+					if(!notificationToggle.checked){
+							notificationToggle.addAttribute("checked");
+						}
+					} else {
+					if(notificationToggle.checked){
+						notificationToggle.removeAttribute("checked");
+					}
+				}
+ 
+			} else {
+				alertBox("failure", res['message'], "alert-notify");
+			}
+			console.log("response: " + res['message']);
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserNotification", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+
+
+  });

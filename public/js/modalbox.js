@@ -2,13 +2,11 @@
 
 function openModal(param) {
     event.preventDefault();
-    console.log("param: " + param);
     // customize the output see in image.js
     if (param != null){
         // console.log("param: " + param);
         if (param == "edit"){
             getProfileData();
-            console.log("PARAM: " + param);
         } else {
             getDetails(param);
         }

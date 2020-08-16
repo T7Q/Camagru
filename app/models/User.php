@@ -188,6 +188,20 @@ class User
 		}
 	}
 
+	public function getUserByEmail($email){
+		$this->database->query('SELECT id_user FROM user WHERE email = :email');
+		$this->database->bind(':email', $email);
+
+		return $this->database->single();
+	}
+
+	public function getUserByUsername($username){
+		$this->database->query('SELECT id_user FROM user WHERE username = :username');
+		$this->database->bind(':username', $username);
+
+		return $this->database->single();
+	}
+
 	public function validateEmailUsername(&$data){
 		// Validate Email
 		if (empty($data['email'])) {
@@ -196,7 +210,14 @@ class User
 			$data['email_err'] = 'Invalid email';
 		} 
 		else if ($this->findUserByEmail($data['email'])) {
+			if (array_key_exists("id_user", $data)){
+				$temp = $this->getUserByEmail($data['email']);
+				if (!($data['id_user'] == $temp->id_user)){
+					$data['email_err'] = 'Account with this email already exists';
+				}
+			} else {
 				$data['email_err'] = 'Account with this email already exists';
+			}
 		}
 
 		// Validate Username
@@ -207,7 +228,14 @@ class User
 		} else if (strlen($data['username']) > 25) {
 			$data['username_err'] =  "Username must be less than 25 characters";
 		} else if ($this->findUserByUsername($data['username'])) {
-			$data['username_err'] = 'This username has already been taken';
+			if (array_key_exists("id_user", $data)){
+				$temp = $this->getUserByUsername($data['username']);
+				if (!($data['id_user'] == $temp->id_user)){
+					$data['username_err'] = 'This username has already been taken';
+				}
+			} else {
+				$data['username_err'] = 'This username has already been taken';
+			}
 		}
 
 		// Validate First Name
@@ -228,5 +256,6 @@ class User
 			$data['last_name_err'] =  "Last name must be less than 25 characters";
 		}
 	}
+
 
 }
