@@ -60,11 +60,11 @@
 					$json['message'] = $temp;
 					$json['valid'] = true;
 					$json['comment_list'] = $this->galleryModel->getImageComments($id_image);
-					$json['loggedID'] = $id_user;
+					$json['idLoggedUser'] = $id_user;
 					if($this->galleryModel->alreadyFollow($id_user, $temp[0]->id_user)){
-						$json['follow'] = "true";
+						$json['follow'] = true;
 					} else {
-						$json['follow'] = "false";
+						$json['follow'] = false;
 					}
 			
 				} else {
@@ -248,6 +248,7 @@
 								$json['comment_info'] = $comment_info;
 								// $json['comment_info'] = $this->galleryModel->getOneComment($id_comment);
 								$json['valid'] = true;
+								$json['idLoggedUser'] = $_SESSION['user_id'];
 								$json['message'] = "Comment has been saved";
 								$json['comment_total'] =  $this->galleryModel->commentCount($id_image);
 								$id_image_owner = $this->galleryModel->imageOwner($id_image);

@@ -42,20 +42,24 @@ function deleteComment(){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-function createComment(id_comment, username, comment_text){
+function createComment(id_comment, username, comment_text, owncomment){
 	const comment = document.createElement('p');
 	comment.className = 'row d-flex flex-row align-items-center';
 	comment.setAttribute("id", "id_comment" + id_comment);
-	comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
-		username+ "</span><span class=\"font-weight-light small p-2\">" + 
+	if (owncomment === 1){
+		comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
+		username+ "</span><span class=\"font-weight-light small p-2 text-wrap\">" + 
 		comment_text + "</span>\
 		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-link btn-sm rounded ml-auto p-2\">\
 		<i class=\"far fa-times-circle\"></i>\
 		</button>\
 		";
-	
-	comment.lastElementChild.addEventListener('click', deleteComment);
-	// document.getElementById('comment-list').appendChild(comment);
+		comment.lastElementChild.addEventListener('click', deleteComment);
+	} else {
+		comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
+			username+ "</span><span class=\"font-weight-light small p-2\">" + 
+			comment_text + "</span>";
+	}
 	return comment;
 }
 
@@ -76,16 +80,41 @@ function getDetails(param){
 
 			// clear previously attached comments 
 			document.getElementById('comment-list').innerHTML = "";
-
+			let idLoggedUser = res['loggedIn'] === true ? res['idLoggedUser'] : 0;
 			// append all comments to the DOM
 			for (let i = 0; i < temp_len; i++){
 				let id_comment = temp_list[i]['id_comment'];
 				let username = temp_list[i]['username'];
 				let comment_text = temp_list[i]['comment']
-				let comment = createComment(id_comment, username, comment_text);
+				let button = idLoggedUser == temp_list[i]['id_user'] ? 1 : 0;
+				let comment = createComment(id_comment, username, comment_text, button);
 				document.getElementById('comment-list').appendChild(comment);
 			}
-			if(res['loggedIn'] === true){
+			console.log("logged: " + idLoggedUser + " img owner: " + db_data[0].id_user);
+			if (res['loggedIn'] === true){
+				if(followModal.classList.contains("d-none")){
+					followModal.classList.remove("d-none");
+				}
+				console.log("res follow: " + res['follow']);
+				if (res['follow'] === true){
+					
+					followModal.classList.remove("btn-outline-success");
+					followModal.classList.add("btn-outline-secondary");
+					followModal.innerHTML = "Unfollow";
+				} else {
+					followModal.classList.remove("btn-outline-secondary");
+					followModal.classList.add("btn-outline-success");
+					followModal.innerHTML = "Follow";
+				}
+			} else {
+				followModal.classList.add("d-none");
+			}
+
+			if((res['loggedIn'] === true) && (db_data[0].id_user == idLoggedUser)){
+				console.log("got to if");
+				if(document.getElementById('pop-up-del').classList.contains("d-none")){
+					document.getElementById('pop-up-del').classList.remove("d-none");
+				}
 				deleleModal.setAttribute("id", "del_img" + db_data[0].id_image);
 				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
 			} else {
@@ -93,6 +122,7 @@ function getDetails(param){
 			}
 			likeModal.setAttribute("id", "modallike" + db_data[0].id_image);
 			likeModal.setAttribute("onclick","like(this.id)");
+			likeModal.firstElementChild.style.color = "black";
 			commentModal.setAttribute("id", "comment" + db_data[0].id_image);
 			followModal.setAttribute("id", "follow" + db_data[0].id_user);
 			followModal.setAttribute("onclick","follow(this.id)");
@@ -223,14 +253,15 @@ postComment.addEventListener('submit', function(e) {
 		if (this.readyState == 4 && this.status == 200) {			
 			res = JSON.parse(this.responseText);
 			loggedIn = res['loggedIn'];
-
+			idLoggedUser = res['idLoggedUser'];
 			if (loggedIn === true){
 				if(res['valid'] === true){
 					postComment.reset();
 					let id_comment = res['comment_info'].id_comment;
 					let username = res['comment_info'].username;
 					let comment_text = res['comment_info'].comment;
-					let comment = createComment(id_comment, username, comment_text);
+					let button = idLoggedUser == res['comment_info'].id_user ? 1 : 0;
+					let comment = createComment(id_comment, username, comment_text, button);
 					document.getElementById('comment-list').appendChild(comment);
 					commentModal.firstElementChild.innerHTML = "  " + res['comment_total'];
 					document.getElementById('comment_body' + res['comment_info'].id_image).firstElementChild.innerHTML = res['comment_total'];
