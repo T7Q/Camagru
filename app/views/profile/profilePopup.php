@@ -1,8 +1,8 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="profileLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+                <h5 class="modal-title" id="profileLabel">Edit profile</h5>
                 <button type="button" class="close" aria-label="Close" onclick="closeModal()">
                     <span aria-hidden="true">×</span>
                 </button>

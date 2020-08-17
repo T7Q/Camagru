@@ -15,7 +15,7 @@ class Profiles extends Controller {
 
 		// REDIRECT TO ERROR PAGE IF NOT LOGGED IN 
 		// ADD SAME TO PHOTOBOOTH
-		$loggedIn = $this->checkAccessRights();
+		$this->checkAccessRights();
 
 		if (!($id_user_requested == '')){
 			// Init data
@@ -32,8 +32,8 @@ class Profiles extends Controller {
 			
 			if ($this->userModel->userExists($id_user)){
 				// check if requested profile is for logged in user
-				// $id_user = $_SESSION['user_id'];
-				$data['show_edit_button'] = ($id_user == $id_user_requested) ? 1 : 0;
+				$loggedin_user = $_SESSION['user_id'];
+				$data['show_edit_button'] = ($loggedin_user == $id_user) ? 1 : 0;
 
 				$data['following'] = $this->galleryModel->followingCount($id_user);
 				$data['followers'] = $this->galleryModel->followersCount($id_user);

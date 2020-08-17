@@ -9,7 +9,7 @@ const deleleModal = document.getElementById('pop-up-del').firstElementChild;
 const imgModal = document.getElementById('pop-up-img');
 const usernameModal = document.getElementById('pop-up-username');
 const postComment = document.getElementById('post-comment');
-
+const urlpath = '/' + window.location.pathname.split('/')[1];
 
 // const deleteComment = function (div) {
 function deleteComment(){

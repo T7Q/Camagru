@@ -59,7 +59,6 @@
 		}
 	}
 
-
 	public function getImageData() {
 		if ($this->isAjaxRequest()) {
 			if (isset($_POST['data'])) {
@@ -80,7 +79,6 @@
 					} else {
 						$json['follow'] = false;
 					}
-			
 				} else {
 					$json['message'] = "Image is not found";
 					$json['valid'] = false;
