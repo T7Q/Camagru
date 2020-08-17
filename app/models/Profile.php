@@ -109,6 +109,11 @@
 			return $this->database->single();	
 		}
 		
+		public function getAvatar($id_user){
+			$this->database->query('SELECT profile_pic_path FROM `user` WHERE id_user = :id_user');
+			$this->database->bind(':id_user', $id_user);
+			return $this->database->single();
+		}
 		
 
 

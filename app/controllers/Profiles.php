@@ -42,6 +42,9 @@ class Profiles extends Controller {
 				$temp = $this->profileModel->getNotificationSetting($id_user);
 				$data['notification'] = $temp->notification_preference;
 				$data['images'] = $this->profileModel->imageCount($id_user);
+				$temp = $this->profileModel->getAvatar($id_user);
+				$data['avatar'] = $temp->profile_pic_path;
+				//== null ? "/public/img/general/avatar.png" : $temp->profile_pic_path;
 				
 				$this->view('profile/userprofile', $data);
 			} else {

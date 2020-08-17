@@ -6,7 +6,8 @@
 
   <div class="row">
 	<div class="col d-flex justify-content-center">
-		<img src="<?php echo URLROOT; ?>/public/img/general/avatar.png" width="100px" height="100px" class="avatar img-thumbnail">
+		<!-- <img src="<?php echo URLROOT; ?>/public/img/general/avatar.png" width="100px" height="100px" class="avatar img-thumbnail"> -->
+		<img id="profile-pic" src="<?php echo URLROOT . "/" . $data['avatar']; ?>" width="100px" height="100px" class="avatar img-thumbnail">
 	</div>
 	<div class="col">
 		<div class="row">

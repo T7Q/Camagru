@@ -6,6 +6,7 @@ const likeModal = document.getElementById('pop-up-reaction').firstElementChild;
 const commentModal = document.getElementById('pop-up-reaction').lastElementChild;
 const followModal = document.getElementById('pop-up-follow').firstElementChild;
 const deleleModal = document.getElementById('pop-up-del').firstElementChild;
+const setAvatar = document.getElementById('set-profile-img').firstElementChild;
 const imgModal = document.getElementById('pop-up-img');
 const usernameModal = document.getElementById('pop-up-username');
 const postComment = document.getElementById('post-comment');
@@ -90,7 +91,7 @@ function getDetails(param){
 				let comment = createComment(id_comment, username, comment_text, button);
 				document.getElementById('comment-list').appendChild(comment);
 			}
-			console.log("logged: " + idLoggedUser + " img owner: " + db_data[0].id_user);
+			
 			if (res['loggedIn'] === true){
 				if(followModal.classList.contains("d-none")){
 					followModal.classList.remove("d-none");
@@ -106,27 +107,42 @@ function getDetails(param){
 					followModal.classList.add("btn-outline-success");
 					followModal.innerHTML = "Follow";
 				}
+				console.log("my like: "  + db_data[0].my_like);
+				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
+
 			} else {
 				followModal.classList.add("d-none");
+				likeModal.firstElementChild.style.color = "black";
 			}
-
+			
+			console.log("before updat");
+			console.log("before update" + db_data[0].id_user + "loggedin " +idLoggedUser);
 			if((res['loggedIn'] === true) && (db_data[0].id_user == idLoggedUser)){
-				console.log("got to if");
+				console.log("IF");
+				
 				if(document.getElementById('pop-up-del').classList.contains("d-none")){
 					document.getElementById('pop-up-del').classList.remove("d-none");
 				}
 				deleleModal.setAttribute("id", "del_img" + db_data[0].id_image);
-				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
+
+				// set as profile image
+				if(document.getElementById('set-profile-img').classList.contains("d-none")){
+					document.getElementById('set-profile-img').classList.remove("d-none");
+				}
+				setAvatar.setAttribute("id", "avatar" + db_data[0].id_image);
+				
 			} else {
 				document.getElementById('pop-up-del').classList.add("d-none");
+				document.getElementById('set-profile-img').classList.add("d-none");
 			}
 			likeModal.setAttribute("id", "modallike" + db_data[0].id_image);
 			likeModal.setAttribute("onclick","like(this.id)");
-			likeModal.firstElementChild.style.color = "black";
 			commentModal.setAttribute("id", "comment" + db_data[0].id_image);
 			followModal.setAttribute("id", "follow" + db_data[0].id_user);
 			followModal.setAttribute("onclick","follow(this.id)");
 			postComment.setAttribute("id", "post" + db_data[0].id_image);
+			document.getElementById('user-link').setAttribute('href', "/" + firstPath + "/profiles/user/" + db_data[0].id_user);
+			document.getElementById("user-avatar").src = "/" + firstPath + "/" + res['avatar'].profile_pic_path; /// here
 
 			likeModal.firstElementChild.innerHTML = db_data[0].total_like;
 			commentModal.firstElementChild.innerHTML = db_data[0].total_comment;
@@ -137,8 +153,6 @@ function getDetails(param){
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
-
-
 
 // event listerner on "Delete" image button (only available for image owners)
 deleleModal.addEventListener('click', function(e) {
@@ -166,6 +180,34 @@ deleleModal.addEventListener('click', function(e) {
 }, false);
 
 
+// event listerner on "Set as profile" image button (only available for image owners)
+setAvatar.addEventListener('click', function(e) {
+    data = {};
+	data.id_image = e.target.id;
+	console.log("id_img:" + e.target.id)
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				document.getElementById("user-avatar").src = "/" + firstPath + "/" + res['path'];
+				alertBox("success", res['message'], "alert-modal");
+				if(document.getElementById("profile-pic")){
+					document.getElementById("profile-pic").src = "/" + firstPath + "/" + res['path'];
+				}
+			} else {
+				alertBox("failure", res['message'], "alert-modal");
+			}
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/galleries/setAvatar", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+}, false);
+
+
+
 function like (id_image_input){
 	// check if like pressed in gallery or modal box
 	const type = id_image_input.split("like");
@@ -179,15 +221,15 @@ function like (id_image_input){
 			res = JSON.parse(this.responseText);
 			loggedIn = res['loggedIn'];
 			if (loggedIn === true){
-				if (type[0] == "modal"){
-					// update likes in the modal box					
-					let img_modal = document.getElementById("modallike" + id_image);
-					img_modal.firstElementChild.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
-					img_modal.firstElementChild.innerHTML = res['count'];					
-				}
+				
+				// update likes in the modal box					
+				let img_modal = document.getElementById("modallike" + id_image);
+				img_modal.firstElementChild.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
+				img_modal.firstElementChild.innerHTML = res['count'];					
+				
 				// update likes in the gallery
 				let img_body = document.getElementById("bodylike" + id_image);
-				img_body.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
+				// img_body.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
 				img_body.firstElementChild.innerHTML = res['count'];
 			} else {
 				if (type[0] == "modal"){

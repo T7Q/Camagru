@@ -7,3 +7,12 @@
 .closeicon{
 	color: #bcb7b7;
 }
+
+.my-button-white{
+	color: #bcb7b7;
+	border: #bcb7b7;
+}
+
+.set-avatar{
+	z-index: 10;
+}

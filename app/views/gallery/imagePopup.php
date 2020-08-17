@@ -10,8 +10,11 @@
 				<div class="row m-0">
 					<!-- img -->
 					<div class="col-12 col-lg-7 p-0">
+						<div class="ml-5 mt-1 position-fixed set-avatar" id="set-profile-img">
+							<button type="button" class="btn btn-outline-secondary btn-sm my-button-white" >Set as profile pic</button>
+						</div>
 						<div class="row position-fixed ml-1 mt-1" id="pop-up-del">
-							<button type="button" class="btn btn-outline-danger btn-sm" ><i class="fas fa-trash-alt"></i></button>
+							<button type="button" class="btn btn-outline-secondary btn-sm my-button-white" ><i class="fas fa-trash-alt"></i></button>
 						</div>
 						<div class="row embed-responsive embed-responsive-4by3 m-0">
 							<img src="<?php echo URLROOT; ?>/public/img/general/loading.png" id="pop-up-img" alt="" class="embed-responsive-item">
@@ -22,10 +25,12 @@
 						<div class="pt-1">
 							<div class="row border-bottom d-flex flex-row align-items-center">
 								<div class="p-2">
-									<img src="<?php echo URLROOT; ?>/public/img/general/avatar.png" alt="user avatar" class="avatar img-thumbnail">
+									<img id="user-avatar" src="<?php echo URLROOT; ?>/public/img/general/avatar.png" alt="user avatar" class="avatar img-thumbnail">
 								</div>
-								<div class="p-2" id="pop-up-username">User
-								</div>
+								<a id="user-link" href="">
+									<div class="p-2" id="pop-up-username">
+									</div>
+								</a>
 								<div id="pop-up-follow" class="ml-auto p-2">
 									<button type="button" class="btn btn-outline-success btn-sm">Follow</button>
 								</div>

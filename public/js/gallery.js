@@ -18,7 +18,6 @@ function getScrollTop() {
 
 function getArticleImage() {
 	const image = new Image;
-	// image.className = 'full_width article-list__item__image--loading'; 
 	image.className = 'full_width article-list__item__image--loading border'; 
 
 	image.setAttribute("id", 'id_img' + photo_list[0]['id_image']);
@@ -51,15 +50,14 @@ function getArticle() {
 	article.appendChild(articleImage);
 	
 	const btn_wrapper = document.createElement('div');
-	btn_wrapper.className = 'd-flex justify-content-center card-img-overlay hide'; // updated
+	btn_wrapper.className = 'd-flex justify-content-center card-img-overlay hide';
 	btn_wrapper.setAttribute("id", "reaction");
 
 	const btn_like = document.createElement('button');
 	btn_like.className = 'btn';
 	btn_like.setAttribute("id", 'bodylike' + photo_list[0]['id_image']);
-	btn_like.setAttribute("onclick","like(this.id)");
+	// btn_like.setAttribute("onclick","like(this.id)");
 	number_like = photo_list[0]['total_like'];
-	// btn_like.innerHTML = '<i class="fas fa-heart icon-7x"></i>' + '<span>' + number_like + '</span>';
 	btn_like.innerHTML = '<i class="fas fa-heart icon-7x">' + " " + number_like +'</i>';
 
 	if (loggedIn === true){
@@ -214,18 +212,14 @@ window.onload = function (){
 function scrollReaction() {
 	let content_height = articleList.offsetHeight;
 	let current_y = window.innerHeight + window.pageYOffset;
-	// console.log(current_y + '/' + content_height);
 	if (current_y >= content_height){
-		// console.log("TRIGGER");
 		if (photo_list.length > 0) {
-			// console.log("ADD PAGE");
 			addPage(++page);
 		}
 	}
 }
 
 window.onscroll = function () {
-	console.log("scroll");
 	scrollReaction();
 }
 
