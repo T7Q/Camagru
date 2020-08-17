@@ -43,7 +43,7 @@ function getArticleImage() {
 
 function getArticle() {
 	const card = document.createElement('div');
-	card.className = 'col-md-4 mx-auto';
+	card.className = 'col-md-4 mx-auto mt-4';
 
 	const articleImage = getArticleImage();
 	const article = document.createElement('div');
@@ -51,7 +51,7 @@ function getArticle() {
 	article.appendChild(articleImage);
 	
 	const btn_wrapper = document.createElement('div');
-	btn_wrapper.className = 'd-flex justify-content-center';
+	btn_wrapper.className = 'd-flex justify-content-center card-img-overlay hide'; // updated
 	btn_wrapper.setAttribute("id", "reaction");
 
 	const btn_like = document.createElement('button');
@@ -60,7 +60,7 @@ function getArticle() {
 	btn_like.setAttribute("onclick","like(this.id)");
 	number_like = photo_list[0]['total_like'];
 	// btn_like.innerHTML = '<i class="fas fa-heart icon-7x"></i>' + '<span>' + number_like + '</span>';
-	btn_like.innerHTML = '<i class="fas fa-heart icon-7x">' + number_like +'</i>';
+	btn_like.innerHTML = '<i class="fas fa-heart icon-7x">' + " " + number_like +'</i>';
 
 	if (loggedIn === true){
 		btn_like.style.color = photo_list[0]['mylike'] > 0 ? "#ff5011" : "black";
@@ -72,7 +72,7 @@ function getArticle() {
 	btn_comment.className = 'btn';
 	btn_comment.setAttribute("id", 'comment_body' + photo_list[0]['id_image']);
 	number_comment = photo_list[0]['total_comment'];
-	btn_comment.innerHTML = '<i class="fas fa-comment icon-7x">' + number_comment + '</i>';
+	btn_comment.innerHTML = '<i class="fas fa-comment icon-7x">' + " " + number_comment + '</i>';
 
 	btn_wrapper.appendChild(btn_comment);
 
@@ -93,25 +93,27 @@ function getArticlePage(page, articlesPerPage = imagesOnPage) {
 	
 	const page1stRow = document.createElement('div');
 	page1stRow.id = 'row1';
-	page1stRow.className = 'row top30';
+	page1stRow.className = 'row mt-5';
 	pageElement.appendChild(page1stRow);
 	
-	const page2stRow = document.createElement('div');
-	page2stRow.id = 'row2';
-	page2stRow.className = 'row bottom30';
-	pageElement.appendChild(page2stRow);
+	// const page2stRow = document.createElement('div');
+	// page2stRow.id = 'row2';
+	// page2stRow.className = 'row mt-3 mb-3';
+	// pageElement.appendChild(page2stRow);
 
 
-	rowBreaker = articlesPerPage / 2; 
+	// rowBreaker = articlesPerPage / 2; 
+	rowBreaker = articlesPerPage; 
 
 	while (articlesPerPage--) {
 		
 		if (photo_list.length > 0) {
-			if (articlesPerPage < imagesOnPage && articlesPerPage >= rowBreaker) {
-				page1stRow.appendChild(getArticle());
-			}
+			// if (articlesPerPage < imagesOnPage && articlesPerPage >= rowBreaker) {
+			// 	page1stRow.appendChild(getArticle());
+			// }
 			if (articlesPerPage < rowBreaker && articlesPerPage >= 0) {
-				page2stRow.appendChild(getArticle());
+				page1stRow.appendChild(getArticle());
+				// page2stRow.appendChild(getArticle());
 			}
 		}
 	}
@@ -196,11 +198,11 @@ window.onload = function (){
 function scrollReaction() {
 	let content_height = articleList.offsetHeight;
 	let current_y = window.innerHeight + window.pageYOffset;
-	console.log(current_y + '/' + content_height);
+	// console.log(current_y + '/' + content_height);
 	if (current_y >= content_height){
-		console.log("TRIGGER");
+		// console.log("TRIGGER");
 		if (photo_list.length > 0) {
-			console.log("ADD PAGE");
+			// console.log("ADD PAGE");
 			addPage(++page);
 		}
 	}
@@ -213,7 +215,7 @@ window.onscroll = function () {
 
 
 let windowHeight = window.innerHeight + window.pageYOffset;
-let imagesOnPage = 6;
+let imagesOnPage = 12;
 
 // calculate how many images show on the page
 if (windowHeight < 1200) {

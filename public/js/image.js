@@ -44,14 +44,16 @@ function deleteComment(){
 
 function createComment(id_comment, username, comment_text){
 	const comment = document.createElement('p');
-	comment.className = 'row';
+	comment.className = 'row d-flex flex-row align-items-center';
 	comment.setAttribute("id", "id_comment" + id_comment);
-	comment.innerHTML = "<span class=\"font-weight-bold mr-1\" >" + 
-		username+ "</span><span class=\"font-weight-light\">" + 
+	comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
+		username+ "</span><span class=\"font-weight-light small p-2\">" + 
 		comment_text + "</span>\
-		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-outline-secondary btn-sm rounded\">×</button>\
+		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-link btn-sm rounded ml-auto p-2\">\
+		<i class=\"far fa-times-circle\"></i>\
+		</button>\
 		";
-
+	
 	comment.lastElementChild.addEventListener('click', deleteComment);
 	// document.getElementById('comment-list').appendChild(comment);
 	return comment;
@@ -96,8 +98,8 @@ function getDetails(param){
 			followModal.setAttribute("onclick","follow(this.id)");
 			postComment.setAttribute("id", "post" + db_data[0].id_image);
 
-			likeModal.firstElementChild.innerHTML = "  " + db_data[0].total_like;
-			commentModal.firstElementChild.innerHTML = "  " + db_data[0].total_comment;
+			likeModal.firstElementChild.innerHTML = db_data[0].total_like;
+			commentModal.firstElementChild.innerHTML = db_data[0].total_comment;
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/galleries/getImageData", true);

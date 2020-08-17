@@ -60,6 +60,7 @@
 					$json['message'] = $temp;
 					$json['valid'] = true;
 					$json['comment_list'] = $this->galleryModel->getImageComments($id_image);
+					$json['loggedID'] = $id_user;
 					if($this->galleryModel->alreadyFollow($id_user, $temp[0]->id_user)){
 						$json['follow'] = "true";
 					} else {
