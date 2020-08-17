@@ -24,17 +24,31 @@
 	public function getImages() {
 		if ($this->isAjaxRequest()) {
 			if (isset($_POST['data'])) {
-				$data = json_decode($_POST['data'], true); // ANY NEED OF THIS?
-
-				$id_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
-				$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
-				if($this->galleryModel->galleryExists()){
-					$json['valid'] = true;
-					$json['res'] = $this->galleryModel->getAllImages($id_user);
-				} else {
-					$json['message'] = "There are no photos yet, visit Photobooth to create some!";
-					$json['valid'] = false;
-				}				
+				$data = json_decode($_POST['data'], true);
+				
+				if ($data['id_user_for_gallery'] != 0){
+					// User image gallery sorted by creation date
+					$id_user = $data['id_user_for_gallery'];
+					$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
+					if($this->galleryModel->userGalleryExists($id_user)){
+						$json['valid'] = true;
+						$json['res'] = $this->galleryModel->getUserImages($id_user);
+					} else {
+						$json['message'] = "You dont have any photos yet, visit Photobooth to create some!";
+						$json['valid'] = false;
+					}
+				} else if ($data['id_user_for_gallery'] == 0){
+					// Gallery of all images sorted by creation date
+					$id_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
+					$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
+					if($this->galleryModel->galleryExists()){
+						$json['valid'] = true;
+						$json['res'] = $this->galleryModel->getAllImages($id_user);
+					} else {
+						$json['message'] = "There are no photos yet, visit Photobooth to create some!";
+						$json['valid'] = false;
+					}
+				}
 			} else {
 				$json['message'] = "Oops, something went wrong getting images for Gallery";
 				$json['valid'] = false;

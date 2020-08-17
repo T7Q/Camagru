@@ -214,10 +214,10 @@ class User
 
 
 	public function userExists($id_user){
-		$this->database->query('SELECT * FROM gallery WHERE id_user = :id_user');
+		$this->database->query('SELECT * FROM user WHERE id_user = :id_user');
 		$this->database->bind(':id_user', $id_user);
 
-		$row = $this->database->resultSet();
+		$row = $this->database->single();
 		if ($this->database->rowCount() > 0) {
 			return true;
 		} else {

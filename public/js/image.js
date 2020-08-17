@@ -51,7 +51,7 @@ function createComment(id_comment, username, comment_text, owncomment){
 		username+ "</span><span class=\"font-weight-light small p-2 text-wrap\">" + 
 		comment_text + "</span>\
 		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-link btn-sm rounded ml-auto p-2\">\
-		<i class=\"far fa-times-circle\"></i>\
+		<i class=\"far fa-times-circle closeicon\"></i>\
 		</button>\
 		";
 		comment.lastElementChild.addEventListener('click', deleteComment);

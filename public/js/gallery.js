@@ -160,6 +160,22 @@ let loggedIn = false;
 function getContent() {
 	data = {};
 	data.test = "hello";
+
+	let urlpath = window.location.pathname.split('/');
+	let path;
+	if (urlpath[2] === "galleries" && urlpath[3] === "all"){
+		path = "/" + firstPath + "/galleries/getimages";
+		data.id_user_for_gallery = 0;
+	} else if (urlpath[2] === "profiles" && urlpath[3] === "user" && urlpath[4] !== null){
+		path = "/" + firstPath + "/galleries/getimages/" + urlpath[4];
+		data.id_user_for_gallery = urlpath[4];
+	} else {
+		path = "incorrect path";
+		window.location.href = firstPath + "/galleries/all";
+	}
+	console.log("result " + path);
+
+	
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {

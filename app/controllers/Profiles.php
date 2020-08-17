@@ -8,35 +8,48 @@ class Profiles extends Controller {
 		$this->galleryModel = $this->model('Gallery');
 		$this->profileModel = $this->model('Profile');
 	}
+
+
+
 	public function user($id_user_requested = '') {
 
 		// REDIRECT TO ERROR PAGE IF NOT LOGGED IN 
 		// ADD SAME TO PHOTOBOOTH
 		$loggedIn = $this->checkAccessRights();
 
-		// Init data
-		$data = [
-			'username' => "",
-			'images' => "",
-			'following' => "",
-			'followers' => "",
-			'notification' => "",
-			'show_edit_button' => ""
-		];
+		if (!($id_user_requested == '')){
+			// Init data
+			$data = [
+				'username' => "",
+				'images' => "",
+				'following' => "",
+				'followers' => "",
+				'notification' => "",
+				'show_edit_button' => ""
+			];
+			
+			$id_user = $id_user_requested;
+			
+			if ($this->userModel->userExists($id_user)){
+				// check if requested profile is for logged in user
+				// $id_user = $_SESSION['user_id'];
+				$data['show_edit_button'] = ($id_user == $id_user_requested) ? 1 : 0;
 
-		// check if requested profile is for logged in user
-		$id_user = $_SESSION['user_id'];
-		$data['show_edit_button'] = ($id_user == $id_user_requested) ? 1 : 0;
-
-		$data['following'] = $this->galleryModel->followingCount($id_user);
-		$data['followers'] = $this->galleryModel->followersCount($id_user);
-		$temp = $this->profileModel->getUsername($id_user);
-		$data['username'] = ucwords($temp->username);
-		$temp = $this->profileModel->getNotificationSetting($id_user);
-		$data['notification'] = $temp->notification_preference;
-		$data['images'] = $this->profileModel->imageCount($id_user);
-		
-		$this->view('profile/userprofile', $data);
+				$data['following'] = $this->galleryModel->followingCount($id_user);
+				$data['followers'] = $this->galleryModel->followersCount($id_user);
+				$temp = $this->profileModel->getUsername($id_user);
+				$data['username'] = ucwords($temp->username);
+				$temp = $this->profileModel->getNotificationSetting($id_user);
+				$data['notification'] = $temp->notification_preference;
+				$data['images'] = $this->profileModel->imageCount($id_user);
+				
+				$this->view('profile/userprofile', $data);
+			} else {
+				$this->redirect('galleries/all');
+			}
+		} else{
+			$this->redirect('galleries/all');
+		}
 	}
 
 
@@ -111,9 +124,9 @@ class Profiles extends Controller {
 
 				$data = [
 					'id_user' => $id_user,
-					'oldpwd' => trim(filter_var($form_data['currentpwd'], FILTER_SANITIZE_STRING)),
-					'password' => trim(filter_var($form_data['newpwd'], FILTER_SANITIZE_STRING)),
-					'confirm_password' => trim(filter_var($form_data['confirmpwd'], FILTER_SANITIZE_STRING)),
+					'oldpwd' => trim($form_data['currentpwd']),
+					'password' => trim($form_data['newpwd']),
+					'confirm_password' => trim($form_data['confirmpwd']),
 					'oldpwd_err' => '',
 					'password_err' => '',
 					'confirm_password_err' => ''

@@ -78,6 +78,7 @@
 		public function checkAccessRights() {
 			if (isset($_SESSION['user_id'])) {
 				$id_user = $_SESSION['user_id'];
+				
 				if ($this->model('User')->userExists($id_user)) {
 					return $id_user;
 				} else {

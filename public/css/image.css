@@ -3,3 +3,7 @@
 	overflow-y:auto;
 	display: inline-block;
   }
+
+.closeicon{
+	color: #bcb7b7;
+}
