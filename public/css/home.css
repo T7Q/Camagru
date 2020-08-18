@@ -21,3 +21,28 @@
 #baloon {
 	background-color: #0000ff;
 }
+
+
+
+#camagru {
+    width: 350px;
+    height: auto;
+}
+/* sm */
+@media (min-width: 768px) {
+    #camagru {
+        width: 400px;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+    #camagru {
+        width: 500px;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+    #camagru {
+        width: 600px;
+    }
+}

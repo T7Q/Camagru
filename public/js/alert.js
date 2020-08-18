@@ -1,5 +1,5 @@
+// Alert function that appears in both modal and body
 function alertBox(type, message, location) {
-	// alert = document.getElementById("alert");
 	alert = document.getElementById(location);
 	if (type === "success"){
 		alert.classList.add(type);

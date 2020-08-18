@@ -158,6 +158,12 @@
 			return $this->database->execute();			
 		}
 
+		public function getImgPath($id_image){
+			$this->database->query('SELECT path FROM `gallery` WHERE id_image = :id_image');
+			$this->database->bind(':id_image', $id_image);
+			return $this->database->single();			
+		}
+
 		public function isLiked($id_user, $id_image){
 			$this->database->query('SELECT * FROM `like` WHERE id_image = :id_image AND id_user = :id_user');
 			$this->database->bind(':id_image', $id_image);

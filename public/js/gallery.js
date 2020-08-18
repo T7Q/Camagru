@@ -159,7 +159,6 @@ let loggedIn = false;
 
 function getContent(galleryType = "") {
 	data = {};
-	// console.log("gallery type" + galleryType);
 	let urlpath = window.location.pathname.split('/');
 	let path;
 	if (urlpath[2] === "galleries" && urlpath[3] === "all"){
@@ -174,7 +173,6 @@ function getContent(galleryType = "") {
 	}
 
 	data.gallery_type = galleryType == "" ? "none" : galleryType;
-	console.log("type" + data.gallery_type);
 	
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
@@ -182,28 +180,32 @@ function getContent(galleryType = "") {
 			temp = JSON.parse(this.responseText);
 			db_data = temp['res'];
 			loggedIn = temp['loggedIn'];
-			// console.log(temp['message']); // HERE
-			let i;
-			length = db_data.length
-			if (db_data.length > 0){
-				for (i = 0; i < db_data.length; i++){
-					photo_list[i] = db_data[i];
-				}
-				for (i = 0; i < photo_list.length; i++){
-					photo_list[i]['path'] = "/" + firstPath + "/" + photo_list[i]['path'];
-				}
-			}
 
-			urlpath = window.location.pathname.split('/');
-			if (urlpath[2] === "profiles" && urlpath[3] === "user"){
-				document.getElementById("article-list-pagination").classList.add("d-none");
-				document.getElementById("article-list").classList.remove("mt-5");
-				document.getElementById("article-list").classList.add("mt-1");
-				// document.getElementById("article-page-"+ page).classList.remove("article-list__page");
-			}
-
-			if (photo_list.length > 0) {
-				addPage(++page);
+			if(temp['valid'] === true){
+				let i;
+				length = db_data.length
+				if (db_data.length > 0){
+					for (i = 0; i < db_data.length; i++){
+						photo_list[i] = db_data[i];
+					}
+					for (i = 0; i < photo_list.length; i++){
+						photo_list[i]['path'] = "/" + firstPath + "/" + photo_list[i]['path'];
+					}
+				}
+	
+				urlpath = window.location.pathname.split('/');
+				if (urlpath[2] === "profiles" && urlpath[3] === "user"){
+					document.getElementById("article-list-pagination").classList.add("d-none");
+					document.getElementById("article-list").classList.remove("mt-5");
+					document.getElementById("article-list").classList.add("mt-1");
+					// document.getElementById("article-page-"+ page).classList.remove("article-list__page");
+				}
+				
+				if (photo_list.length > 0) {
+					addPage(++page);
+				}
+			} else {
+				alertBox("failure", temp['message'], "alert-body");
 			}
 		}
 	}
@@ -229,9 +231,6 @@ function scrollReaction() {
 	}
 }
 
-window.onscroll = function () {
-	scrollReaction();
-}
 
 
 let windowHeight = window.innerHeight + window.pageYOffset;
@@ -241,20 +240,25 @@ let imagesOnPage = 12;
 if (windowHeight < 1200) {
 	imagesOnPage = 12;
 } else if (windowHeight < 1800) {
-    imagesOnPage = 24;
+	imagesOnPage = 24;
 } else if (windowHeight < 2500) {
-    imagesOnPage = 36;
+	imagesOnPage = 36;
 } else {
-    imagesOnPage = 48;
+	imagesOnPage = 48;
 }
 
 
+window.onscroll = function () {
+	scrollReaction();
+}
 
 function removeGallery() {
 	document.getElementById("article-list").innerHTML= "";
 	document.getElementById("article-list-pagination").innerHTML= "";
 }
 
+
+// if Gallery is loaded on Profile page
 if (document.getElementById("my-gallery")){
 	let galleryType;
 	document.getElementById("my-gallery").addEventListener("change", function(e) {
@@ -265,8 +269,6 @@ if (document.getElementById("my-gallery")){
 		
 	});
 	document.getElementById("follow-gallery").addEventListener("change", function(e) {
-		// console.log("changed follow" +e.target.id);
-		let galleryType = e.target.id;
 		page = 0;
 		removeGallery()
 		getContent("follow-gallery");

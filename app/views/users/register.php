@@ -42,11 +42,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="mt-50">
-				<button id="btn2">CLICK ME</button>
-				<button id="btn3">CLICK ME2</button>
-			</div>
 		</div>
 	</div>
 

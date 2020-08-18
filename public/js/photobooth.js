@@ -117,6 +117,8 @@ const toggleStream = function () {
 function takePhoto(){
 	let data = {};
 	let target = streaming ? video : document.getElementById("uploaded_photo");
+	if (!target)
+		return;
 	canvas.getContext('2d').drawImage(target, 0, 0, width, height);
 	data.img_data = canvas.toDataURL('image/png');
 	data.filters = appliedFilters;
@@ -124,9 +126,19 @@ function takePhoto(){
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			let previewList = document.getElementById ("preview-list");
-			previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
-			alertBox("success", "Check result in Preview are", "alert-body");
+			res = JSON.parse(this.responseText);
+
+			if(res['loggedIn'] === true){
+				let previewList = document.getElementById ("preview-list");
+				previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
+				alertBox("success", "Check result in Preview are", "alert-body");
+			} else {
+				alertBox("failure", res['message'], "alert-body");
+				setTimeout(function(){
+					window.location.href = firstPath + "/users/login";
+				}, 5000);
+
+			}
 			
 		}
 	}
@@ -145,13 +157,17 @@ const saveImage = function (id) {
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			// let previewList = document.getElementById ("preview-list");
-			// previewList.appendChild(createImageContainer(JSON.parse(this.responseText)));
-			temp = JSON.parse(this.responseText);
-			// alert("response recieved from SAVE" + temp['res']);
-			document.getElementById("div_" + id).remove();
-			// alert("response recieved from SAVE: " + temp['message']);
-			alertBox("success", "Photo successfuly saved, check it in the Gallery", "alert-body");
+
+			res = JSON.parse(this.responseText);
+			if(res['loggedIn'] === true){
+				document.getElementById("div_" + id).remove();
+				alertBox("success", "Photo successfuly saved, check it in the Gallery", "alert-body");
+			} else {
+				alertBox("failure", res['message'], "alert-body");
+				setTimeout(function(){
+					window.location.href = "/" + firstPath + "/users/login";
+				}, 5000);
+			}
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/images/save", true);
@@ -160,17 +176,14 @@ const saveImage = function (id) {
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-const zoomImageContainer = function (div) { 
-	alert("zoome image") }
 
 const createImageContainer = function (img) {
 	let div = document.createElement("div");
-	div.setAttribute("class", "mb-2 border");
+	div.setAttribute("class", "mb-2 border text-center");
 	div.setAttribute("id", "div_img_" + previewImgCount);
 	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\" id=\'src_img_"+previewImgCount + "'></img>\
-	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
-	<button type=\"button\" class=\"btn btn-outline-danger btn-sm img-preview-btn mt-1 mb-1\">Delete</button>";
-	div.childNodes[0].addEventListener('click', zoomImageContainer);
+	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1 special-btn\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
+	<button type=\"button\" class=\"btn btn-outline-danger btn-sm img-preview-btn mt-1 mb-1 special-btn\">Delete</button>";
 	div.lastElementChild.addEventListener('click', deleteImageContainer);
 	previewImgCount++;
 	return div;

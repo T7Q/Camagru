@@ -2,11 +2,8 @@
 
 <div class="container">
 
-  <div id="alert-body" class="p-3 m-3 rounded text-center d-none"></div>
-
   <div class="row">
 	<div class="col d-flex justify-content-center">
-		<!-- <img src="<?php echo URLROOT; ?>/public/img/general/avatar.png" width="100px" height="100px" class="avatar img-thumbnail"> -->
 		<img id="profile-pic" src="<?php echo URLROOT . "/" . $data['avatar']; ?>" width="100px" height="100px" class="avatar img-thumbnail">
 	</div>
 	<div class="col">
@@ -25,11 +22,9 @@
 			<span>
 				<span id="following"><?php echo $data['following']; ?></span>
 				<button id="modalfollowing"  type="button" class="btn btn-link" onclick='openModal(this.id)'> following</button>
-				<!-- <span class="pl-2 pr-2">followers</span> -->
 			</span>
 			<span>
 				<span id="followers" class="mr-1 ml-2"><?php echo $data['followers']; ?></span>
-				<!-- <span class="pl-2 pr-2">following</span> -->
 				<button id="modalfollowers"  type="button" class="btn btn-link" onclick='openModal(this.id)'> followers</button>
 			</span>
 		</div>
@@ -50,6 +45,7 @@
 	</div>
 </div>
 
+<div id="alert-body" class="p-3 m-3 rounded text-center d-none"></div>
 
   <!-- Infinite scroll gallery -->
   <?php require 'app/views/gallery/infiniteScroll.php'; ?>
@@ -70,6 +66,10 @@
 
 <script src="<?php echo URLROOT; ?>/public/js/gallery.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/image.js"></script>
-
+<script src="<?php echo URLROOT; ?>/public/js/like.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/comment.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/follow.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/avatar.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/toggle.js"></script>
 
 <?php require 'app/views/inc/footer.php'; ?>

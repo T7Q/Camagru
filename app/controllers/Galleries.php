@@ -36,7 +36,7 @@
 							$json['valid'] = true;
 							$json['res'] = $this->galleryModel->getFollowingImages($id_user);
 						} else {
-							$json['message'] = "You are not folling anyone, visit Gallery!";
+							$json['message'] = "You are not following anyone, visit Gallery!";
 							$json['valid'] = false;
 						}
 					} else {
@@ -124,16 +124,18 @@
 						$json['valid'] = false;
 						// $json['message'] = $image_owner->id_user;
 						if ($id_user === $image_owner->id_user){
-							$temp = $this->galleryModel->deleteImage($id_image);
+							$temp = $this->galleryModel->getImgPath($id_image);
+							$this->galleryModel->deleteImage($id_image);
 							$json['valid'] = true;
 							$json['message'] = "Successfully deleted";
+							// unlink(APPROOT . '/' . $temp->path); // DELETE FOLDER HERE
 						} else {
 							$json['valid'] = false;
 							$json['message'] = "You can't delete other user images";
 						}
 					} else {
 						$json['valid'] = false;
-						$json['message'] = "Image does not exist";
+						$json['message'] = "Image does not exist in your gallery";
 					}
 				} else {
 					$json['valid'] = false;
@@ -175,7 +177,7 @@
 						}
 					} else {
 						$json['valid'] = false;
-						$json['message'] = "Image does not exist";
+						$json['message'] = "Image does not exist in your gallery";
 					}
 				} else {
 					$json['valid'] = false;
@@ -190,8 +192,6 @@
 			$this->view('pages/error');
 		}
 	}
-
-
 
 
 	public function like() {

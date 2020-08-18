@@ -1,77 +1,8 @@
-function switchtab(id_activate){
-	const profile = document.getElementById('change-profile');
-	const pwd = document.getElementById('change-pwd');
-	const notification = document.getElementById('change-notification');
-	const profileDiv = document.getElementById('profile-modal');
-	const pwdDiv = document.getElementById('pwd-modal');
-	const notificationDiv = document.getElementById('notify-modal');
-	
-	if(profile.hasAttribute("checked")){
-		profile.removeAttribute("checked");
-	}
-	if(id_activate == "change-profile"){
-		if(!(profile.parentElement.classList.contains("active"))){
-			profile.parentElement.classList.add("active");
-			if(profileDiv.classList.contains("d-none")){
-				profileDiv.classList.remove("d-none");
-			}
-			if(!(pwdDiv.classList.contains("d-none"))){
-				pwdDiv.classList.add("d-none");
-			}
-			if(!(notificationDiv.classList.contains("d-none"))){
-				notificationDiv.classList.add("d-none");
-			}
-		}
-		if(pwd.parentElement.classList.contains("active")){
-			pwd.parentElement.classList.remove("active");
-		}
-		if(notification.parentElement.classList.contains("active")){
-			notification.parentElement.classList.remove("active");
-		}
-	} else if(id_activate == "change-pwd"){
-		if(!(pwd.parentElement.classList.contains("active"))){
-			pwd.parentElement.classList.add("active");
-			console.log("activated pwd");
+// Load Profile  and edit profile info
 
-			if(pwdDiv.classList.contains("d-none")){
-				console.log("remove d-none");
-				pwdDiv.classList.remove("d-none");
-			}
-			if(!(profileDiv.classList.contains("d-none"))){
-				profileDiv.classList.add("d-none");
-			}
-			if(!(notificationDiv.classList.contains("d-none"))){
-				notificationDiv.classList.add("d-none");
-			}
-		}
-		if (profile.parentElement.classList.contains("active")){
-			profile.parentElement.classList.remove("active");
-		}
-		if (notification.parentElement.classList.contains("active")){
-			notification.parentElement.classList.remove("active");
-		}
-		
-	} else if(id_activate == "change-notification"){
-		if(!(notification.parentElement.classList.contains("active"))){
-			notification.parentElement.classList.add("active");
-			if(notificationDiv.classList.contains("d-none")){
-				notificationDiv.classList.remove("d-none");
-			}
-			if(!(pwdDiv.classList.contains("d-none"))){
-				pwdDiv.classList.add("d-none");
-			}
-			if(!(profileDiv.classList.contains("d-none"))){
-				profileDiv.classList.add("d-none");
-			}
-		}
-		if (pwd.parentElement.classList.contains("active")){
-			pwd.parentElement.classList.remove("active");
-		}
-		if (profile.parentElement.classList.contains("active")){
-			profile.parentElement.classList.remove("active");
-		}
-	}
-}
+let profileForm = document.getElementById('profile-form');
+let pwdForm = document.getElementById('pwd-form');
+let notificationToggle= document.getElementById('notification-switch');
 
 function getProfileData(){
     data = {};
@@ -91,9 +22,6 @@ function getProfileData(){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-
-
-let profileForm = document.getElementById('profile-form');
 profileForm.onsubmit = function (event){
 	event.preventDefault();
 
@@ -111,7 +39,6 @@ profileForm.onsubmit = function (event){
 			} else {
 				alertBox("failure", res['message'], "alert-profile");
 			}
-			console.log("response: " + res['message']);
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserData", true);
@@ -120,8 +47,6 @@ profileForm.onsubmit = function (event){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-
-let pwdForm = document.getElementById('pwd-form');
 pwdForm.onsubmit = function (event){
 	event.preventDefault();
 
@@ -129,7 +54,6 @@ pwdForm.onsubmit = function (event){
 	data.currentpwd = pwdForm.currentPwd.value;
 	data.newpwd = pwdForm.newPwd.value;
 	data.confirmpwd = pwdForm.ConfirmPwd.value;
-	console.log(pwdForm.currentPwd.value, pwdForm.newPwd.value, pwdForm.ConfirmPwd.value )
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
@@ -139,7 +63,6 @@ pwdForm.onsubmit = function (event){
 			} else {
 				alertBox("failure", res['message'], "alert-pwd");
 			}
-			console.log("response: " + res['message']);
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserPwd", true);
@@ -148,21 +71,15 @@ pwdForm.onsubmit = function (event){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
-
-let notificationToggle= document.getElementById('notification-switch');
 notificationToggle.addEventListener('change', function () {
-	console.log("change");
 	let notification;
 	if (notificationToggle.checked) {
 		notification = 1;
-	  console.log('Checked');
 	} else {
 	  notification = 0;
-	  console.log('Not checked');
 	}
 	
 	notificationToggle.disabled = true;
-	// document.getElementsByClassName('custom-switch').disabled = true;
 	data = {};
 	data.notification = notification;
 
@@ -173,7 +90,6 @@ notificationToggle.addEventListener('change', function () {
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-notify");
 				notificationToggle.disabled = false;
-				// document.getElementsByClassName('custom-switch').disabled = false;
 				if (res['notification'] === 1){
 					if(!notificationToggle.checked){
 							notificationToggle.addAttribute("checked");
@@ -183,11 +99,9 @@ notificationToggle.addEventListener('change', function () {
 						notificationToggle.removeAttribute("checked");
 					}
 				}
- 
 			} else {
 				alertBox("failure", res['message'], "alert-notify");
 			}
-			console.log("response: " + res['message']);
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/profiles/changeUserNotification", true);
@@ -201,9 +115,7 @@ notificationToggle.addEventListener('change', function () {
 
  function getFollowersData(param){
 	data = {};
-	
 	data.type = param.split('modal')[1];
-	// console.log('to server: ' + data.type);
 	
 	let urlpath = window.location.pathname.split('/');
 	let path;
@@ -211,15 +123,12 @@ notificationToggle.addEventListener('change', function () {
 		path = "/" + firstPath + "/galleries/getimages/" + urlpath[4];
 		data.id_user = urlpath[4];
 	}
-	
 
-	
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 			res = JSON.parse(this.responseText);
 			if (res['valid'] === true){
-				// alertBox("success", res['message'], "alert-notify");
 				let header = res['type'];
 				header = header.charAt(0).toUpperCase() + header.slice(1)
 				document.getElementById("follow-title").innerHTML = header;
@@ -242,11 +151,7 @@ notificationToggle.addEventListener('change', function () {
 						<a href=\"" + accountLink + "\">" + username + "</a>\
 					</div>";
 					document.getElementById('list-user').appendChild(div);
-
 				}
-
-
-
 			} else {
 				alertBox("failure", res['message'], "alert-notify");
 			}
@@ -257,4 +162,3 @@ notificationToggle.addEventListener('change', function () {
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
  }
-

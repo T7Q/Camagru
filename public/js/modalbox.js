@@ -3,7 +3,7 @@
 function openModal(param) {
     event.preventDefault();
 
-    // customize the output see in image.js
+    // get the content of the modal box
     if (param != null) {
         if (param == "edit"){
             getProfileData();
