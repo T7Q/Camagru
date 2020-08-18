@@ -31,6 +31,24 @@
 			}		
 		}
 
+
+		public function followGalleryExists($id_user){
+			$this->database->query('
+			SELECT gallery.id_image, follow.following_id
+			FROM gallery
+			JOIN follow ON gallery.id_user = follow.following_id
+			WHERE follow.follower_id = :id_user'
+			);
+			$this->database->bind(':id_user', $id_user);
+			$row = $this->database->resultSet();
+			if ($this->database->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+			}		
+		}
+
+
 		public function getAllImages($id_user){
 			if ($id_user > 0){
 				$this->database->query('
@@ -77,6 +95,25 @@
 			$this->database->bind(':id_user', $id_user);
 			return $this->database->resultSet();			
 		}
+
+		public function getFollowingImages($id_user){
+			$this->database->query('
+			SELECT gallery.id_image, gallery.path, 
+			count(DISTINCT(like.id_like)) AS total_like, 
+			count(DISTINCT(comment.id_comment)) AS total_comment, 
+			SUM(DISTINCT like.id_user = :id_user) AS mylike 
+			FROM `gallery` 
+			LEFT JOIN `like` ON gallery.id_image = like.id_image 
+			LEFT JOIN `comment` ON gallery.id_image = comment.id_image 
+			JOIN `follow` ON gallery.id_user = follow.following_id 
+			WHERE follow.follower_id = :id_user
+			GROUP BY gallery.id_image 
+			ORDER BY gallery.created_at DESC
+			');
+			$this->database->bind(':id_user', $id_user);
+			return $this->database->resultSet();			
+		}
+
 
 		public function imageExists($id){
 			$this->database->query('SELECT * FROM gallery WHERE id_image = :id_image');

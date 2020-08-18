@@ -87,31 +87,31 @@ function getArticlePage(page, articlesPerPage = imagesOnPage) {
 
 	const pageElement = document.createElement('div');
 	pageElement.id = getPageId(page);
-	pageElement.className = 'article-list__page';
+
+	let urlpath = window.location.pathname.split('/');
+	
+	if (!(urlpath[2] === "profiles") && !(urlpath[3] === "user")){
+		pageElement.className = 'article-list__page';
+	}
 	
 	const page1stRow = document.createElement('div');
 	page1stRow.id = 'row1';
-	page1stRow.className = 'row mt-5';
+
+	if (!(urlpath[2] === "profiles") && !(urlpath[3] === "user")){
+		page1stRow.className = 'row mt-5';
+		
+	} else {
+		page1stRow.className = 'row';
+	}
 	pageElement.appendChild(page1stRow);
 	
-	// const page2stRow = document.createElement('div');
-	// page2stRow.id = 'row2';
-	// page2stRow.className = 'row mt-3 mb-3';
-	// pageElement.appendChild(page2stRow);
-
-
-	// rowBreaker = articlesPerPage / 2; 
 	rowBreaker = articlesPerPage; 
 
 	while (articlesPerPage--) {
 		
 		if (photo_list.length > 0) {
-			// if (articlesPerPage < imagesOnPage && articlesPerPage >= rowBreaker) {
-			// 	page1stRow.appendChild(getArticle());
-			// }
 			if (articlesPerPage < rowBreaker && articlesPerPage >= 0) {
 				page1stRow.appendChild(getArticle());
-				// page2stRow.appendChild(getArticle());
 			}
 		}
 	}
@@ -155,10 +155,11 @@ let page = 0
 let photo_list = [];
 let loggedIn = false;
 
-function getContent() {
+
+
+function getContent(galleryType = "") {
 	data = {};
-
-
+	// console.log("gallery type" + galleryType);
 	let urlpath = window.location.pathname.split('/');
 	let path;
 	if (urlpath[2] === "galleries" && urlpath[3] === "all"){
@@ -172,7 +173,8 @@ function getContent() {
 		window.location.href = firstPath + "/galleries/all";
 	}
 
-
+	data.gallery_type = galleryType == "" ? "none" : galleryType;
+	console.log("type" + data.gallery_type);
 	
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
@@ -180,8 +182,7 @@ function getContent() {
 			temp = JSON.parse(this.responseText);
 			db_data = temp['res'];
 			loggedIn = temp['loggedIn'];
-			// alert("user loggedin: " + temp['loggedIn']);
-	
+			// console.log(temp['message']); // HERE
 			let i;
 			length = db_data.length
 			if (db_data.length > 0){
@@ -192,6 +193,15 @@ function getContent() {
 					photo_list[i]['path'] = "/" + firstPath + "/" + photo_list[i]['path'];
 				}
 			}
+
+			urlpath = window.location.pathname.split('/');
+			if (urlpath[2] === "profiles" && urlpath[3] === "user"){
+				document.getElementById("article-list-pagination").classList.add("d-none");
+				document.getElementById("article-list").classList.remove("mt-5");
+				document.getElementById("article-list").classList.add("mt-1");
+				// document.getElementById("article-page-"+ page).classList.remove("article-list__page");
+			}
+
 			if (photo_list.length > 0) {
 				addPage(++page);
 			}
@@ -237,3 +247,29 @@ if (windowHeight < 1200) {
 } else {
     imagesOnPage = 48;
 }
+
+
+
+function removeGallery() {
+	document.getElementById("article-list").innerHTML= "";
+	document.getElementById("article-list-pagination").innerHTML= "";
+}
+
+if (document.getElementById("my-gallery")){
+	let galleryType;
+	document.getElementById("my-gallery").addEventListener("change", function(e) {
+		let galleryType = e.target.id;
+		removeGallery()
+		page = 0;
+		getContent("my-gallery");
+		
+	});
+	document.getElementById("follow-gallery").addEventListener("change", function(e) {
+		// console.log("changed follow" +e.target.id);
+		let galleryType = e.target.id;
+		page = 0;
+		removeGallery()
+		getContent("follow-gallery");
+	});
+}
+

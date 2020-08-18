@@ -11,7 +11,7 @@ class User
 
 	// Register user
 	public function registerUser($data){
-		$sql = "INSERT INTO `user` (`username`, `email`, `password`, `first_name`, `last_name`) VALUES(:username, :email, :password, :first_name, :last_name)";
+		$sql = "INSERT INTO `user` (`username`, `email`, `password`, `first_name`, `last_name`, `profile_pic_path`) VALUES(:username, :email, :password, :first_name, :last_name, :profile_pic_path)";
 		$this->database->query($sql);
 
 		// Bind values
@@ -20,6 +20,8 @@ class User
 		$this->database->bind(':password', $data['password']);
 		$this->database->bind(':first_name', $data['first_name']);
 		$this->database->bind(':last_name', $data['last_name']);
+		$this->database->bind(':profile_pic_path', "public/img/general/avatar.png");
+
 
 		// // Execute
 		if($this->database->execute()){

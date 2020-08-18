@@ -288,7 +288,6 @@ postComment.addEventListener('submit', function(e) {
 	event.preventDefault();
 	data = {};
 	data.id_image = e.target.id;
-	// let new_id = e.target.id;
 	data.comment = document.getElementById("post-comment-text").value;
 
 	let xmlhtt = new XMLHttpRequest();
@@ -308,9 +307,6 @@ postComment.addEventListener('submit', function(e) {
 					document.getElementById('comment-list').appendChild(comment);
 					commentModal.firstElementChild.innerHTML = "  " + res['comment_total'];
 					document.getElementById('comment_body' + res['comment_info'].id_image).firstElementChild.innerHTML = res['comment_total'];
-					alertBox("success", res['message'], "alert-modal");
-					console.log("id_user", res['comment_info'].id_comment);
-					console.log("message", res['message']);
 				} else {
 					alertBox("failure", res['message'], "alert-modal");
 				}

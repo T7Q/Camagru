@@ -36,6 +36,21 @@
 	</div>
 </div>
 
+<hr>
+
+
+<div class="row d-flex justify-content-center">
+	<div class="form-check form-check-inline">
+		<input class="form-check-input" type="radio" name="inlineRadioOptions" id="my-gallery" value="option1" checked>
+		<label class="form-check-label" for="inlineRadio1" id="label-my">USER GALLERY</label>
+	</div>
+	<div class="form-check form-check-inline">
+		<input class="form-check-input" type="radio" name="inlineRadioOptions" id="follow-gallery" value="option2">
+		<label class="form-check-label" for="inlineRadio2">FOllOWING</label>
+	</div>
+</div>
+
+
   <!-- Infinite scroll gallery -->
   <?php require 'app/views/gallery/infiniteScroll.php'; ?>
 

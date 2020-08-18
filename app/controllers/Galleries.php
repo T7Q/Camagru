@@ -27,15 +27,29 @@
 				$data = json_decode($_POST['data'], true);
 				
 				if ($data['id_user_for_gallery'] != 0){
-					// User image gallery sorted by creation date
-					$id_user = $data['id_user_for_gallery'];
-					$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
-					if($this->galleryModel->userGalleryExists($id_user)){
-						$json['valid'] = true;
-						$json['res'] = $this->galleryModel->getUserImages($id_user);
+					// Profile page
+					if($data['gallery_type'] === "follow-gallery") {
+						// Following gallery
+						$id_user = $data['id_user_for_gallery'];
+						$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
+						if($this->galleryModel->followGalleryExists($id_user)){
+							$json['valid'] = true;
+							$json['res'] = $this->galleryModel->getFollowingImages($id_user);
+						} else {
+							$json['message'] = "You are not folling anyone, visit Gallery!";
+							$json['valid'] = false;
+						}
 					} else {
-						$json['message'] = "You dont have any photos yet, visit Photobooth to create some!";
-						$json['valid'] = false;
+						// User image gallery sorted by creation date
+						$id_user = $data['id_user_for_gallery'];
+						$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
+						if($this->galleryModel->userGalleryExists($id_user)){
+							$json['valid'] = true;
+							$json['res'] = $this->galleryModel->getUserImages($id_user);
+						} else {
+							$json['message'] = "You dont have any photos yet, visit Photobooth to create some!";
+							$json['valid'] = false;
+						}
 					}
 				} else if ($data['id_user_for_gallery'] == 0){
 					// Gallery of all images sorted by creation date
@@ -303,21 +317,15 @@
 								$id_comment = $this->galleryModel->lastInsertId();
 								$comment_info = $this->galleryModel->getOneComment($id_comment);
 								$json['comment_info'] = $comment_info;
-								// $json['comment_info'] = $this->galleryModel->getOneComment($id_comment);
 								$json['valid'] = true;
 								$json['idLoggedUser'] = $_SESSION['user_id'];
-								$json['message'] = "Comment has been saved";
 								$json['comment_total'] =  $this->galleryModel->commentCount($id_image);
 								$id_image_owner = $this->galleryModel->imageOwner($id_image);
 								$notification = $this->profileModel->getNotificationSetting($id_image_owner->id_user);
-								$json['message'] = "Email has been send to" . $id_image_owner->id_user;
 								if($notification->notification_preference == 1){
 									$temp = $this->userModel->getEmailByUserId($id_image_owner->id_user);
 									$email = $temp->email;
-									$json['message'] = $temp->email;
 									$this->emailModel->sendEmail($email, 'notification', $comment_info);
-									$json['message'] = "email sent to " . $id_image_owner->id_user;
-									// $json['message'] = "Email has been send to" . $temp->email;
 								}
 							}
 							else {

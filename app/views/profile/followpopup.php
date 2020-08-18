@@ -3,7 +3,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="follow-title">TITLE HERE</h5>
+				<h5 class="modal-title" id="follow-title">No followers/following</h5>
 				<button type="button" class="close" aria-label="Close" onclick="closeModal()">
                     <span aria-hidden="true">×</span>
                 </button>
