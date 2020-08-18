@@ -242,14 +242,14 @@
 			return $this->database->single();
 		}
 
-		public function followingCount($id_user){
+		public function followersCount($id_user){
 			$this->database->query('SELECT following_id FROM `follow` WHERE following_id = :following_id');
 			$this->database->bind(':following_id', $id_user);
 			$row = $this->database->resultSet();
 			return $this->database->rowCount();		
 		}
 
-		public function followersCount($id_user){
+		public function followingCount($id_user){
 			$this->database->query('SELECT follower_id FROM `follow` WHERE follower_id = :follower_id');
 			$this->database->bind(':follower_id', $id_user);
 			$row = $this->database->resultSet();

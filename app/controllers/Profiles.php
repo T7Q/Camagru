@@ -25,7 +25,8 @@ class Profiles extends Controller {
 				'following' => "",
 				'followers' => "",
 				'notification' => "",
-				'show_edit_button' => ""
+				'show_edit_button' => "",
+				'avatar' => "",
 			];
 			
 			$id_user = $id_user_requested;
@@ -207,6 +208,50 @@ class Profiles extends Controller {
 				$json['message'] = "Oops, something went wrong getting your notificatin data";
 			}
             echo json_encode($json);
+		} else {
+			$this->view('pages/error');
+		}
+	}
+
+
+	public function getFollowersList() {
+		if ($this->isAjaxRequest()) {
+			if (isset($_POST['data'])) {
+				$data = json_decode($_POST['data'], true);
+			
+				$id_user = $data['id_user'];
+				$type = $data['type'];
+
+				$json['type'] = $type;
+				if ($type == "following"){
+					if($this->profileModel->userFollowingExists($id_user)){
+						$json['valid'] = true;
+						$json['user-list'] = $this->profileModel->getFollowingList($id_user);
+						$json['message'] = "following";
+					} else {
+						$json['message'] = "You dont follow anyone, visit Gallery";
+						$json['valid'] = false;
+					}
+				} else if ($type == "followers"){
+						if($this->profileModel->userFollowerExists($id_user)){
+							$json['valid'] = true;
+							$json['user-list'] = $this->profileModel->getFollowerList($id_user);
+							$json['message'] = "followers";
+						} else {
+							$json['message'] = "Seems like you dont have followers yet";
+							$json['valid'] = false;
+						}
+				} else {
+					$json['message'] = "Error occured getting followers data";
+					$json['valid'] = false;
+				}
+
+				
+			} else {
+				$json['message'] = "Oops, something went wrong getting data for checking Followers";
+				$json['valid'] = false;
+			}
+			echo json_encode($json);
 		} else {
 			$this->view('pages/error');
 		}

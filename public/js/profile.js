@@ -197,3 +197,64 @@ notificationToggle.addEventListener('change', function () {
 
 
   });
+
+
+ function getFollowersData(param){
+	data = {};
+	
+	data.type = param.split('modal')[1];
+	// console.log('to server: ' + data.type);
+	
+	let urlpath = window.location.pathname.split('/');
+	let path;
+	if (urlpath[2] === "profiles" && urlpath[3] === "user" && urlpath[4] !== null){
+		path = "/" + firstPath + "/galleries/getimages/" + urlpath[4];
+		data.id_user = urlpath[4];
+	}
+	
+
+	
+	let xmlhtt = new XMLHttpRequest();
+	xmlhtt.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			res = JSON.parse(this.responseText);
+			if (res['valid'] === true){
+				// alertBox("success", res['message'], "alert-notify");
+				let header = res['type'];
+				header = header.charAt(0).toUpperCase() + header.slice(1)
+				document.getElementById("follow-title").innerHTML = header;
+				temp_list = res['user-list'];
+				temp_len = temp_list.length;
+
+				alertBox("success", res['message'], "alert-notify");
+				// clear previously attached followers
+				document.getElementById('list-user').innerHTML = "";
+				// append all comments to the DOM
+				for (let i = 0; i < temp_len; i++){			
+					let avatarSrc = "/" + firstPath + "/" + res['user-list'][i].profile_pic_path;
+					let username = res['user-list'][i].username;
+					let accountLink =  "/" + firstPath + "/profiles/user/" + res['user-list'][i].follow_id;
+
+					let div = document.createElement('div');
+					div.innerHTML = "\
+					<div class=\"ml-2\">\
+						<img id='user-avatar' src='" + avatarSrc + "\' alt=\"user avatar\" class=\"avatar img-thumbnail\">\
+						<a href=\"" + accountLink + "\">" + username + "</a>\
+					</div>";
+					document.getElementById('list-user').appendChild(div);
+
+				}
+
+
+
+			} else {
+				alertBox("failure", res['message'], "alert-notify");
+			}
+		}
+	}
+	xmlhtt.open('POST', "/" + firstPath + "/profiles/getFollowersList", true);
+	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xmlhtt.send('data=' + JSON.stringify(data));
+ }
+

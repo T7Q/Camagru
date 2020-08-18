@@ -115,7 +115,53 @@
 			return $this->database->single();
 		}
 		
+		public function userFollowerExists($id_user){
+			$this->database->query('SELECT * FROM follow
+				WHERE following_id = :id_user');
+			$this->database->bind(':id_user', $id_user);
+			$row = $this->database->resultSet();
+			if ($this->database->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+			}		
+		}
 
+		public function userFollowingExists($id_user){
+			$this->database->query('SELECT * FROM follow
+				WHERE follower_id = :id_user');
+			$this->database->bind(':id_user', $id_user);
+			$row = $this->database->resultSet();
+			if ($this->database->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+			}		
+		}
+
+		public function getFollowerList($id_user){
+			$this->database->query('
+			SELECT follow.follower_id AS follow_id, user.username, user.profile_pic_path
+			FROM `follow`
+			JOIN `user` ON follow.follower_id = user.id_user
+			WHERE follow.following_id = :id_user
+			ORDER BY user.id_user DESC
+			');
+			$this->database->bind(':id_user', $id_user);
+			return $this->database->resultSet();			
+		}
+
+		public function getFollowingList($id_user){
+			$this->database->query('
+			SELECT follow.following_id AS follow_id, user.username, user.profile_pic_path 
+			FROM `follow` 
+			JOIN `user` ON follow.following_id = user.id_user 
+			WHERE follow.follower_id = :id_user
+			ORDER BY user.id_user DESC
+			');
+			$this->database->bind(':id_user', $id_user);
+			return $this->database->resultSet();			
+		}
 
 	}
 ?>

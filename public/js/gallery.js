@@ -157,7 +157,7 @@ let loggedIn = false;
 
 function getContent() {
 	data = {};
-	data.test = "hello";
+
 
 	let urlpath = window.location.pathname.split('/');
 	let path;
@@ -171,7 +171,7 @@ function getContent() {
 		path = "incorrect path";
 		window.location.href = firstPath + "/galleries/all";
 	}
-	console.log("result " + path);
+
 
 	
 	let xmlhtt = new XMLHttpRequest();

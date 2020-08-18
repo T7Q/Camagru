@@ -92,11 +92,12 @@ function getDetails(param){
 				document.getElementById('comment-list').appendChild(comment);
 			}
 			
-			if (res['loggedIn'] === true){
+
+			// if (res['loggedIn'] === true){
+			if ((res['loggedIn'] === true) && (db_data[0].id_user != idLoggedUser)){
 				if(followModal.classList.contains("d-none")){
 					followModal.classList.remove("d-none");
 				}
-				console.log("res follow: " + res['follow']);
 				if (res['follow'] === true){
 					
 					followModal.classList.remove("btn-outline-success");
