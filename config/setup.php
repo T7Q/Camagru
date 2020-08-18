@@ -45,7 +45,6 @@
             `id_image`   int AUTO_INCREMENT PRIMARY KEY,
             `created_at` datetime DEFAULT CURRENT_TIMESTAMP ,
             `path`       varchar(45) NOT NULL ,
-            `title`      varchar(45) NOT NULL ,
             `id_user`    int NOT NULL ,
 
             KEY `fkIdx_201` (`id_user`),
