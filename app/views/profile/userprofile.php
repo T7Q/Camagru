@@ -75,4 +75,5 @@
 <script src="<?php echo URLROOT; ?>/public/js/avatar.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/toggle.js"></script>
 
+
 <?php require 'app/views/inc/footer.php'; ?>

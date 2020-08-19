@@ -192,9 +192,9 @@ class User
 	public function validatePasswordFormat(&$data){
 		if (empty($data['password'])) {
 			$data['password_err'] = 'Please enter password';
-		} elseif (strlen($data['password']) < 6 || strlen($data['password']) > 24) {
+		} else if (strlen($data['password']) < 6 || strlen($data['password']) > 24) {
 			$data['password_err'] = 'Password must be between 6 - 24 characters';
-		} elseif (!preg_match('/^\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/', $data['password'])){
+		} else if (!preg_match('/^\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/', $data['password'])){
 			$data['password_err'] = 'Password must contain at least 1 lowercase, 1 uppercase, 1 numeric character';
 		}
 	}
@@ -285,7 +285,7 @@ class User
 		if (!$data['first_name'] || empty($data['first_name'])) {
 			$data['first_name_err'] = 'Please enter first name';
 		} else if (!preg_match('/^[a-zA-z]+([ \'-][a-zA-Z]+)*$/', $data['first_name'])) {
-			$data['first_name_err'] =  "First name must include letters and numbers only";
+			$data['first_name_err'] =  "First name must include letters only";
 		} else if (strlen($data['first_name']) > 25) {
 			$data['first_name_err'] =  "First name must be less than 25 characters";
 		}
@@ -294,7 +294,7 @@ class User
 		if (!$data['last_name'] || empty($data['last_name'])) {
 			$data['last_name_err'] = 'Please enter last name';
 		} else if (!preg_match('/^[a-zA-z]+([ \'-][a-zA-Z]+)*$/', $data['last_name'])) {
-			$data['last_name_err'] =  "Last name must include letters and numbers only";
+			$data['last_name_err'] =  "Last name must include letters only";
 		} else if (strlen($data['last_name']) > 25) {
 			$data['last_name_err'] =  "Last name must be less than 25 characters";
 		}

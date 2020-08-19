@@ -96,16 +96,17 @@ class Profiles extends Controller {
 						$json['message'] = "Your profile data was successfully updated";
 						$temp = $this->profileModel->getUsername($id_user);
 						$json['username'] = ucwords($temp->username);
-
 					} else {
 						$json['valid'] = false;
 						$json['message'] = "Oops, something went wrong saving updated data to the database";
 					}
 				} else {
 					$json['valid'] = false;
-					$temp1 = array_slice($data, 5);
-					$temp2 = implode(" ",$temp1);
-					$json['message'] = $temp2;
+					
+					$json['username_err'] = $data['username_err'];
+					$json['first_name_err'] = $data['first_name_err'];
+					$json['last_name_err'] = $data['last_name_err'];
+					$json['email_err'] = $data['email_err'];
 				}
             } else {
 				$json['valid'] = false;
@@ -129,17 +130,9 @@ class Profiles extends Controller {
 					'oldpwd' => trim($form_data['currentpwd']),
 					'password' => trim($form_data['newpwd']),
 					'confirm_password' => trim($form_data['confirmpwd']),
-					'oldpwd_err' => '',
-					'password_err' => '',
-					'confirm_password_err' => ''
 				];
-				$json['valid'] = false;
-				$json['message'] = $data['oldpwd'];
 				
 				if($this->profileModel->validateUserbyPwd($id_user, $data['oldpwd'])){
-					$json['valid'] = true;
-					$json['message'] = "got in";
-					
 					$this->userModel->validatePasswordFormat($data);
 					if (empty($data['password_err'])){
 						$this->userModel->validateConfirmPassword($data);
@@ -152,19 +145,18 @@ class Profiles extends Controller {
 							} else {
 								$json['valid'] = false;
 								$json['message'] = "Something went wrong saving your new pwd to database";
-							}
-
+							}		
 						} else {
 							$json['valid'] = false;
-							$json['message'] = $data['confirm_password_err'];
+							$json['confirm_password_err'] = $data['confirm_password_err'];							
 						}
 					} else {
 						$json['valid'] = false;
-						$json['message'] = $data['password_err'];
+						$json['password_err'] = $data['password_err'];
 					}	
 				} else {
 					$json['valid'] = false;
-					$json['message'] = "Current password is wrong";
+					$json['old_password_err'] = "Current password is wrong";
 				}
             } else {
 				$json['valid'] = false;

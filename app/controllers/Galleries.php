@@ -29,7 +29,7 @@
 								$json['valid'] = true;
 								$json['res'] = $this->galleryModel->getFollowingImages($id_user);
 							} else {
-								$json['message'] = "You are not following anyone, visit Gallery!";
+								$json['message'] = "Following Gallery is empty!";
 								$json['valid'] = false;
 							}
 						} else {
@@ -40,7 +40,7 @@
 								$json['valid'] = true;
 								$json['res'] = $this->galleryModel->getUserImages($id_user);
 							} else {
-								$json['message'] = "You dont have any photos yet, visit Photobooth to create some!";
+								$json['message'] = "Gallery is empty!";
 								$json['valid'] = false;
 							}
 						}

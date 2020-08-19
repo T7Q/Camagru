@@ -9,113 +9,111 @@
 		}
 
 		public function register() {
-			// Check for POST
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				// process form
+			if ($this->isAjaxRequest()) {
+				if (isset($_POST['data'])) {
+					$res = json_decode($_POST['data'], true);
 
-				// Sanitize POST data
-				// $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+					// Init data
+					$data = [
+						'first_name' => trim(filter_var($res['first_name'], FILTER_SANITIZE_STRING)),
+						'last_name' => trim(filter_var($res['last_name'], FILTER_SANITIZE_STRING)),
+						'username' => trim(filter_var($res['username'], FILTER_SANITIZE_STRING)),
+						'password' => trim($res['password']),
+						'confirm_password' => trim($res['confirm_password']),
+						'email' => filter_var($res['email'], FILTER_SANITIZE_EMAIL),
+						'first_name_err' => '',
+						'last_name_err' => '',
+						'username_err' => '',
+						'password_err' => '',
+						'confirm_password_err' => '',
+						'email_err' => ''
+					];
 
-				// Init data
-				$data = [
-					'first_name' => trim(filter_var($_POST['first_name'], FILTER_SANITIZE_STRING)),
-					'last_name' => trim(filter_var($_POST['last_name'], FILTER_SANITIZE_STRING)),
-					'username' => trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING)),
-					'password' => trim($_POST['password']),
-					'confirm_password' => trim($_POST['confirm_password']),
-					'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
-					'first_name_err' => '',
-					'last_name_err' => '',
-					'username_err' => '',
-					'password_err' => '',
-					'confirm_password_err' => '',
-					'email_err' => ''
-				];
+					$this->userModel->validateEmailUsername($data);
+					$this->userModel->validateConfirmPassword($data);
+					$this->userModel->validatePasswordFormat($data);
 
-				$this->userModel->validateEmailUsername($data);
-				$this->userModel->validateConfirmPassword($data);
-				$this->userModel->validatePasswordFormat($data);
+					// Make sure errors are empty
+					if (empty($data['email_err']) && empty($data['username_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
+						// Validated
 
-				
-				// Make sure errors are empty
-				if (empty($data['email_err']) && empty($data['username_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
-					// Validated
+						// Hashed pasword
+						$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-					// Hashed pasword
-					$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-					// Registe user
-					if ($this->userModel->registerUser($data)) {
-						$this->emailModel->sendEmail($data['email'], 'activate');
-						$this->flash('register_success', 'Activation email has been send to your email', 'success');
-						$this->redirect('users/login');
+						// Registe user
+						if ($this->userModel->registerUser($data)) {
+							$this->emailModel->sendEmail($data['email'], 'activate');
+							$json['valid'] = true;
+							$json['message'] = 'Activation email has been send to your email';
+							
+						} else {
+							$json['valid'] = false;
+							$json['message'] = "Oops, did not manage to register user";
+						} 
 					} else {
-						die('Something went wrong (controllers/users.php)');
+						$json['valid'] = false;
+						$json['username_err'] = $data['username_err'];
+						$json['password_err'] = $data['password_err'];
+						$json['confirm_password_err'] = $data['confirm_password_err'];
+						$json['first_name_err'] = $data['first_name_err'];
+						$json['last_name_err'] = $data['last_name_err'];
+						$json['email_err'] = $data['email_err'];
 					}
 				} else {
-					// Load view with errors
-					$this->view('users/register', $data);
+					$json['valid'] = false;
+					$json['message'] = "Oops, something went wrong during registration in process";
 				}
+				echo json_encode($json);
 			} else {
-				// Init data
-				$data = [
-					'first_name' => '',
-					'last_name' => '',
-					'username' => '',
-					'password' => '',
-					'confirm_password' => '',
-					'email' => '',
-					'first_name_err' => '',
-					'last_name_err' => '',
-					'username_err' => '',
-					'password_err' => '',
-					'confirm_password_err' => '',
-					'email_err' => ''
-				];
-				// Load view 
-				$this->view('users/register', $data);
+				if (isset($_SESSION['user_id'])) {
+					$this->redirect('');
+				}
+				$this->view('users/register');
 			}
 		}
 
 		public function login() {
-			// Check for POST
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				// process form
-				$data = [
-					'username' => trim($_POST['username']),
-					'password' => trim($_POST['password']),
-					'username_err' => '',
-					'password_err' => ''
-				];
-				$this->userModel->validateLoginUsername($data);
-				$this->userModel->validatePasswordFormat($data);
 
-				if (empty($data['username_err']) && empty($data['password_err'])) {
-					// Validate
-					$loggedInUser = $this->userModel->login($data['username'], $data['password']);
-					if ($loggedInUser) {
-						// Create Session
-						$this->createUserSession($loggedInUser);
+			if ($this->isAjaxRequest()) {
+				if (isset($_POST['data'])) {
+					$res = json_decode($_POST['data'], true);
+
+					$data = [
+						'username' => trim($res['username']),
+						'password' => trim($res['password']),
+						'username_err' => '',
+						'password_err' => ''
+					];
+					$this->userModel->validateLoginUsername($data);
+					$this->userModel->validatePasswordFormat($data);
+					if (empty($data['username_err']) && empty($data['password_err'])) {
+						// Validate
+						$loggedInUser = $this->userModel->login($data['username'], $data['password']);
+						if ($loggedInUser) {
+							// Create Session
+							$this->createUserSession($loggedInUser);
+							$json['valid'] = true;
+						} else {
+							// Load view with errors
+							$json['valid'] = false;
+							$json['password_err'] = 'Password incorrect';
+						}
 					} else {
 						// Load view with errors
-						$data['password_err'] = 'Password incorrect';
-						$this->view('users/login', $data);
+						$json['valid'] = false;
+						$json['password_err'] = $data['password_err'];
+						$json['username_err'] = $data['username_err'];
 					}
 				} else {
-					// Load view with errors
-					$this->view('users/login', $data);
+					$json['valid'] = false;
+					$json['message'] = "Oops, something went wrong during log in process";
 				}
+				echo json_encode($json);
 			} else {
-				// Init data
-				$data = [
-					'username' => '',
-					'password' => '',
-					'username_err' => '',
-					'password_err' => '',
-				];
-
-				// Load view 
-				$this->view('users/login', $data);
+				if (isset($_SESSION['user_id'])) {
+					$this->redirect('');
+				}
+				$this->view('users/login');
 			}
 		}
 
@@ -123,7 +121,7 @@
 			$_SESSION['user_id'] = $user->id_user;
 			$_SESSION['user_username'] = $user->username;
 			$_SESSION['user_email'] = $user->email;
-			$this->redirect('pages/home');
+			// $this->redirect('pages/home');
 		}
 
 		public function logout(){
@@ -143,11 +141,13 @@
 		}
 
 		public function forgotpwd() {		
-			//Check for POST
-			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+			if ($this->isAjaxRequest()) {
+				if (isset($_POST['data'])) {
+					$res = json_decode($_POST['data'], true);
+
 				// process form
 				$data = [
-					'email' => trim($_POST['email']),
+					'email' => trim($res['email']),
 					'email_err' => '',
 				];
 
@@ -159,29 +159,28 @@
 						// user found
 						if($this->userModel->isActivatedByEmail($data['email'])){
 							// User account is activated
-							$this->emailModel->sendEmail($_POST['email'], 'pwd_reset');
-							$this->flash('forgot_pwd', 'Password reset link has been sent to your email', 'success');
+							$this->emailModel->sendEmail($data['email'], 'pwd_reset');
+							$json['valid'] = true;
+							$json['message'] = "Password reset link has been sent to your email";
 						} else {
 							// User account is not activated
-							$data['email_err'] = 'You account is not activated, check your email';
+							$json['valid'] = false;
+							$json['email_err'] = 'You account is not activated, check your email';
 						}
 						
 					} else {
 						// user not found
-						$data['email_err'] = 'Account with this email does not exists';
+						$json['email_err'] = 'Account with this email does not exists';
 					}
 				}
-				$this->view('users/forgotpwd', $data);
-			}
-			else {
-				// Init data
-				$data = [
-					'email' => '',
-					'email_err' => '',
-				];
-				// $this->flash('forgot_pwd', 'Please enter your email address', 'success');
-				// Load view 
-				$this->view('users/forgotpwd', $data);
+				
+				} else {
+					$json['valid'] = false;
+					$json['message'] = "Oops, something went wrong during registration in process";
+				}
+				echo json_encode($json);
+			} else {
+				$this->view('users/forgotpwd');
 			}
 		}
 
