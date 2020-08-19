@@ -156,9 +156,16 @@
 					$data['email_err'] = 'Please enter email';
 				} else {
 					if ($this->userModel->findUserByEmail($data['email'])) {	
-						// user found					
-						$this->emailModel->sendEmail($_POST['email'], 'pwd_reset');
-						$this->flash('forgot_pwd', 'Password reset link has been sent to your email', 'success');
+						// user found
+						if($this->userModel->isActivatedByEmail($data['email'])){
+							// User account is activated
+							$this->emailModel->sendEmail($_POST['email'], 'pwd_reset');
+							$this->flash('forgot_pwd', 'Password reset link has been sent to your email', 'success');
+						} else {
+							// User account is not activated
+							$data['email_err'] = 'You account is not activated, check your email';
+						}
+						
 					} else {
 						// user not found
 						$data['email_err'] = 'Account with this email does not exists';

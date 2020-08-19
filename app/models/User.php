@@ -112,11 +112,27 @@ class User
 	}
 	
 
-	// Find if account is activated
+	// Find if account is activated by usernmae
 	public function isActivated($username)
 	{
 		$this->database->query('SELECT * FROM user WHERE username = :username');
 		$this->database->bind(':username', $username);
+
+		$row = $this->database->single();
+
+		// check row
+		if ($row->active === '1') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// Find if account is activated by email
+	public function isActivatedByEmail($email)
+	{
+		$this->database->query('SELECT * FROM user WHERE email = :email');
+		$this->database->bind(':email', $email);
 
 		$row = $this->database->single();
 
@@ -178,6 +194,8 @@ class User
 			$data['password_err'] = 'Please enter password';
 		} elseif (strlen($data['password']) < 6 || strlen($data['password']) > 24) {
 			$data['password_err'] = 'Password must be between 6 - 24 characters';
+		} elseif (!preg_match('/^\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/', $data['password'])){
+			$data['password_err'] = 'Password must contain at least 1 lowercase, 1 uppercase, 1 numeric character';
 		}
 	}
 
