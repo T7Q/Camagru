@@ -1,5 +1,4 @@
-<?php
-	// send activation email, password reset	
+<?php	
 	class Emails extends Controller{
 	
 		public function __construct(){
@@ -59,8 +58,8 @@
 						$this->redirect('users/login');
 					} else {
 						// if update failed ask user to resent the activation link
-						// $this->flash('forgot_pwd', 'Oops.. something went wrong with updatign password, resent recovery link one more time', '');
-						// $this->view('users/forgotpwd');
+						$this->flash('forgot_pwd', 'Oops.. something went wrong with updatign password, resent recovery link one more time', '');
+						$this->view('users/forgotpwd');
 					}
 				} else {
 					// show errors 
@@ -81,8 +80,8 @@
 					$this->flash('register_success', 'Your account was successfully activated, please log in', 'success');
 					$this->view('users/login');
 				} else {
-					// 	echo "failure to update <hr>";
-					// flash erro entering to database
+					$this->flash('register_success', 'Something went wrong, try resending the token', 'failure');
+					$this->view('users/login');
 				}
 
 			} else {

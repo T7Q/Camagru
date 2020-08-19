@@ -39,7 +39,7 @@ function follow (id_user_input){
 			}
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/follow", true);
+	xmlhtt.open('POST', "/" + firstPath + "/follows/followuser", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));

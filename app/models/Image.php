@@ -24,5 +24,17 @@
 			}
 		}
 
+		public function getImgPath($id_image){
+			$this->database->query('SELECT path FROM `gallery` WHERE id_image = :id_image');
+			$this->database->bind(':id_image', $id_image);
+			return $this->database->single();			
+		}
+
+		public function deleteImgDb($id_image){
+			$this->database->query('DELETE FROM gallery WHERE id_image = :id_image');
+			$this->database->bind(':id_image', $id_image);
+			return $this->database->execute();			
+		}
+
 	}
 ?>

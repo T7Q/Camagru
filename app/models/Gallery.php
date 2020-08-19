@@ -31,7 +31,6 @@
 			}		
 		}
 
-
 		public function followGalleryExists($id_user){
 			$this->database->query('
 			SELECT gallery.id_image, follow.following_id
@@ -47,7 +46,6 @@
 				return false;
 			}		
 		}
-
 
 		public function getAllImages($id_user){
 			if ($id_user > 0){
@@ -77,7 +75,6 @@
 			}
 			return $this->database->resultSet();			
 		}
-
 
 		public function getUserImages($id_user){
 			$this->database->query('
@@ -128,7 +125,6 @@
 		}
 
 		public function getImageData($id_user, $id_image){
-			// $this->database->query('SELECT gallery.id_image, gallery.id_user, gallery.path, user.username FROM `gallery` JOIN `user` ON gallery.id_user = user.id_user WHERE gallery.id_image = :id_image');
 			if ($id_user > 0){
 				$this->database->query(
 					'SELECT gallery.id_image, gallery.id_user, gallery.path, user.username,
@@ -152,88 +148,6 @@
 				return $this->database->resultSet();			
 		}
 
-		public function deleteImage($id){
-			$this->database->query('DELETE FROM gallery WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id);
-			return $this->database->execute();			
-		}
-
-		public function getImgPath($id_image){
-			$this->database->query('SELECT path FROM `gallery` WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id_image);
-			return $this->database->single();			
-		}
-
-		public function isLiked($id_user, $id_image){
-			$this->database->query('SELECT * FROM `like` WHERE id_image = :id_image AND id_user = :id_user');
-			$this->database->bind(':id_image', $id_image);
-			$this->database->bind(':id_user', $id_user);
-
-			$row = $this->database->resultSet();
-			if ($this->database->rowCount() > 0) {
-				return true;
-			} else {
-				return false;
-			}					
-		}
-
-		public function likeImage($id_user, $id_image){
-			$this->database->query('INSERT INTO `like` (`id_user`, `id_image`) VALUES (:id_user, :id_image)');
-			$this->database->bind(':id_user', $id_user);
-			$this->database->bind(':id_image', $id_image);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}			
-		}
-
-		public function unlikeImage($id_user, $id_image){
-			$this->database->query('DELETE FROM `like` WHERE id_image = :id_image AND id_user = :id_user');
-			$this->database->bind(':id_user', $id_user);
-			$this->database->bind(':id_image', $id_image);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}			
-		}
-
-		public function likeCount($id_image){
-			$this->database->query('SELECT * FROM `like` WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id_image);
-			$row = $this->database->resultSet();
-			return $this->database->rowCount();		
-		}
-
-		public function commentCount($id_image){
-			$this->database->query('SELECT * FROM `comment` WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id_image);
-			$row = $this->database->resultSet();
-			return $this->database->rowCount();		
-		}
-
-		public function saveComment($id_user, $id_image, $comment){
-			$this->database->query('
-				INSERT INTO `comment` (`id_user`, `id_image`, `comment`) 
-				VALUES (:id_user, :id_image, :comment);');
-			$this->database->bind(':id_user', $id_user);
-			$this->database->bind(':id_image', $id_image);
-			$this->database->bind(':comment', $comment);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}		
-		}
-		
-		public function lastInsertId(){
-			return $this->database->lastInsertId();
-		}
-
 		public function getImageComments($id_image){
 			$this->database->query('
 				SELECT comment.comment, comment.id_comment,comment.id_user, comment.id_image, user.username 
@@ -245,129 +159,11 @@
 			return $this->database->resultSet();
 		}
 
-		public function getOneComment($id_comment){
-			$this->database->query('
-				SELECT comment.comment, comment.id_comment, comment.id_user, comment.id_image, user.username FROM `comment` 
-				JOIN `user` ON comment.id_user = user.id_user 
-				WHERE id_comment = :id_comment
-				');
-			$this->database->bind(':id_comment', $id_comment);
-			return $this->database->single();
-		}
-
-		public function commentExists($id_comment, $id_user){
-			$this->database->query('SELECT * FROM comment WHERE id_comment = :id_comment AND id_user = :id_user');
-			$this->database->bind(':id_comment', $id_comment);
-			$this->database->bind(':id_user', $id_user);
-
-			$this->database->resultSet();
-			if ($this->database->rowCount() > 0) {
-				return true;
-			} else {
-				return false;
-			}		
-		}
-
-		public function deleteComment($id_comment){
-			$this->database->query('DELETE FROM `comment` WHERE id_comment = :id_comment');
-			$this->database->bind(':id_comment', $id_comment);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}			
-		}
-
-		public function findImgByComment($id_comment){
-			$this->database->query('SELECT id_image FROM `comment` WHERE id_comment = :id_comment');
-			$this->database->bind(':id_comment', $id_comment);
-			return $this->database->single();
-		}
-
-		public function followersCount($id_user){
-			$this->database->query('SELECT following_id FROM `follow` WHERE following_id = :following_id');
-			$this->database->bind(':following_id', $id_user);
-			$row = $this->database->resultSet();
-			return $this->database->rowCount();		
-		}
-
-		public function followingCount($id_user){
-			$this->database->query('SELECT follower_id FROM `follow` WHERE follower_id = :follower_id');
-			$this->database->bind(':follower_id', $id_user);
-			$row = $this->database->resultSet();
-			return $this->database->rowCount();		
-		}
-
-		public function alreadyFollow($id_user, $id_user_to_follow){
-			$this->database->query('SELECT * FROM `follow` WHERE follower_id = :follower_id AND following_id = :following_id');
-			$this->database->bind(':follower_id', $id_user);
-			$this->database->bind(':following_id', $id_user_to_follow);
-
-			$row = $this->database->resultSet();
-			if ($this->database->rowCount() > 0) {
-				return true;
-			} else {
-				return false;
-			}					
-		}
-
-		public function followUser($id_user, $id_user_to_follow){
-			$this->database->query('INSERT INTO `follow` (`follower_id`, `following_id`) VALUES (:follower_id, :following_id)');
-			$this->database->bind(':follower_id', $id_user);
-			$this->database->bind(':following_id', $id_user_to_follow);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}			
-		}
-
-		public function unfollowUser($id_user, $id_user_to_follow){
-			$this->database->query('DELETE FROM `follow` WHERE follower_id = :follower_id AND following_id = :following_id');
-			$this->database->bind(':follower_id', $id_user);
-			$this->database->bind(':following_id', $id_user_to_follow);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}			
-		}
-
-
 		public function imageOwner($id_image) {
 			$this->database->query('SELECT id_user FROM `gallery` WHERE id_image = :id_image');
 			$this->database->bind(':id_image', $id_image);
 			return $this->database->single();
 		}
-
-
-		public function updateAvatar($id_image, $id_user){
-			$this->database->query('SELECT path FROM `gallery` WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id_image);
-			$path = $this->database->single();
-
-			$this->database->query('UPDATE `user` SET `profile_pic_path` = :path 
-				WHERE id_user = :id_user');
-			$this->database->bind(':id_user', $id_user);
-			$this->database->bind(':path', $path->path);
-
-			if($this->database->execute()){
-				return true;
-			} else {
-				return false;
-			}	
-
-		}
-
-		public function getUserAvatar($id_user) {
-			$this->database->query('SELECT profile_pic_path FROM `user` WHERE id_user = :id_user');
-			$this->database->bind(':id_user', $id_user);
-			return $this->database->single();
-		}
-
 
 	}
 ?>

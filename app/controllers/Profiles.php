@@ -1,20 +1,17 @@
 <?php
 
-// user profile page
-
 class Profiles extends Controller {
 	public function __construct() {
 		$this->userModel = $this->model('User');
 		$this->galleryModel = $this->model('Gallery');
 		$this->profileModel = $this->model('Profile');
+		$this->followModel = $this->model('Follow');
 	}
 
 
 
 	public function user($id_user_requested = '') {
 
-		// REDIRECT TO ERROR PAGE IF NOT LOGGED IN 
-		// ADD SAME TO PHOTOBOOTH
 		$this->checkAccessRights();
 
 		if (!($id_user_requested == '')){
@@ -36,8 +33,8 @@ class Profiles extends Controller {
 				$loggedin_user = $_SESSION['user_id'];
 				$data['show_edit_button'] = ($loggedin_user == $id_user) ? 1 : 0;
 
-				$data['following'] = $this->galleryModel->followingCount($id_user);
-				$data['followers'] = $this->galleryModel->followersCount($id_user);
+				$data['following'] = $this->followModel->followingCount($id_user);
+				$data['followers'] = $this->followModel->followersCount($id_user);
 				$temp = $this->profileModel->getUsername($id_user);
 				$data['username'] = ucwords($temp->username);
 				$temp = $this->profileModel->getNotificationSetting($id_user);

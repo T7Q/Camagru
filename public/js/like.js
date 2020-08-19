@@ -17,7 +17,7 @@ function like (id_image_input){
 				
 				// update likes in the modal box					
 				let img_modal = document.getElementById("modallike" + id_image);
-				img_modal.firstElementChild.style.color = res['message'] === "true" ? "#ff5011" : "#000000";
+				img_modal.firstElementChild.style.color = res['message'] === "red_color" ? "#ff5011" : "#000000";
 				img_modal.firstElementChild.innerHTML = res['count'];					
 				
 				// update like count in main gallery
@@ -29,7 +29,7 @@ function like (id_image_input){
 			}
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/like", true);
+	xmlhtt.open('POST', "/" + firstPath + "/likes/likeimage", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));

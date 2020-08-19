@@ -77,7 +77,7 @@ postComment.addEventListener('submit', function(e) {
 			}
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/postcomment", true);
+	xmlhtt.open('POST', "/" + firstPath + "/comments/postcomment", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
@@ -97,17 +97,16 @@ function deleteComment(){
 			res = JSON.parse(this.responseText);
 			if (res['valid'] === true){
 				document.getElementById("id_comment" + id_comment).remove();
-				
+				// update comment count in the Modal box and body
 				document.getElementById('comment_body' + res['id_image']).firstElementChild.innerHTML = res['count'];
 				document.getElementById('comment' + res['id_image']).firstElementChild.innerHTML = res['count'];
-
 			} else {
 				alertBox("failure", res['message'], "alert-modal");
 				return false;
 			}
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/deletecomment", true);
+	xmlhtt.open('POST', "/" + firstPath + "/comments/deletecomment", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));

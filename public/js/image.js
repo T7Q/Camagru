@@ -35,6 +35,12 @@ function getDetails(param){
 				document.getElementById('comment-list').appendChild(comment);
 			}
 			
+			if (res['loggedIn'] === true){
+				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
+			} else {
+				likeModal.firstElementChild.style.color = "black";
+			}
+
 			if ((res['loggedIn'] === true) && (db_data[0].id_user != idLoggedUser)){
 				if(followModal.classList.contains("d-none")){
 					followModal.classList.remove("d-none");
@@ -49,10 +55,8 @@ function getDetails(param){
 					followModal.classList.add("btn-outline-success");
 					followModal.innerHTML = "Follow";
 				}
-				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
 			} else {
 				followModal.classList.add("d-none");
-				likeModal.firstElementChild.style.color = "black";
 				followModal.setAttribute("id", "follow");
 			}
 			
@@ -104,17 +108,18 @@ deleteImg.addEventListener('click', function(e) {
 			res = JSON.parse(this.responseText);
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-modal");
-				setTimeout(function(){
-					closeModal();
-				}, 5000);
-				location.reload()
+				console.log(res['message']);
+				// setTimeout(function(){
+				// 	closeModal();
+				// }, 5000);
+				// location.reload()
 			} else {
 				alertBox("failure", res['message'], "alert-modal");
 			}
 			console.log(res['message']);
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/deleteImgDb", true);
+	xmlhtt.open('POST', "/" + firstPath + "/images/delete", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));

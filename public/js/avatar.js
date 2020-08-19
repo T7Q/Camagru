@@ -20,7 +20,7 @@ setAvatar.addEventListener('click', function(e) {
 			}
 		}
 	}
-	xmlhtt.open('POST', "/" + firstPath + "/galleries/setAvatar", true);
+	xmlhtt.open('POST', "/" + firstPath + "/avatars/setAvatar", true);
 	xmlhtt.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));

@@ -68,12 +68,6 @@
 			}
 		}
 
-		// public function checkAccessRights($id_user) {
-		// 	header('location: ' . URLROOT . '/' . $page);
-		// 	header('Connection: close');
-		// 	exit;
-		// }
-
 		// Check that user is logged in and exists in db. Otherwise redirect to gallery page
 		public function checkAccessRights() {
 			if (isset($_SESSION['user_id'])) {

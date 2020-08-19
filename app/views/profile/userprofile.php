@@ -1,8 +1,8 @@
 <?php require 'app/views/inc/header.php'; ?>
 
-<div class="container">
+<div class="container mt-5">
 
-  <div class="row">
+  <div class="row mb-5">
 	<div class="col d-flex justify-content-center">
 		<img id="profile-pic" src="<?php echo URLROOT . "/" . $data['avatar']; ?>" width="100px" height="100px" class="avatar img-thumbnail">
 	</div>
@@ -11,7 +11,7 @@
 			<h2 id="username" class="mr-5"><?php echo $data['username']; ?></h2>
 			<?php if($data['show_edit_button']) : ?>
 			<button id="edit" type="button" class="btn btn-outline-secondary" onclick='openModal(this.id)'>
-				Edit profile
+				edit profile & settings
 			</button>
 			<?php endif; ?>
 		</div>
@@ -34,7 +34,7 @@
 <hr>
 
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center mt-1 mb-2">
 	<div class="form-check form-check-inline">
 		<input class="form-check-input" type="radio" name="inlineRadioOptions" id="my-gallery" value="option1" checked>
 		<label class="form-check-label" for="inlineRadio1" id="label-my">USER GALLERY</label>

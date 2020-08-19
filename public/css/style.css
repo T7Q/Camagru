@@ -4,6 +4,7 @@
 @import "alert.css"; 
 @import "image.css"; 
 @import "profile.css"; 
+@import "navbar.css"; 
 
 
 * {
@@ -46,7 +47,8 @@ body form {
 }
 
 nav {
-	font-family: 'Public Sans', sans-serif;
+	/* font-family: 'Public Sans', sans-serif; */
+	font-family: 'Open Sans', sans-serif;
 	position: fixed;
 }
 

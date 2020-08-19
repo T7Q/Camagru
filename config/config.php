@@ -1,6 +1,8 @@
 <?php
   // App Root
   define('APPROOT', trim(basename(dirname($_SERVER['PHP_SELF']))));
+  // Define the whole path to application root folder
+  define('APPPATH', dirname(dirname(__FILE__)));
 
   // Application URL
   if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){

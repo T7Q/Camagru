@@ -11,20 +11,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo URLROOT; ?>/galleries/all">GALLERY</a>
+          <a class="nav-link" href="<?php echo URLROOT; ?>/galleries/all">Gallery</a>
         </li>
 
         <?php if(isset($_SESSION['user_id'])) : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/photobooth/photo">PHOTOBOOTH</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/photobooth/photo">Photobooth</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/profiles/user/<?php echo $_SESSION['user_id']; ?>">PROFILE</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/profiles/user/<?php echo $_SESSION['user_id']; ?>">Profile</a>
           </li>
         
         <?php else : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">SING IN</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">Sing in</a>
           </li>
         <?php endif; ?>
       </ul>
@@ -32,11 +32,11 @@
       <ul class="navbar-nav">
         <?php if(isset($_SESSION['user_id'])) : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">LOGOUT</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">Log out</a>
           </li>
         <?php else : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">JOIN</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/users/register">Join</a>
           </li>
           <?php endif; ?>
       </ul>
