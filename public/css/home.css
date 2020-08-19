@@ -6,28 +6,12 @@
 	background-color: #f3f3f3;
 }
 
-.darkgrey {
-	background-color: #bcb7b7 ;
-}
-
-.aligntocenter {
-	margin: auto;
-}
-
-.circleshape {
-	border-radius: 50%;
-}
-
-#baloon {
-	background-color: #0000ff;
-}
-
-
 
 #camagru {
     width: 350px;
     height: auto;
 }
+
 /* sm */
 @media (min-width: 768px) {
     #camagru {

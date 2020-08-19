@@ -15,7 +15,3 @@
 .navbar-dark .navbar-nav .nav-link {
     color: white;
 }
-
-.navbar-dark .navbar-nav .nav-link #grey-nav {
-    color: rgba(255,255,255,.5) !important;
-}

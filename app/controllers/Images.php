@@ -129,7 +129,7 @@ class Images extends Controller {
 						}
 					} else {
 						$json['valid'] = false;
-						$json['message'] = "Image does not exist in your gallery";
+						$json['message'] = "You can't delete images that do not exist in your gallery";
 					}
 				} else {
 					$json['valid'] = false;

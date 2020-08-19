@@ -15,15 +15,21 @@ function getDetails(param){
 		if (this.readyState == 4 && this.status == 200) {
 			res = JSON.parse(this.responseText);
 			db_data = res['message'];
-            db_data[0].path = "/" + firstPath + "/" + db_data[0].path;
 
-            imgModal.src = db_data[0].path;
+			// add image src
+            db_data[0].path = "/" + firstPath + "/" + db_data[0].path;
+			imgModal.src = db_data[0].path;
+			
+			// add username
 			usernameModal.innerHTML = db_data[0].username;
+
+			// add comments
 			temp_list = res['comment_list'];
 			temp_len = temp_list.length;
 
 			// clear previously attached comments 
 			document.getElementById('comment-list').innerHTML = "";
+
 			let idLoggedUser = res['loggedIn'] === true ? res['idLoggedUser'] : 0;
 			// append all comments to the DOM
 			for (let i = 0; i < temp_len; i++){
@@ -35,12 +41,14 @@ function getDetails(param){
 				document.getElementById('comment-list').appendChild(comment);
 			}
 			
+			// show likes in red for likes owners
 			if (res['loggedIn'] === true){
 				likeModal.firstElementChild.style.color = db_data[0].my_like > 0 ? "#ff5011" : "black";
 			} else {
 				likeModal.firstElementChild.style.color = "black";
 			}
 
+			// add follow button for non-logged in user images
 			if ((res['loggedIn'] === true) && (db_data[0].id_user != idLoggedUser)){
 				if(followModal.classList.contains("d-none")){
 					followModal.classList.remove("d-none");
@@ -60,6 +68,8 @@ function getDetails(param){
 				followModal.setAttribute("id", "follow");
 			}
 			
+			// add set as profile pic for image owners
+
 			if((res['loggedIn'] === true) && (db_data[0].id_user == idLoggedUser)){
 				
 				if(document.getElementById('pop-up-del').classList.contains("d-none")){
@@ -79,6 +89,8 @@ function getDetails(param){
 				deleteImg.setAttribute("id", "del_img");
 				setAvatar.setAttribute("id", "avatar");
 			}
+
+			// update id for traking
 			likeModal.setAttribute("id", "modallike" + db_data[0].id_image);
 			likeModal.setAttribute("onclick","like(this.id)");
 			commentModal.setAttribute("id", "comment" + db_data[0].id_image);
@@ -86,8 +98,14 @@ function getDetails(param){
 			followModal.setAttribute("id", "follow" + db_data[0].id_user);
 			followModal.setAttribute("onclick","follow(this.id)");
 			postComment.setAttribute("id", "post" + db_data[0].id_image);
+
+			// add link to user profile
 			document.getElementById('user-link').setAttribute('href', "/" + firstPath + "/profiles/user/" + db_data[0].id_user);
+
+			// add avatar 
 			document.getElementById("user-avatar").src = "/" + firstPath + "/" + res['avatar'].profile_pic_path;
+
+			// add total amount of likes and comments
 			likeModal.firstElementChild.innerHTML = db_data[0].total_like;
 			commentModal.firstElementChild.innerHTML = db_data[0].total_comment;
 		}
@@ -108,15 +126,13 @@ deleteImg.addEventListener('click', function(e) {
 			res = JSON.parse(this.responseText);
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-modal");
-				console.log(res['message']);
-				// setTimeout(function(){
-				// 	closeModal();
-				// }, 5000);
-				// location.reload()
+				setTimeout(function(){
+					closeModal();
+				}, 5000);
+				location.reload()
 			} else {
 				alertBox("failure", res['message'], "alert-modal");
 			}
-			console.log(res['message']);
 		}
 	}
 	xmlhtt.open('POST', "/" + firstPath + "/images/delete", true);

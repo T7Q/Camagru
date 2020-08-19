@@ -44,22 +44,6 @@
 			}
 		}
 
-		// public function validateUserbyPwd($id_user, $pwd){
-		// 	$this->database->query('
-		// 		SELECT * FROM `user`
-		// 		WHERE password = :password AND id_user = :id_user');
-			// $this->database->bind(':id_user', $id_user);
-			// $this->database->bind(':password', $pwd);
-		// 	$this->database->single();
-		// 	if ($this->database->rowCount() > 0) {
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}		
-
-		// }
-
-
 		public function validateUserbyPwd($id_user, $password){
 			$this->database->query('SELECT * FROM user WHERE id_user = :id_user');
 			$this->database->bind(':id_user', $id_user);

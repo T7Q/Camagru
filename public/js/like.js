@@ -13,7 +13,7 @@ function like (id_image_input){
 			res = JSON.parse(this.responseText);
 			loggedIn = res['loggedIn'];
 			if (loggedIn === true){
-				// for Logged in users updte the DOM
+				// for Logged in users update the DOM
 				
 				// update likes in the modal box					
 				let img_modal = document.getElementById("modallike" + id_image);

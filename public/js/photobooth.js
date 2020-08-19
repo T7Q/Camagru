@@ -52,6 +52,7 @@ let displayingImage = false;
 let appliedFilters = [];
 let instructions = true;
 let previewImgCount = 0;
+let filterTurnedOn = false;
 
 // starts video stream
 const startStream = function () {
@@ -109,16 +110,21 @@ const toggleStream = function () {
             startStream();
         }
         videoStreamBtn.innerHTML = "Stop video";
-		takePhotoBtn.disabled = false;
-    }
+		checkFilter();
+		if (filterTurnedOn === true) {
+			takePhotoBtn.disabled = false;
+		}
+	}
 }
 
 // takes a picture and sends to server that returns mixed image
 function takePhoto(){
 	let data = {};
 	let target = streaming ? video : document.getElementById("uploaded_photo");
-	if (!target)
+	if (!target){
+		alertBox("failure", "Neither video or photo are one", "alert-body");
 		return;
+	}
 	canvas.getContext('2d').drawImage(target, 0, 0, width, height);
 	data.img_data = canvas.toDataURL('image/png');
 	data.filters = appliedFilters;
@@ -182,12 +188,29 @@ const createImageContainer = function (img) {
 	div.setAttribute("class", "mb-2 border text-center");
 	div.setAttribute("id", "div_img_" + previewImgCount);
 	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\" id=\'src_img_"+previewImgCount + "'></img>\
-	<button type=\"button\" class=\"btn btn-outline-success btn-sm img-preview-btn mt-1 mb-1 special-btn\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
-	<button type=\"button\" class=\"btn btn-outline-danger btn-sm img-preview-btn mt-1 mb-1 special-btn\">Delete</button>";
+	<button type=\"button\" class=\"btn btn-outline-secondary btn-sm img-preview-btn mt-1 mb-1 special-btn\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
+	<button type=\"button\" class=\"btn btn-outline-secondary btn-sm img-preview-btn mt-1 mb-1 special-btn\">Delete</button>";
 	div.lastElementChild.addEventListener('click', deleteImageContainer);
 	previewImgCount++;
 	return div;
 }
+
+
+
+function checkFilter(){
+	let filter_applied = 0;
+	for (let i = 1; i < 5; i++){
+		if(document.getElementById("filter_" + i).checked){
+			filter_applied++;
+		}
+	}
+	if (filter_applied == 0){
+		filterTurnedOn = false;
+	} else {
+		filterTurnedOn = true;
+	}
+}
+
 
 // Apply/remove filter
 function toggleFilter(selected_filter_id) {
@@ -223,7 +246,14 @@ function toggleFilter(selected_filter_id) {
 		element.remove();
 		showInstructions ();
 	}
+	checkFilter();
+	if (streaming === true && filterTurnedOn === true){
+		takePhotoBtn.disabled = false;
+	} else if (streaming === true && filterTurnedOn === false){
+		takePhotoBtn.disabled = true;
+	}
 }
+
 
 // show/hide instructions
 function showInstructions () {
@@ -275,6 +305,8 @@ const toggleUploadImage = function () {
 					img.classList.add("embed-responsive-item");
 					img.id = "uploaded_photo";
 					camera.insertBefore(img, camera.firstChild);
+					uploadImageBtn.value = "Delete Image";
+					takePhotoBtn.disabled = false;
 				};
 				img.src = this.result;
 			}
@@ -282,8 +314,6 @@ const toggleUploadImage = function () {
 			canvas.setAttribute('height', height);
 			canvas.setAttribute('width', width);
 			reader.readAsDataURL(img); 
-			uploadImageBtn.value = "Delete Image";
-			takePhotoBtn.disabled = false;
 		}
 		// alert("child count: " + document.getElementById("test").childElementCount);
 	}

@@ -1,4 +1,4 @@
-<!-- modal box -->
+<!-- modal box body -->
 <div class="modal fade" id="follow" tabindex="-1" aria-labelledby="followLabel" aria-modal="true" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable" role="document">
 		<div class="modal-content">

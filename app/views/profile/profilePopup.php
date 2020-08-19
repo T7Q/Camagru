@@ -1,11 +1,15 @@
 <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="profileLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="profileLabel">Edit profile</h5>
-                <button type="button" class="close" aria-label="Close" onclick="closeModal()">
-                    <span aria-hidden="true">×</span>
-                </button>
+          
+          <div class="modal-header">
+              <h5 class="modal-title" id="profileLabel">Edit profile</h5>
+              <div id="alert-profile" class="p-3 ml-5 rounded text-center d-none"></div>  
+              <div id="alert-notify" class="p-3 ml-5 rounded text-center d-none"></div>
+              <div id="alert-pwd" class="p-3 ml-5 rounded text-center d-none"></div>  
+              <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                <span aria-hidden="true">×</span>
+              </button>
             </div>
             <div class="modal-body">
               <!-- TOGGLE -->

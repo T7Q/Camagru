@@ -1,7 +1,5 @@
 <?php
-
-	class Email
-	{
+	class Email{
 		private $database;
 
 		public function __construct()
@@ -30,16 +28,13 @@
 			$this->database->bind(':username', $username);
 
 			$row = $this->database->single();
-			// if (isset($row)) {
 			if ($this->database->rowCount() > 0) {
 				if ($row->token == $token){
 					return true;
 				} else {
 					return false;
 				}
-				// return ( $row->token == $token ? true : false);
 			} else {
-				// echo "user does not exit <hr>";
 				return false;
 			}
 			return false;

@@ -32,13 +32,13 @@
 				<div class="col">
 						<input type="checkbox" onclick="toggleFilter(this.id)" id="filter_1" class='filter'>
 						<label for="filter_1" class="label-filter">
-							<img src="<?= URLROOT . '/public/img/filters/filter5.png' ?>" id="img_filter_1" class="img-thumbnail" alt="Cinque Terre">
+							<img src="<?= URLROOT . '/public/img/filters/filter1.png' ?>" id="img_filter_1" class="img-thumbnail" alt="Cinque Terre">
 						</label>
 				</div>
 				<div class="col">
 						<input type="checkbox" onclick="toggleFilter(this.id)" id="filter_2" class='filter'>
 						<label for="filter_2" class="label-filter">
-							<img src="<?= URLROOT . '/public/img/filters/filter15.png' ?>" id="img_filter_2" class="img-thumbnail" alt="Cinque Terre">
+							<img src="<?= URLROOT . '/public/img/filters/filter2.png' ?>" id="img_filter_2" class="img-thumbnail" alt="Cinque Terre">
 						</lable>
 				</div>
 				<div class="col take_photo_position">
@@ -47,13 +47,13 @@
 				<div class="col">
 					<input type="checkbox" onclick="toggleFilter(this.id)" id="filter_3" class='filter'>
 					<label for="filter_3" class="label-filter">
-						<img src="<?= URLROOT . '/public/img/filters/filter13.png' ?>" id="img_filter_3" class="img-thumbnail" alt="Cinque Terre">
+						<img src="<?= URLROOT . '/public/img/filters/filter3.png' ?>" id="img_filter_3" class="img-thumbnail" alt="Cinque Terre">
 					</label>
 				</div>
 				<div class="col">
 					<input type="checkbox" onclick="toggleFilter(this.id)" id="filter_4" class='filter'>
 					<label for="filter_4" class="label-filter">
-						<img src="<?= URLROOT . '/public/img/filters/filter10.png' ?>" id="img_filter_4" class="img-thumbnail" alt="Cinque Terre">
+						<img src="<?= URLROOT . '/public/img/filters/filter4.png' ?>" id="img_filter_4" class="img-thumbnail" alt="Cinque Terre">
 					</label>
 				</div>
 			</div>

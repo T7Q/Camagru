@@ -56,7 +56,6 @@ function getArticle() {
 	const btn_like = document.createElement('button');
 	btn_like.className = 'btn';
 	btn_like.setAttribute("id", 'bodylike' + photo_list[0]['id_image']);
-	// btn_like.setAttribute("onclick","like(this.id)");
 	number_like = photo_list[0]['total_like'];
 	btn_like.innerHTML = '<i class="fas fa-heart icon-7x">' + " " + number_like +'</i>';
 
@@ -198,7 +197,6 @@ function getContent(galleryType = "") {
 					document.getElementById("article-list-pagination").classList.add("d-none");
 					document.getElementById("article-list").classList.remove("mt-5");
 					document.getElementById("article-list").classList.add("mt-1");
-					// document.getElementById("article-page-"+ page).classList.remove("article-list__page");
 				}
 				
 				if (photo_list.length > 0) {

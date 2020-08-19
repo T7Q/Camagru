@@ -1,7 +1,4 @@
 <div id="profile-modal" class="mt-3">
-
-	<div id="alert-profile" class="p-3 m-3 rounded text-center d-none"></div>  
-
 	<form id="profile-form">
 	<div class="form-group">
 		<label for="username-form" class="col-form-label">Username:</label>

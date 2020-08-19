@@ -7,15 +7,11 @@
 			$this->database = new Db;
 		}
 
-		public function saveAvatar($id_image, $id_user){
-			$this->database->query('SELECT path FROM `gallery` WHERE id_image = :id_image');
-			$this->database->bind(':id_image', $id_image);
-			$path = $this->database->single();
-
+		public function saveAvatar($img_path, $id_user){
 			$this->database->query('UPDATE `user` SET `profile_pic_path` = :path 
 				WHERE id_user = :id_user');
 			$this->database->bind(':id_user', $id_user);
-			$this->database->bind(':path', $path->path);
+			$this->database->bind(':path', $img_path);
 
 			if($this->database->execute()){
 				return true;

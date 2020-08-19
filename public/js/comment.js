@@ -24,27 +24,6 @@ function createComment(id_comment, username, comment_text, owncomment){
 	}
 	return comment;
 }
-// function createComment(id_comment, username, comment_text, owncomment){
-// 	const comment = document.createElement('p');
-// 	comment.className = 'row d-flex flex-row align-items-center';
-// 	comment.setAttribute("id", "id_comment" + id_comment);
-// 	if (owncomment === 1){
-// 		comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
-// 		username+ "</span><span class=\"font-weight-light small p-2 text-wrap\">" + 
-// 		comment_text + "</span>\
-// 		<button " + "id=\"delcomment" + id_comment+ "\"" +"type=\"button\" class=\"btn btn-link btn-sm rounded ml-auto p-2\">\
-// 		<i class=\"far fa-times-circle closeicon\"></i>\
-// 		</button>\
-// 		";
-// 		comment.lastElementChild.addEventListener('click', deleteComment);
-// 	} else {
-// 		comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
-// 			username+ "</span><span class=\"font-weight-light small p-2\">" + 
-// 			comment_text + "</span>";
-// 	}
-// 	return comment;
-// }
-
 
 postComment.addEventListener('submit', function(e) {
 	event.preventDefault();

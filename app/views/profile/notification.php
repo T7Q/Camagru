@@ -1,6 +1,5 @@
+<!-- modal box body -->
 <div id="notify-modal" class="mt-3 d-none">
-
-	<div id="alert-notify" class="p-3 m-3 rounded text-center d-none"></div>
 	<p>
 		<span>An email notification is sent if your image was liked or commented.</span>
 	</p>

@@ -20,7 +20,6 @@
 	<!-- To silence warning about absence of favicon -->
 	<link rel="shortcut icon" href="~/favicon.ico">
 
-	
 
 </head>
 <body>

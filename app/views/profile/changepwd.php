@@ -1,7 +1,5 @@
+<!-- modal box body -->
 <div id="pwd-modal" class="mt-3 d-none">
-              
-	<div id="alert-pwd" class="p-3 m-3 rounded text-center d-none"></div>  
-
 	<form id="pwd-form">
 		<div class="form-group">
 		<label for="currentPwd">Current password<sup>*</sup></label>

@@ -77,30 +77,11 @@
 	width:100%;
 }
 
-.top30 {
-	margin-top: 30px;
-}
-
-.bottom30 {
-	margin-bottom: 30px;
-}
-
-#empty {
-	height: 800px;
-}
-
-
 /* modal box */
 
 button i {
 	pointer-events: none;
   }
-
-/* .popup-image {
-	position: relative;
-	max-width: 100%;
-	max-height: 100%;
-} */
 
 .avatar {
 	border-radius: 50%;
@@ -109,23 +90,15 @@ button i {
 	
 }
 
-/* testing */
 .card-img-overlay{
 	pointer-events: none;
 }
-
-/* .thumbnail {
-	opacity: .80;
-    transition: opacity .2s, transform .2s
-} */
-
 
 .hide {
 	display: none !important;
 }
 
 .thumbnail:hover {
-	/* filter: drop-shadow(8px 8px 10px black); */
 	filter: brightness(50%);
     transform: scale(1.1);
     z-index: 3;
@@ -149,18 +122,6 @@ button i {
 
 .color-icon{
 	color:black;
-}
-
-.box-padding{
-	padding:inherit;
-}
-
-.mx-480 {
-	max-height: 480px;
-}
-
-.respect-left-height {
-    overflow: auto
 }
 
 #pop-up-del {

@@ -21,7 +21,6 @@
 						<input type="submit" value="Update" class="btn btn-success btn-block" id="pwdReset">
 					</div>
 				</div>
-				<!-- <a href="<?php echo URLROOT; ?>/users/pwd_reset">Forgot your password?</a> -->
 			</div> 
 		</div>
 	</div>

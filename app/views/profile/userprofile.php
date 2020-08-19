@@ -6,9 +6,10 @@
 	<div class="col d-flex justify-content-center">
 		<img id="profile-pic" src="<?php echo URLROOT . "/" . $data['avatar']; ?>" width="100px" height="100px" class="avatar img-thumbnail">
 	</div>
+	
 	<div class="col">
-		<div class="row">
-			<h2 id="username" class="mr-5"><?php echo $data['username']; ?></h2>
+		<div class="row overflow-auto">
+			<h2 id="username" class="mr-5 font-weight-bold"><?php echo $data['username']; ?></h2>
 			<?php if($data['show_edit_button']) : ?>
 			<button id="edit" type="button" class="btn btn-outline-secondary" onclick='openModal(this.id)'>
 				edit profile & settings
@@ -17,9 +18,11 @@
 		</div>
 		<div class="row align-items-center">
 			<span>
-				<span id="image"><?php echo $data['images']; ?></span> <span class="pl-2 pr-2">images</span>
+				<span id="image"><?php echo $data['images']; ?></span>
+				<button id="image-count-btn"  type="button" class="btn btn-link disabled"> images</button>
+
 			</span>
-			<span>
+			<span ml-2 mr-2>
 				<span id="following"><?php echo $data['following']; ?></span>
 				<button id="modalfollowing"  type="button" class="btn btn-link" onclick='openModal(this.id)'> following</button>
 			</span>

@@ -36,6 +36,9 @@ profileForm.onsubmit = function (event){
 			res = JSON.parse(this.responseText);
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-profile");
+				document.getElementById("username").innerHTML = "";
+				document.getElementById("username").innerHTML = res['username'];
+
 			} else {
 				alertBox("failure", res['message'], "alert-profile");
 			}

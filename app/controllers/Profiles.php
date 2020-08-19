@@ -8,8 +8,6 @@ class Profiles extends Controller {
 		$this->followModel = $this->model('Follow');
 	}
 
-
-
 	public function user($id_user_requested = '') {
 
 		$this->checkAccessRights();
@@ -96,6 +94,9 @@ class Profiles extends Controller {
 					if($this->profileModel->updateUserData($id_user, $data['email'], $data['last_name'], $data['first_name'], $data['username'])){
 						$json['valid'] =  true;
 						$json['message'] = "Your profile data was successfully updated";
+						$temp = $this->profileModel->getUsername($id_user);
+						$json['username'] = ucwords($temp->username);
+
 					} else {
 						$json['valid'] = false;
 						$json['message'] = "Oops, something went wrong saving updated data to the database";
@@ -156,16 +157,13 @@ class Profiles extends Controller {
 						} else {
 							$json['valid'] = false;
 							$json['message'] = $data['confirm_password_err'];
-							// $json['message'] = "Error in confirm password";
 						}
 					} else {
 						$json['valid'] = false;
 						$json['message'] = $data['password_err'];
-						// $json['message'] = "Error in new password";
 					}	
 				} else {
 					$json['valid'] = false;
-					// $json['message'] = $data['oldpwd'];
 					$json['message'] = "Current password is wrong";
 				}
             } else {

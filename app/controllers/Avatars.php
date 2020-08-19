@@ -4,6 +4,7 @@
 		public function __construct(){
 			$this->galleryModel = $this->model('Gallery'); // to check img existance and get img owner
 			$this->avatarModel = $this->model('Avatar');
+			$this->imageModel = $this->model('Image');
 		}
 
 		public function setAvatar() {
@@ -19,11 +20,18 @@
 						if($this->galleryModel->imageExists($id_image)){
 							$image_owner = $this->galleryModel->imageOwner($id_image);
 							if ($id_user === $image_owner->id_user){
-								$this->avatarModel->saveAvatar($id_image, $id_user);
-								$temp2 = $this->avatarModel->getUserAvatar($id_user);
-								$json['path'] = $temp2->profile_pic_path;
-								$json['valid'] = true;
-								$json['message'] = "Your profile photo was successfully updated";
+								$img_path = $this->imageModel->getImgPath($id_image);
+								$avatar_img_path = 'public/img/user_' . $id_user . '/profile.png';
+								if (copy(APPPATH . '/' . $img_path->path , APPPATH . '/' . $avatar_img_path)) {
+									$this->avatarModel->saveAvatar($avatar_img_path, $id_user);
+									$temp2 = $this->avatarModel->getUserAvatar($id_user);
+									$json['valid'] = true;
+									$json['path'] = $temp2->profile_pic_path;
+									$json['message'] = "Your profile photo was successfully updated";
+								} else{
+									$json['valid'] = false;
+									$json['message'] = 'Failed to copy image';
+								}
 								
 							} else {
 								$json['valid'] = false;

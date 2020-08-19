@@ -1,6 +1,5 @@
 <?php
-	class Follow
-	{
+	class Follow{
 		private $database;
 
 		public function __construct()

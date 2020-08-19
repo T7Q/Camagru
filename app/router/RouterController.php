@@ -14,11 +14,9 @@ class RouterController {
 
 		
 	public function render($url_input){
-		// echo "init->render <hr>";
 		$url = explode('/', $url_input);
 
 		// Look if our root folder is an array's first element, delete it
-        // if (isset($url[0]) && $url[0] == 'camagru10') {
         if (isset($url[0]) && $url[0] == APPROOT) {
             array_shift($url);
         }
@@ -47,7 +45,6 @@ class RouterController {
 				unset($url[1]);
 			}
 		}
-		// echo $this->currentMethod;
 		
 		// Get params
 		$this->params =  $url ? array_values($url) : [];
