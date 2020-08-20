@@ -18,7 +18,8 @@
 					$id_image = $temp[1];
 
 					// The FILTER_SANITIZE_STRING filter removes tags and remove or encode special characters from a string.
-					$comment_text = filter_var($data['comment'], FILTER_SANITIZE_STRING);
+					// $comment_text = filter_var($data['comment'], FILTER_SANITIZE_STRING);
+					$comment_text = htmlspecialchars($data['comment']);
 
 					$json['loggedIn'] = (isset($_SESSION['user_id'])) ? true: false ;
 

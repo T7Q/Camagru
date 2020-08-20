@@ -22,7 +22,7 @@
 					</div>
 					<!-- comments -->
 					<div class="col-12 col-lg-5 pl-5 pr-5">
-						<div class="pt-1">
+						<!-- <div class="pt-1"> -->
 							<div class="row border-bottom d-flex flex-row align-items-center">
 								<div class="p-2">
 									<img id="user-avatar" src="<?php echo URLROOT; ?>/public/img/general/avatar.png" alt="user avatar" class="avatar img-thumbnail">
@@ -38,17 +38,17 @@
 							<div class="row">
 								<div id="comment-list" class="col"></div>
 							</div>
-							<div id="pop-up-reaction" class="row">
+							<div id="pop-up-reaction" class="row position-bottom mb-5">
 								<button class="btn"><i class="fas fa-heart icon-7x"></i></button>
 								<button class="btn"><i class="fas fa-comment icon-7x color-icon"></i></button>
 							</div>
-							<div class="row">
+							<div class="row position-bottom mb-1">
 								<form id="post-comment" class="form-inline">
 									<input class="form-control font-weight-light small" placeholder="Add a comment" id="post-comment-text" maxlength="150">
 									<button class="btn btn-outline-primary ml-2 btn-md-sm">Post</button>
 								</form>
 							</div>
-						</div>
+						<!-- </div> -->
 					</div>
 				</div>
 			</div>

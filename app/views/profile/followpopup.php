@@ -6,9 +6,10 @@
 				<h5 class="modal-title" id="follow-title">No followers/following</h5>
 				<button type="button" class="close" aria-label="Close" onclick="closeModal()">
                     <span aria-hidden="true">×</span>
-                </button>
+				</button>
             </div>
 			<div class="modal-body p-0" id="follow">
+				<div id="alert-follow" class="p-3 rounded text-center d-none"></div>
 				<div id="list-user">
 
 				</div>

@@ -12,10 +12,19 @@
     height: auto;
 }
 
+.position-bottom {
+    position: inherit;
+    bottom:0;
+}
+
 /* sm */
 @media (min-width: 768px) {
     #camagru {
         width: 400px;
+    }
+    .position-bottom {
+        position: absolute;
+        bottom:0;
     }
 }
 /* md */

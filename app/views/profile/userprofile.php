@@ -44,7 +44,7 @@
 	</div>
 	<div class="form-check form-check-inline">
 		<input class="form-check-input" type="radio" name="inlineRadioOptions" id="follow-gallery" value="option2">
-		<label class="form-check-label" for="inlineRadio2">FOllOWING</label>
+		<label class="form-check-label" for="inlineRadio2">FOLLOWING</label>
 	</div>
 </div>
 

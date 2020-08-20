@@ -25,7 +25,7 @@ function like (id_image_input){
 				img_body.firstElementChild.innerHTML = res['count'];
 			} else {
 				// show error for not logged in users
-				alertBox("failure", res['message'], "alert-body");
+				alertBox("failure", res['message'], "alert-modal");
 			}
 		}
 	}

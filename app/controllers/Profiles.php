@@ -10,7 +10,7 @@ class Profiles extends Controller {
 
 	public function user($id_user_requested = '') {
 
-		$this->checkAccessRights();
+		// $this->checkAccessRights();
 
 		if (!($id_user_requested == '')){
 			// Init data
@@ -28,7 +28,9 @@ class Profiles extends Controller {
 			
 			if ($this->userModel->userExists($id_user)){
 				// check if requested profile is for logged in user
-				$loggedin_user = $_SESSION['user_id'];
+				
+				// $loggedin_user = $_SESSION['user_id'];
+				$loggedin_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
 				$data['show_edit_button'] = ($loggedin_user == $id_user) ? 1 : 0;
 
 				$data['following'] = $this->followModel->followingCount($id_user);
@@ -40,7 +42,6 @@ class Profiles extends Controller {
 				$data['images'] = $this->profileModel->imageCount($id_user);
 				$temp = $this->profileModel->getAvatar($id_user);
 				$data['avatar'] = $temp->profile_pic_path;
-				//== null ? "/public/img/general/avatar.png" : $temp->profile_pic_path;
 				
 				$this->view('profile/userprofile', $data);
 			} else {
@@ -216,24 +217,28 @@ class Profiles extends Controller {
 				$type = $data['type'];
 
 				$json['type'] = $type;
+				// $json['message'] = $type;
 				if ($type == "following"){
+					$json['type'] = "Following";
 					if($this->profileModel->userFollowingExists($id_user)){
 						$json['valid'] = true;
 						$json['user-list'] = $this->profileModel->getFollowingList($id_user);
-						$json['message'] = "following";
+						$json['message'] = "Following";
 					} else {
-						$json['message'] = "You dont follow anyone, visit Gallery";
+
+						$json['message'] = "No followings";
 						$json['valid'] = false;
 					}
 				} else if ($type == "followers"){
-						if($this->profileModel->userFollowerExists($id_user)){
-							$json['valid'] = true;
-							$json['user-list'] = $this->profileModel->getFollowerList($id_user);
-							$json['message'] = "followers";
-						} else {
-							$json['message'] = "Seems like you dont have followers yet";
-							$json['valid'] = false;
-						}
+					$json['type'] = "Followers";
+					if($this->profileModel->userFollowerExists($id_user)){
+						$json['valid'] = true;
+						$json['user-list'] = $this->profileModel->getFollowerList($id_user);
+						$json['message'] = "Followers";
+					} else {
+						$json['message'] = "This profile does not have followers yet..";
+						$json['valid'] = false;
+					}
 				} else {
 					$json['message'] = "Error occured getting followers data";
 					$json['valid'] = false;

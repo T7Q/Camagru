@@ -81,7 +81,7 @@
 						$json['valid'] = true;
 						$json['comment_list'] = $this->galleryModel->getImageComments($id_image);
 						$json['idLoggedUser'] = $id_user;
-						$json['avatar'] = $this->avatarModel->getUserAvatar($id_user);
+						$json['avatar'] = $this->avatarModel->getUserAvatar($temp[0]->id_user);
 						if($this->followModel->alreadyFollow($id_user, $temp[0]->id_user)){
 							$json['follow'] = true;
 						} else {

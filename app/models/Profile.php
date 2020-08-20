@@ -123,6 +123,7 @@
 			}		
 		}
 
+
 		public function getFollowerList($id_user){
 			$this->database->query('
 			SELECT follow.follower_id AS follow_id, user.username, user.profile_pic_path
