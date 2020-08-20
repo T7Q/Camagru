@@ -1,5 +1,6 @@
 let loginForm = document.getElementById('login-form');
 
+
 loginForm.onsubmit = function (){
 	event.preventDefault();
 	
@@ -15,15 +16,12 @@ loginForm.onsubmit = function (){
 				window.location.href = "/" + firstPath + "/galleries/all";
 			} else {
 				loginForm.reset();
-				if(res['username_err'] != undefined){
-					let span = document.getElementById("username_err");
-                    span.previousElementSibling.classList.add('is-invalid');
-					span.innerHTML = res['username_err'];
-				}
-				if(res['password_err'] != undefined){
-					let span = document.getElementById("password_err");
-					span.previousElementSibling.classList.add('is-invalid');
-					span.innerHTML = res['password_err'];
+				for (var key in res['error']) {
+					if(res['error'][key] != undefined){
+						element = document.getElementById(key);
+						element.previousElementSibling.classList.add('is-invalid');
+						element.innerHTML = res['error'][key];
+					}
 				}
 			}
 		}

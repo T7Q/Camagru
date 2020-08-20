@@ -4,8 +4,11 @@ let profileForm = document.getElementById('profile-form');
 let pwdForm = document.getElementById('pwd-form');
 let notificationToggle= document.getElementById('notification-switch');
 
+
 function getProfileData(){
-    data = {};
+	data = {};
+	clearProfileFormError();
+	clearPwdFormError();
 	let xmlhtt = new XMLHttpRequest();
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
@@ -22,6 +25,7 @@ function getProfileData(){
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
 
+
 profileForm.onsubmit = function (event){
 	event.preventDefault();
 
@@ -34,12 +38,7 @@ profileForm.onsubmit = function (event){
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 			res = JSON.parse(this.responseText);
-
-			let username_err = document.getElementById("username_err");
-			let first_name_err = document.getElementById("first_name_err");
-			let last_name_err = document.getElementById("last_name_err");
-			let email_err = document.getElementById("email_err");
-
+			clearProfileFormError();
 			if (res['valid'] === true){
 				alertBox("success", res['message'], "alert-profile");
 
@@ -52,22 +51,15 @@ profileForm.onsubmit = function (event){
 				document.getElementById("username").innerHTML = res['username'];
 
 			} else {
-				profileForm.reset();
-				if(res['username_err'] != undefined){
-                    username_err.previousElementSibling.classList.add('is-invalid');
-					username_err.innerHTML = res['username_err'];
-				}
-				if(res['first_name_err'] != undefined){
-					first_name_err.previousElementSibling.classList.add('is-invalid');
-					first_name_err.innerHTML = res['first_name_err'];
-				}
-				if(res['last_name_err'] != undefined){
-					last_name_err.previousElementSibling.classList.add('is-invalid');
-					last_name_err.innerHTML = res['last_name_err'];
-				}
-				if(res['email_err'] != undefined){
-					email_err.previousElementSibling.classList.add('is-invalid');
-					email_err.innerHTML = res['email_err'];
+				for (var key in res['error']) {
+					if(res['error'][key] != undefined){
+						temp = res['error'][key];
+						if(temp.length > 0){
+							element = document.getElementById(key);
+							element.previousElementSibling.classList.add('is-invalid');
+							element.innerHTML = res['error'][key];
+						}
+					}
 				}
 			}
 		}
@@ -77,6 +69,53 @@ profileForm.onsubmit = function (event){
 	xmlhtt.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlhtt.send('data=' + JSON.stringify(data));
 }
+
+
+function clearProfileFormError(){
+	const error = [ 
+		"username_err",
+		"first_name_err",
+		"last_name_err",
+		"email_err",
+	];
+	for (let i = 0; i < error.length; i++) {
+		element = document.getElementById(error[i]);
+
+		if(element.previousElementSibling.classList.contains("is-invalid")){
+			element.previousElementSibling.classList.remove("is-invalid");
+			element.innerHTML = "";
+		}
+		if(element.previousElementSibling.classList.contains("is-valid")){
+			element.previousElementSibling.classList.remove("is-valid");
+		}
+	}
+}
+
+
+function clearPwdFormError(){
+	const error = [ 
+		"old_password_err",
+		"password_err",
+		"confirm_password_err",
+	];
+	for (let i = 0; i < error.length; i++) {
+		
+		if(document.getElementById(error[i])){
+			element = document.getElementById(error[i]);
+
+			if(element.previousElementSibling.classList.contains("is-invalid")){
+				element.previousElementSibling.classList.remove("is-invalid");
+				element.innerHTML = "";
+			}
+			if(element.previousElementSibling.classList.contains("is-valid")){
+				element.previousElementSibling.classList.remove("is-valid");
+			}
+		}
+	}
+}
+
+// // select elements to update for warning messages
+
 
 pwdForm.onsubmit = function (event){
 	event.preventDefault();
@@ -89,42 +128,23 @@ pwdForm.onsubmit = function (event){
 	xmlhtt.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 			res = JSON.parse(this.responseText);
-			let old_password_err = document.getElementById("old_password_err1");
-			let password_err = document.getElementById("password_err1");
-			let confirm_password_err = document.getElementById("confirm_password_err1");
-
-			if(old_password_err.previousElementSibling.classList.contains("is-invalid")){
-				old_password_err.previousElementSibling.classList.remove("is-invalid");
-				old_password_err.innerHTML = "";
-			}
-			if(password_err.previousElementSibling.classList.contains("is-invalid")){
-				password_err.previousElementSibling.classList.remove("is-invalid");
-				password_err.innerHTML = "";
-			}
-			if(confirm_password_err.previousElementSibling.classList.contains("is-invalid")){
-				confirm_password_err.previousElementSibling.classList.remove("is-invalid");
-				confirm_password_err.innerHTML = "";
-			}
-
-
+			clearPwdFormError();
 			if (res['valid'] === true){
+				// valid input
+				let old_password_err = document.getElementById("old_password_err");
+				let password_err = document.getElementById("password_err");
+				let confirm_password_err = document.getElementById("confirm_password_err");
 				old_password_err.previousElementSibling.classList.add('is-valid');
 				password_err.previousElementSibling.classList.add('is-valid');
 				confirm_password_err.previousElementSibling.classList.add('is-valid');
 				alertBox("success", res['message'], "alert-pwd");
 			} else {
-				pwdForm.reset();
-				if(res['old_password_err'] != undefined){
-					old_password_err.previousElementSibling.classList.add('is-invalid');
-					old_password_err.innerHTML = res['old_password_err'];
-				}
-				if(res['password_err'] != undefined){
-					password_err.previousElementSibling.classList.add('is-invalid');
-					password_err.innerHTML = res['password_err'];
-				}
-				if(res['confirm_password_err'] != undefined){
-					confirm_password_err.previousElementSibling.classList.add('is-invalid');
-					confirm_password_err.innerHTML = res['confirm_password_err'];
+				for (var key in res['error']) {
+					if(res['error'][key] != undefined){
+						element = document.getElementById(key);
+						element.previousElementSibling.classList.add('is-invalid');
+						element.innerHTML = res['error'][key];
+					}
 				}
 			}
 		}

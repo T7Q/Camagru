@@ -102,11 +102,13 @@ class Profiles extends Controller {
 					}
 				} else {
 					$json['valid'] = false;
-					
-					$json['username_err'] = $data['username_err'];
-					$json['first_name_err'] = $data['first_name_err'];
-					$json['last_name_err'] = $data['last_name_err'];
-					$json['email_err'] = $data['email_err'];
+
+					$json['error'] = [
+						'first_name_err' => $data['first_name_err'],
+						'last_name_err' => $data['last_name_err'],
+						'username_err' => $data['username_err'],
+						'email_err' => $data['email_err']
+					];
 				}
             } else {
 				$json['valid'] = false;
@@ -130,6 +132,7 @@ class Profiles extends Controller {
 					'oldpwd' => trim($form_data['currentpwd']),
 					'password' => trim($form_data['newpwd']),
 					'confirm_password' => trim($form_data['confirmpwd']),
+					''
 				];
 				
 				if($this->profileModel->validateUserbyPwd($id_user, $data['oldpwd'])){
@@ -149,14 +152,17 @@ class Profiles extends Controller {
 						} else {
 							$json['valid'] = false;
 							$json['confirm_password_err'] = $data['confirm_password_err'];							
+							$json['error'] = ['confirm_password_err' => $data['confirm_password_err']];							
 						}
 					} else {
 						$json['valid'] = false;
 						$json['password_err'] = $data['password_err'];
+						$json['error'] = ['password_err' => $data['password_err']];
 					}	
 				} else {
 					$json['valid'] = false;
 					$json['old_password_err'] = "Current password is wrong";
+					$json['error'] = ['old_password_err' => "Current password is wrong"];
 				}
             } else {
 				$json['valid'] = false;

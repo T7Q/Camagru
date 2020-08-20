@@ -1,5 +1,28 @@
 let registerForm = document.getElementById('register-form');
 
+function clearRegisterFormError(){
+	const error = [ 
+		"username_err",
+		"password_err",
+		"confirm_password_err",
+		"first_name_err",
+		"last_name_err",
+		"email_err",
+	];
+	for (let i = 0; i < error.length; i++) {
+		element = document.getElementById(error[i]);
+
+		if(element.previousElementSibling.classList.contains("is-invalid")){
+			element.previousElementSibling.classList.remove("is-invalid");
+			element.innerHTML = "";
+		}
+		if(element.previousElementSibling.classList.contains("is-valid")){
+			element.previousElementSibling.classList.remove("is-valid");
+		}
+	}
+}
+
+
 registerForm.onsubmit = function (){
 	event.preventDefault();
 	
@@ -22,7 +45,7 @@ registerForm.onsubmit = function (){
 			let first_name_err = document.getElementById("first_name_err");
 			let last_name_err = document.getElementById("last_name_err");
 			let email_err = document.getElementById("email_err");
-			
+			clearRegisterFormError();
 			if (res['valid'] === true){
 				username_err.previousElementSibling.classList.add('is-valid');
 				password_err.previousElementSibling.classList.add('is-valid');
@@ -32,30 +55,16 @@ registerForm.onsubmit = function (){
 				email_err.previousElementSibling.classList.add('is-valid');
 				alertBox("success", res['message'], "alert-body");
 			} else {
-				registerForm.reset();
-				if(res['username_err'] != undefined){
-                    username_err.previousElementSibling.classList.add('is-invalid');
-					username_err.innerHTML = res['username_err'];
-				}
-				if(res['password_err'] != undefined){
-					password_err.previousElementSibling.classList.add('is-invalid');
-					password_err.innerHTML = res['password_err'];
-				}
-				if(res['confirm_password_err'] != undefined){
-					confirm_password_err.previousElementSibling.classList.add('is-invalid');
-					confirm_password_err.innerHTML = res['confirm_password_err'];
-				}
-				if(res['first_name_err'] != undefined){
-					first_name_err.previousElementSibling.classList.add('is-invalid');
-					first_name_err.innerHTML = res['first_name_err'];
-				}
-				if(res['last_name_err'] != undefined){
-					last_name_err.previousElementSibling.classList.add('is-invalid');
-					last_name_err.innerHTML = res['last_name_err'];
-				}
-				if(res['email_err'] != undefined){
-					email_err.previousElementSibling.classList.add('is-invalid');
-					email_err.innerHTML = res['email_err'];
+				// registerForm.reset();
+				for (var key in res['error']) {
+					if(res['error'][key] != undefined){
+						temp = res['error'][key];
+						if(temp.length > 0){
+							element = document.getElementById(key);
+							element.previousElementSibling.classList.add('is-invalid');
+							element.innerHTML = res['error'][key];
+						}
+					}
 				}
 			}
 		}

@@ -24,7 +24,7 @@
         
         <?php else : ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">Sing in</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/users/login">Sign in</a>
           </li>
         <?php endif; ?>
       </ul>

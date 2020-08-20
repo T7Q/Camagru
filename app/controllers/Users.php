@@ -52,12 +52,15 @@
 						} 
 					} else {
 						$json['valid'] = false;
-						$json['username_err'] = $data['username_err'];
-						$json['password_err'] = $data['password_err'];
-						$json['confirm_password_err'] = $data['confirm_password_err'];
-						$json['first_name_err'] = $data['first_name_err'];
-						$json['last_name_err'] = $data['last_name_err'];
-						$json['email_err'] = $data['email_err'];
+						$json['error'] = [
+							'username_err' => $data['username_err'],
+							'password_err' => $data['password_err'],
+							'confirm_password_err' => $data['confirm_password_err'],
+							'first_name_err' => $data['first_name_err'],
+							'last_name_err' => $data['last_name_err'],
+							'email_err' => $data['email_err'],
+
+						];
 					}
 				} else {
 					$json['valid'] = false;
@@ -96,13 +99,15 @@
 						} else {
 							// Load view with errors
 							$json['valid'] = false;
-							$json['password_err'] = 'Password incorrect';
+							$json['error'] = ['password_err' => "Password incorrect"];
 						}
 					} else {
 						// Load view with errors
 						$json['valid'] = false;
-						$json['password_err'] = $data['password_err'];
-						$json['username_err'] = $data['username_err'];
+						$json['error'] = [
+							'password_err' => $data['password_err'],
+							'username_err' => $data['username_err'],
+						];
 					}
 				} else {
 					$json['valid'] = false;
