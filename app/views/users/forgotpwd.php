@@ -4,6 +4,7 @@
 		<div class="col-md-6 mx-auto">
 			<div id="alert-body" class="p-3 m-3 rounded text-center d-none"></div>
 			<div class="card card-body bg-light mt-5">
+				<?php $this->flash('forgot_pwd'); ?>
 				<h2>Reset your password</h2>
 				<p>An email will be send to you with instructions on how to reset your password.</p>
 				<form id="forgot-pwd">

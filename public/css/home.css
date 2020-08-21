@@ -17,6 +17,13 @@
     bottom:0;
 }
 
+#comment-list{
+	max-height: 100px;
+	overflow-y:auto;
+	display: inline-block;
+}
+
+
 /* sm */
 @media (min-width: 768px) {
     #camagru {
@@ -32,6 +39,9 @@
     .position-bottom {
         position: absolute;
         bottom:0;
+    }
+    #comment-list{
+        max-height: 420px;
     }
 }
 /* lg */

@@ -19,8 +19,8 @@ function createComment(id_comment, username, comment_text, owncomment){
 		comment.lastElementChild.addEventListener('click', deleteComment);
 	} else {
 		comment.innerHTML = "<span class=\"font-weight-bold mr-1 small p-2\" >" + 
-			username+ "</span><span class=\"font-weight-light small p-2\">" + 
-			comment_text + "</span>";
+			username+ "</span><i class=\"font-weight-light small p-2\">" + 
+			comment_text + "</i>";
 	}
 	return comment;
 }

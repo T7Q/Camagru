@@ -122,7 +122,7 @@ function takePhoto(){
 	let data = {};
 	let target = streaming ? video : document.getElementById("uploaded_photo");
 	if (!target){
-		alertBox("failure", "Neither video or photo are one", "alert-body");
+		alertBox("failure", "Neither video or photo are on", "alert-body");
 		return;
 	}
 	canvas.getContext('2d').drawImage(target, 0, 0, width, height);
@@ -279,6 +279,7 @@ function showInstructions () {
 const toggleUploadImage = function () {
     if (displayingImage) {
 		// "Delete image" btn has been pressed
+		
 		document.getElementById("uploaded_photo").remove();
 		document.getElementById('upload').value = '';
 		uploadImageBtn.value = "Upload Image";
@@ -292,13 +293,13 @@ const toggleUploadImage = function () {
 		// Trigger hidden 'upload' btn to upload image to the DOM, update button text to "Delete image", set displyaing_image to true
 		document.getElementById('upload').click();
 		document.getElementById('upload').onchange = function(event) {
-			displayingImage = true;
-			showInstructions ();
 			let img = document.getElementById("upload").files[0];
 			let reader = new FileReader();
 			reader.onload = function(event) {
 				img = new Image();
 				img.onload = function() {
+					displayingImage = true;
+					showInstructions ();
 					let img = document.createElement('img');
 					img.src = this.src;
 					img.classList.add("video_overlay");

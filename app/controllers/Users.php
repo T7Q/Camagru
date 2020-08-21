@@ -94,7 +94,10 @@
 						$loggedInUser = $this->userModel->login($data['username'], $data['password']);
 						if ($loggedInUser) {
 							// Create Session
-							$this->createUserSession($loggedInUser);
+							$_SESSION['user_id'] = $loggedInUser->id_user;
+							$_SESSION['user_username'] = $loggedInUser->username;
+							$_SESSION['user_email'] = $loggedInUser->email;
+						
 							$json['valid'] = true;
 						} else {
 							// Load view with errors
@@ -122,12 +125,6 @@
 			}
 		}
 
-		public function createUserSession($user) {
-			$_SESSION['user_id'] = $user->id_user;
-			$_SESSION['user_username'] = $user->username;
-			$_SESSION['user_email'] = $user->email;
-		}
-
 		public function logout(){
 			unset($_SESSION['user_id']);
 			unset($_SESSION['user_username']);
@@ -136,13 +133,7 @@
 			$this->redirect('users/login');
 		}
 
-		public function isLoggedIn() {
-			if (isset($_SESSION['user_id'])) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		
 
 		public function forgotpwd() {		
 			if ($this->isAjaxRequest()) {
@@ -185,15 +176,6 @@
 				echo json_encode($json);
 			} else {
 				$this->view('users/forgotpwd');
-			}
-		}
-
-		public function newtest(){
-			if ($this->isAjaxRequest()) {
-				$this->view('users/hello');
-				
-			} else {
-				$this->view('pages/error');
 			}
 		}
 

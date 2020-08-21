@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-6 mx-auto">
 			<div class="card card-body bg-light mt-5">
-				<?php $this->flash('token'); ?>
+				<?php $this->flash('token-valid'); ?>
 				<h2>Create new password</h2>
 				<form action="<?php echo URLROOT; ?>/emails/pwdreset" method="post">
 				<div class="form-group">
