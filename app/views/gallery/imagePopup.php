@@ -43,13 +43,11 @@
 								<button class="btn"><i class="fas fa-comment icon-7x color-icon"></i></button>
 							</div>
 							<div class="row position-bottom mb-2 ">
-								<div class="col-8 pl-0 pr-0">
+								<div class="col p-0">
 									<form id="post-comment" class="form-inline">
 										<input class="form-control font-weight-light small" placeholder="Add a comment" id="post-comment-text" maxlength="150">
+										<button class="btn btn-primary ml-2 btn-md-sm">Post</button>
 									</form>
-								</div>
-								<div class="col-3">
-									<button class="btn btn-primary ml-2 btn-md-sm">Post</button>
 								</div>
 							</div>
 						</div>
