@@ -43,9 +43,15 @@ class RouterController {
 		if(isset($url[1])){
 			// Check to see if method exists in controller
 			if(method_exists($this->currentController, $url[1])){
-				$this->currentMethod = $url[1];
-				// unset index 1
-				unset($url[1]);
+				
+				require_once "app/router/Controller.php";
+				$parentController = new Controller();
+				if (!method_exists($parentController, $url[1])) {
+					$this->currentMethod = $url[1];
+					// unset index 1
+					unset($url[1]);
+				}
+				
 			}
 		}
 		
