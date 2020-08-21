@@ -14,15 +14,18 @@ function like (id_image_input){
 			loggedIn = res['loggedIn'];
 			if (loggedIn === true){
 				// for Logged in users update the DOM
-				
-				// update likes in the modal box					
-				let img_modal = document.getElementById("modallike" + id_image);
-				img_modal.firstElementChild.style.color = res['message'] === "red_color" ? "#ff5011" : "#000000";
-				img_modal.firstElementChild.innerHTML = res['count'];					
-				
-				// update like count in main gallery
-				let img_body = document.getElementById("bodylike" + id_image);
-				img_body.firstElementChild.innerHTML = res['count'];
+				if (res['valid'] == true){
+					// update likes in the modal box					
+					let img_modal = document.getElementById("modallike" + id_image);
+					img_modal.firstElementChild.style.color = res['message'] === "red_color" ? "#ff5011" : "#000000";
+					img_modal.firstElementChild.innerHTML = res['count'];					
+					
+					// update like count in main gallery
+					let img_body = document.getElementById("bodylike" + id_image);
+					img_body.firstElementChild.innerHTML = res['count'];
+				} else {
+					alertBox("failure", res['message'], "alert-modal");
+				}
 			} else {
 				// show error for not logged in users
 				alertBox("failure", res['message'], "alert-modal");

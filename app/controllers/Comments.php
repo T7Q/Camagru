@@ -41,19 +41,21 @@
 										$email = $temp->email;
 										$this->emailModel->sendEmail($email, 'notification', $comment_info);
 									}
-								}
-								else {
-									$json['valid'] = false;
-									$json['message'] = "Could not save your comment";
+								} else {
+										$json['valid'] = false;
+										$json['message'] = "Could not save your comment";
 								}
 							} else {
-								$json['valid'] = false;
-								$json['message'] = "Image that does not exist can not be commented";
+									$json['valid'] = false;
+									$json['message'] = "You need to be logged in to comment";
 							}
+						} else {
+							$json['valid'] = false;
+							$json['message'] = "Image that does not exist can not be commented";
 						}
 					} else {
-						$json['valid'] = false;
-					$json['message'] = "Comment must contain between 1 and 150 characters";
+							$json['valid'] = false;
+							$json['message'] = "Comment must contain between 1 and 150 characters";
 					}
 				} else {
 					$json['valid'] = false;
@@ -64,7 +66,6 @@
 				$this->view('pages/error');
 			}
 		}
-
 
 		public function deleteComment() {
 			if ($this->isAjaxRequest()) {
@@ -77,21 +78,26 @@
 					$id_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
 
 					if (isset($_SESSION['user_id'])){					
-						$data = $this->commentModel->findImgByComment($id_comment);
-						$json['id_image'] = $data->id_image;
-						if($this->commentModel->commentExists($id_comment, $id_user)){
-							$json['valid'] = true;
-							if($this->commentModel->deleteComment($id_comment)){
+						if($this->commentModel->commentExistsById($id_comment)){
+							$data = $this->commentModel->findImgByComment($id_comment);
+							$json['id_image'] = $data->id_image;
+							if($this->commentModel->commentExists($id_comment, $id_user)){
 								$json['valid'] = true;
-								$json['message'] = "Comment was successfully removed";
-								$json['count'] = $this->commentModel->commentCount($data->id_image);
+								if($this->commentModel->deleteComment($id_comment)){
+									$json['valid'] = true;
+									$json['message'] = "Comment was successfully removed";
+									$json['count'] = $this->commentModel->commentCount($data->id_image);
+								} else {
+									$json['valid'] = false;
+									$json['message'] = "Something went wrong deleting your comment";
+								}	
 							} else {
 								$json['valid'] = false;
-								$json['message'] = "Something went wrong deleting your comment";
-							}	
+								$json['message'] = "You can't delete other users comments: ";
+							}
 						} else {
 							$json['valid'] = false;
-							$json['message'] = "You can't delete other users comments: ";
+							$json['message'] = "This comment does not exist";
 						}
 					} else {
 						$json['valid'] = false;

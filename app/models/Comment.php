@@ -8,6 +8,18 @@
 			$this->database = new Db;
 		}
 
+		public function commentExistsById($id_comment){
+			$this->database->query('SELECT id_image FROM `comment` WHERE id_comment = :id_comment');
+			$this->database->bind(':id_comment', $id_comment);
+			$this->database->single();
+			if ($this->database->rowCount() > 0) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+
 		public function findImgByComment($id_comment){
 			$this->database->query('SELECT id_image FROM `comment` WHERE id_comment = :id_comment');
 			$this->database->bind(':id_comment', $id_comment);
