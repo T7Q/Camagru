@@ -16,12 +16,16 @@ function follow (id_user_input){
 			
 			if (loggedIn === true){
 				if ( res['message'] === "follow"){
-					followModal.classList.remove("btn-outline-success");
-					followModal.classList.add("btn-outline-secondary");
+					if(followModal.classList.remove("btn-primary")){
+						followModal.classList.remove("btn-primary");
+					}
+					followModal.classList.add("btn-outline-primary");
 					followModal.innerHTML = "Unfollow";
 				} else {
-					followModal.classList.remove("btn-outline-secondary");
-					followModal.classList.add("btn-outline-success");
+					if (followModal.classList.remove("btn-outline-primary")){
+						followModal.classList.remove("btn-outline-primary");
+					}
+					followModal.classList.add("btn-primary");
 					followModal.innerHTML = "Follow";
 
 					// Reload the page, if UNFOLLOW takes place on Profile page in Following gallery

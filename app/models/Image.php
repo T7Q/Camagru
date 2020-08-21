@@ -16,7 +16,7 @@
 			$this->database->bind(':id_user', $data['id_user']);
 			$this->database->bind(':path', $data['path']);
 
-			// // Execute
+			// Execute
 			if($this->database->execute()){
 				return true;
 			} else {

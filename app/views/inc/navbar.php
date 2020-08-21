@@ -1,7 +1,8 @@
 <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-black">
 
   <div class="container">
-    <a class="navbar-brand" href="<?php echo URLROOT; ?>/pages/home"><i class="fas fa-circle icon"></i>
+    <a class="navbar-brand" href="<?php echo URLROOT; ?>/pages/home">
+      <img src="<?php echo URLROOT; ?>/public/img/general/favicon.png" alt="Logo" style="height:40px;">
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -21,10 +21,12 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<input type="submit" value="Login" class="btn btn-success btn-block">
+						<input type="submit" value="Login" class="btn btn-primary btn-block">
 					</div>
 				</div>
-				<a href="<?php echo URLROOT; ?>/users/forgotpwd">Forgot your password?</a>
+				<div class="row mt-3 mx-auto">
+					<a href="<?php echo URLROOT; ?>/users/forgotpwd">Forgot your password?</a>
+				</div>
 			</div> 
 		</div>
 	</div>

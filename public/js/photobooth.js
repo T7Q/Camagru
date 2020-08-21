@@ -188,8 +188,8 @@ const createImageContainer = function (img) {
 	div.setAttribute("class", "mb-2 border text-center");
 	div.setAttribute("id", "div_img_" + previewImgCount);
 	div.innerHTML = "<img src='" + img['photo'] + "' class=\"embed-responsive-item img-preview\" id=\'src_img_"+previewImgCount + "'></img>\
-	<button type=\"button\" class=\"btn btn-outline-secondary btn-sm img-preview-btn mt-1 mb-1 special-btn\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
-	<button type=\"button\" class=\"btn btn-outline-secondary btn-sm img-preview-btn mt-1 mb-1 special-btn\">Delete</button>";
+	<button type=\"button\" class=\"btn btn-outline-primary btn-sm img-preview-btn mt-1 mb-1 special-btn\" onclick=\"saveImage(this.id)\" id='img_" + previewImgCount + "'>Save</button>\
+	<button type=\"button\" class=\"btn btn-outline-primary btn-sm img-preview-btn mt-1 mb-1 special-btn\">Delete</button>";
 	div.lastElementChild.addEventListener('click', deleteImageContainer);
 	previewImgCount++;
 	return div;

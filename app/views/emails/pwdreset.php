@@ -18,7 +18,7 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<input type="submit" value="Update" class="btn btn-success btn-block" id="pwdReset">
+						<input type="submit" value="Update" class="btn btn-primary btn-block" id="pwdReset">
 					</div>
 				</div>
 			</div> 

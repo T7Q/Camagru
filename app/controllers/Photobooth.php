@@ -8,10 +8,6 @@
 		public function photo(){
 			
 			$this->checkAccessRights();
-			// $data = [
-			// 	'title' => 'About Us',
-			// ];
-			// $this->view('photobooth/photobooth', $data);
 			$this->view('photobooth/photobooth');
 		}
 	}

@@ -22,15 +22,16 @@
     #camagru {
         width: 400px;
     }
-    .position-bottom {
-        position: absolute;
-        bottom:0;
-    }
+    
 }
 /* md */
 @media (min-width: 992px) {
     #camagru {
         width: 500px;
+    }
+    .position-bottom {
+        position: absolute;
+        bottom:0;
     }
 }
 /* lg */

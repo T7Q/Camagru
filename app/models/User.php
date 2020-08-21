@@ -40,7 +40,7 @@ class User
 		$this->database->bind(':password', $password);
 		$this->database->bind(':username', $username);
 
-		// // Execute
+		// Execute
 		if($this->database->execute()){
 			$this->removeToken($username);
 			return true;
@@ -58,7 +58,7 @@ class User
 		$this->database->bind(':status', $status);
 		$this->database->bind(':username', $username);
 
-		// // Execute
+		// Execute
 		if($this->database->execute()){
 			$this->removeToken($username);
 			return true;

@@ -29,7 +29,6 @@ class Profiles extends Controller {
 			if ($this->userModel->userExists($id_user)){
 				// check if requested profile is for logged in user
 				
-				// $loggedin_user = $_SESSION['user_id'];
 				$loggedin_user = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0 ;
 				$data['show_edit_button'] = ($loggedin_user == $id_user) ? 1 : 0;
 
@@ -58,8 +57,7 @@ class Profiles extends Controller {
 			if (isset($_POST['data'])) {
 				$data = json_decode($_POST['data'], true);
 
-				$id_user = $_SESSION['user_id'];
-				// $new = $this->galleryModel->getUserData($id_user);
+				$id_user = $_SESSION['user_id'];;
 				$json['data'] = $this->profileModel->getUserData($id_user);
                 $json['message'] = "Profile data found";
             } else {
@@ -217,7 +215,6 @@ class Profiles extends Controller {
 				$type = $data['type'];
 
 				$json['type'] = $type;
-				// $json['message'] = $type;
 				if ($type == "following"){
 					$json['type'] = "Following";
 					if($this->profileModel->userFollowingExists($id_user)){

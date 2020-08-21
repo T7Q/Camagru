@@ -223,9 +223,6 @@ notificationToggle.addEventListener('change', function () {
 				let temp_list = res['user-list'];
 				let temp_len = temp_list.length;
 
-				// alertBox("success", res['message'], "alert-follow");
-				
-
 				// append all comments to the DOM
 				for (let i = 0; i < temp_len; i++){			
 					let avatarSrc = "/" + firstPath + "/" + res['user-list'][i].profile_pic_path;

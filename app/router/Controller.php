@@ -40,7 +40,6 @@
 			exit;
 		}
 
-		// public function flash($name = '', $message = '', $class = 'alert alert-success') {
 		public function flash($name = '', $message = '', $class = '') {
 			if($class == 'success') {
 				$class = 'alert alert-success';

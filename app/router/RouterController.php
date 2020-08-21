@@ -8,8 +8,11 @@
 */
 
 class RouterController {
+	// Current controller
 	protected $currentController = 'Pages';
+	// Current method of controller
 	protected $currentMethod = 'index';
+	// Parameters
 	protected $params = [];
 
 		

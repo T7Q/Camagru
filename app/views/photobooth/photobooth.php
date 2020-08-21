@@ -21,11 +21,11 @@
 			</div>
 			<div class="row mt-2">
 				<div class="col">
-					<button id="stream_button" class="btn btn-secondary btn-block">Start Video</button>
+					<button id="stream_button" class="btn btn-primary btn-block">Start Video</button>
 				</div>
 				<div class="col input-group">
 					<input id='upload' type='file' accept="image/*" class="d-none"/>
-					<input id='upload_photo' type='button' value='Upload Image' class="btn btn-secondary btn-block" />
+					<input id='upload_photo' type='button' value='Upload Image' class="btn btn-primary btn-block" />
 				</div>
 			</div>
 			<div class="row mt-2 mb-3">

@@ -54,13 +54,16 @@ function getDetails(param){
 					followModal.classList.remove("d-none");
 				}
 				if (res['follow'] === true){
-					
-					followModal.classList.remove("btn-outline-success");
-					followModal.classList.add("btn-outline-secondary");
+					if(followModal.classList.contains("btn-primary")){
+						followModal.classList.remove("btn-primary");
+					}
+					followModal.classList.add("btn-outline-primary");
 					followModal.innerHTML = "Unfollow";
 				} else {
-					followModal.classList.remove("btn-outline-secondary");
-					followModal.classList.add("btn-outline-success");
+					if(followModal.classList.contains("btn-outline-primary")){
+						followModal.classList.remove("btn-outline-primary");
+					}
+					followModal.classList.add("btn-primary");
 					followModal.innerHTML = "Follow";
 				}
 			} else {

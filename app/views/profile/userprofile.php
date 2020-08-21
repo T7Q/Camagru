@@ -11,7 +11,7 @@
 		<div class="row overflow-auto">
 			<h2 id="username" class="mr-5 font-weight-bold"><?php echo $data['username']; ?></h2>
 			<?php if($data['show_edit_button']) : ?>
-			<button id="edit" type="button" class="btn btn-outline-secondary" onclick='openModal(this.id)'>
+			<button id="edit" type="button" class="btn btn-outline-primary" onclick='openModal(this.id)'>
 				edit profile & settings
 			</button>
 			<?php endif; ?>
@@ -27,7 +27,7 @@
 				<button id="modalfollowing"  type="button" class="btn btn-link" onclick='openModal(this.id)'> following</button>
 			</span>
 			<span>
-				<span id="followers" class="mr-1 ml-2"><?php echo $data['followers']; ?></span>
+				<span id="followers"><?php echo $data['followers']; ?></span>
 				<button id="modalfollowers"  type="button" class="btn btn-link" onclick='openModal(this.id)'> followers</button>
 			</span>
 		</div>

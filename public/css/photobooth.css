@@ -9,7 +9,7 @@
 }
 
 #preview-list{
-  height: 90vh;
+  height: 60vh;
   overflow-y:auto;
   display: inline-block;
 }

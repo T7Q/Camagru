@@ -55,7 +55,6 @@ registerForm.onsubmit = function (){
 				email_err.previousElementSibling.classList.add('is-valid');
 				alertBox("success", res['message'], "alert-body");
 			} else {
-				// registerForm.reset();
 				for (var key in res['error']) {
 					if(res['error'][key] != undefined){
 						temp = res['error'][key];

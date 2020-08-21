@@ -126,7 +126,6 @@
 			$_SESSION['user_id'] = $user->id_user;
 			$_SESSION['user_username'] = $user->username;
 			$_SESSION['user_email'] = $user->email;
-			// $this->redirect('pages/home');
 		}
 
 		public function logout(){
