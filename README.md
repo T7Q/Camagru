@@ -2,11 +2,11 @@
 This project is a part of the web branch at [Hive Helsinki](https://www.hive.fi/) coding school. 
 
 ## Task
-<details>
-  <summary>Click to expand!</summary>
-	The aim of this project is to build an Instagram-like web app, that allows to make basic photo editing using webcam and predefied images.Users are able to select and a frame, take a picture with webcam and admire the result of mixing both pictures.
+The aim of this project is to build an Instagram-like web app, that allows to make basic photo editing using webcam and predefied images.Users are able to select and a frame, take a picture with webcam and admire the result of mixing both pictures.
 
-	The app requirements:
+<details>
+<summary>click to expand</summary>
+## The app requirements:
 	* MVC structure
 	* Responsive design
 	* Website security (no SQL, HTML injections, plain passwords in the dataases)
@@ -21,12 +21,13 @@ This project is a part of the web branch at [Hive Helsinki](https://www.hive.fi/
 </details>
 
 ## Functionality
-* User features: 
+* User features:<details><summary></summary>
 	* Register / Login, including activating account and reseting password through a unique link send by email.
 	* User data management: modify user data (username, email, etc), change password, set notification preferences.
 	* View own own gallery and gallery of all users you follow.
 	* Set created images as profile and delete own images
 	* View other users profiles
+	</details>
 * Gallery features:
 	* Infinite scroll gallery.
 	* All images are public, likeable, commentable and followable by logged in users.
