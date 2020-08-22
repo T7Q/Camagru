@@ -4,7 +4,6 @@ This project is a part of the web branch at [Hive Helsinki](https://www.hive.fi/
 ## Task
 <details>
   <summary>Click to expand!</summary>
-
 	The aim of this project is to build an Instagram-like web app, that allows to make basic photo editing using webcam and predefied images.Users are able to select and a frame, take a picture with webcam and admire the result of mixing both pictures.
 
 	The app requirements:
