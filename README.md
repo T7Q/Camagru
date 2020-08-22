@@ -2,21 +2,24 @@
 This project is a part of the web branch at [Hive Helsinki](https://www.hive.fi/) coding school. 
 
 ## Task
-The aim of this project is to build an Instagram-like web app, that allows to make basic photo editing using webcam and predefied images.Users are able to select and a frame, take a picture with webcam and admire the result of mixing both pictures.
+<details>
+  <summary>Click to expand!</summary>
 
-The app requirements:
-- MVC structure
-- Responsive design
-- Website security (no SQL, HTML injections, plain passwords in the dataases)
-- Authorized languages:
-	[Server] PHP
-	[Client] HTML - CSS - JavaScript (only wiht browser native API)
-- Authorized frameworks:
-	[Server] None
-	[Client] CSS Framework tolerated, unless adds forbidden JavaScript
-- Firefox and Chrome support
-- MySQL with PDO.
+	The aim of this project is to build an Instagram-like web app, that allows to make basic photo editing using webcam and predefied images.Users are able to select and a frame, take a picture with webcam and admire the result of mixing both pictures.
 
+	The app requirements:
+	* MVC structure
+	* Responsive design
+	* Website security (no SQL, HTML injections, plain passwords in the dataases)
+	* Authorized languages:
+		[Server] PHP
+		[Client] HTML - CSS - JavaScript (only wiht browser native API)
+	* Authorized frameworks:
+		[Server] None
+		[Client] CSS Framework tolerated, unless adds forbidden JavaScript
+	* Firefox and Chrome support
+	* MySQL with PDO.
+</details>
 
 ## Functionality
 * User features: 
@@ -32,13 +35,11 @@ The app requirements:
 	* Once image is commented the author is notified by email.
 	* Set created images as profile and delete own images
 * Editing features:
-<details>
-  <summary>Click to expand!</summary>
 	* Create custom images using webcam or images downloaded from computer and combine them with filters.
 	* Live preview of the edited result, directly on the webcam preview.
 	* Preview displaying thumbnails of all previously taken images with ability to save or delete them.
 	* Once saved image is visible in public gallery
-</details>
+
 
 ## Tech stack
 * PHP
@@ -49,15 +50,18 @@ The app requirements:
 * Bootstrap
 
 ## Website wireframe
-<details>
-<summary>click to view</summary>
+
 ![Gallery draft](../assets/Gallery.png?raw=true)
 ![Profile draft](../assets/Profile.png?raw=true)
 ![Photo draft](../assets/Photo.png?raw=true)
-</details>
+
 
 ## Database structure
-![Database planning](../assets/db.png?raw=true)
+<details>
+	<summary>click to view</summary>
+	## test
+	![Database planning](../assets/db.png?raw=true)
+</details>
 
 
 ## Run locally
