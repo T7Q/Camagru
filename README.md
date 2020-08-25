@@ -4,10 +4,10 @@ This project is a part of the web branch at [Hive Helsinki](https://www.hive.fi/
 - [Task](#task)
 - [Functionality](#functionality)
 - [Tech stack](#tech-stack)
-- [App Preview](#app-preview)
 - [Planning](#planning)
   * [Database structure](#database-structure)
   * [Website wireframe](#website-wireframe)
+- [App Preview](#app-preview)
 - [Run locally](#run-locally)
 
 ## Task
@@ -53,9 +53,6 @@ The app requirements:
 * AJAX
 * Bootstrap
 
-## App Preview
-TBC
-
 ## Planning
 ### Database structure
 ![Database planning](../assets/db.png?raw=true)
@@ -63,6 +60,14 @@ TBC
 ![Gallery draft](../assets/Gallery.png?raw=true)
 ![Profile draft](../assets/Profile.png?raw=true)
 ![Photo draft](../assets/Photo.png?raw=true)
+
+## App Preview
+![Home](../assets/final_home.png?raw=true)
+![Gallery](../assets/final_gallery.png?raw=true)
+![Image](../assets/final_image.png?raw=true)
+![Photobooth](../assets/final_photobooth.png?raw=true)
+![Profile](../assets/final_profile.png?raw=true)
+![Edit profile](../assets/final_editprofile.png?raw=true)
 
 ## Run locally
 * Set a local webserver, e.g. install [mamp](https://bitnami.com/stack/mamp)
