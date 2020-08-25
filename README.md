@@ -62,11 +62,17 @@ The app requirements:
 ![Photo draft](../assets/Photo.png?raw=true)
 
 ## App Preview
+### Home
 ![Home](../assets/final_home.png?raw=true)
+### Gallery
 ![Gallery](../assets/final_gallery.png?raw=true)
+### Image 
 ![Image](../assets/final_image.png?raw=true)
+### Photobooth
 ![Photobooth](../assets/final_photobooth.png?raw=true)
+### Profile
 ![Profile](../assets/final_profile.png?raw=true)
+### Edit Profile
 ![Edit profile](../assets/final_editprofile.png?raw=true)
 
 ## Run locally
